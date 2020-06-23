@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int tc,n,m,get;
+
+    cin>>tc;
+    while(tc--)
+    {
+        cin>>n>>m;
+        get = 0;
+        if(m <= n&& m >= 2)
+            {
+                if((n-1)%(m-1) == 0)
+                {
+                   get = (n-1) / (m-1);
+                   cout<<get<<endl;
+                }
+                else
+                {
+                    cout<<"cannot do this\n";
+                }
+            }
+            else
+                cout<<"cannot do this\n";
+    }
+    return 0;
+}
