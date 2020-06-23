@@ -1,0 +1,30 @@
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+int main()
+{
+    int t,n,i,y;
+
+    while(scanf("%d",&t)==1 && t>0)
+    {
+        while(t>0)
+        {
+            scanf("%d",&n);
+
+            n = n* 567;
+            n = n/ 9 ;
+            n = n+ 7492;
+            n = n* 235;
+            n = n/ 47;
+            n = n- 498;
+            for(int i=1;i <= 2;i++)
+            {
+                y = n%10;
+                n = n/10;
+            }
+            printf("%d\n",abs(y));
+            t--;
+        }
+    }
+    return 0;
+}
