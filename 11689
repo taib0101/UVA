@@ -1,0 +1,23 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n,e,f,c,t;
+    while(cin>>t)
+    {
+        while(t>0)
+        {
+            cin>>e>>f>>c;
+            n =e +f;
+            if(n == 0)
+                e = (n)/(c);
+            else
+                e = (n-1)/(c-1);
+            cout<<abs(e)<<endl;
+            t--;
+        }
+    }
+    return 0;
+
+}
