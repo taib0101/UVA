@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n,t,i,j,arr[25],temp,coun;
+
+    while(cin>>t && t>0)
+    {
+        coun = 1;
+        while(cin>>n &&t>0)
+        {
+            for(i=1 ; i<=n; i++)
+            {
+                cin>>arr[i];
+            }
+            for(i=1 ; i<=n; i++)
+            {
+                for(j=i+1 ; j<=n; j++)
+                {
+                    if(arr[i]<arr[j])
+                    {
+                        temp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+            }
+            cout<<"Case "<<coun<<": "<<arr[(n/2)+1]<<endl;
+            coun++;
+            t--;
+        }
+    }
+    return 0;
+}
