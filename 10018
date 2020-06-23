@@ -1,0 +1,38 @@
+#include<stdio.h>
+
+int main()
+{
+     long long int i,n,x, y;
+
+     long long int sum=0,per,j;
+
+
+    while(scanf("%d",&n)==1 && n>0)
+    {
+        while(n>0){
+            scanf("%d",&x);
+            per = x;
+            j = 0;
+            while(sum != per){
+                    per = x;
+                    sum=0;
+                while(x != 0)
+                {
+                    y =x%10;
+
+                    sum =sum*10 + y;
+                    x = x/10;
+                }
+                if(sum == per){
+                    printf("%lld %lld\n",j,sum);
+                    break;
+                }else{
+                    x = sum + per;
+                    j++;
+                }
+            }
+        }
+        n--;
+    }
+        return 0;
+}
