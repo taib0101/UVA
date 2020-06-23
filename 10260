@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+#define ma 1000
+using namespace std;
+
+int main()
+{
+    int get[ma],j;
+    char str[100],x,y;
+    int flag;
+
+    while(cin>>str)
+    {
+        flag = 0;
+        j = 1;
+        for(int i=0 ;i<strlen(str) ;++i)
+        {
+           if((str[i]== 'B'||str[i]== 'F'||str[i]== 'P'||str[i]== 'V')&& flag != 1)
+            {
+                get[j] = 1;
+                x = str[i];
+                y = 1;
+                j++;
+            }
+            else if((str[i]== 'C'||str[i]== 'G'||str[i]== 'J'||str[i]== 'K'||str[i]== 'Q'||str[i]== 'S'||str[i]== 'X'||str[i]== 'Z')&& flag != 2)
+             {
+                 get[j] = 2;
+                 x = str[i];
+                 y = 2;
+                 j++;
+             }
+            else if((str[i]== 'D'||str[i]== 'T') && flag != 3)
+            {
+                get[j] = 3;
+                x = str[i];
+                y = 3;
+                j++;
+            }
+            else if(str[i]== 'L' && flag != 4)
+            {
+                get[j] = 4;
+                x = str[i];
+                y = 4;
+                j++;
+            }
+            else if((str[i]== 'M'||str[i]== 'N')&&flag!=5)
+            {
+                get[j] = 5;
+                x = str[i];
+                y = 5;
+                j++;
+            }
+            else if(str[i]== 'R' && flag != 6)
+            {
+                get[j] = 6;
+                x = str[i];
+                y = 6;
+                j++;
+            }
+            if(str[i] == x)
+                flag = y;
+            else
+                flag = 0;
+        }
+        for(int i=1; i<j ;++i)
+        {
+            cout<<get[i];
+            get[i] = 0;
+        }
+
+        cout<<endl;
+    }
+
+    return 0;
+}
