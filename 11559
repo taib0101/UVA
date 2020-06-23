@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n,b,h,w,arp[30],arb[30],i,j,t;
+    int flag,mini;
+    while(cin>>n>>b>>h>>w)
+    {
+        flag = 0;
+        mini =500000;
+        for(int i=1; i<=h; i++)
+        {
+            cin>>arp[i];
+            t = (arp[i]*n);
+            for(int j=1; j<=w; j++)
+            {
+                cin>>arb[j];
+                if(t<=b)
+                {
+                    if(n<=arb[j])
+                        flag = 1;
+                }
+            }
+            if(flag ==1 && t< mini)
+                mini = t;
+        }
+        if(flag==1)
+            cout<<mini<<endl;
+        else
+            cout<<"stay home\n";
+    }
+    return 0;
+}
