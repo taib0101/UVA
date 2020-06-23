@@ -1,0 +1,14 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    unsigned long long int x,y,rem;
+    int arr[32],i;
+    while(cin>>x>>y)
+    {
+        i = x^y;
+        cout<<i<<endl;
+    }
+    return 0;
+}
