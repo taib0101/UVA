@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n,m,sum =0;
+
+    while(1)
+    {
+        cin>>n;
+        if(n != 0)
+        {
+            while(n != 0)
+            {
+                m = n*n;
+                sum = sum+m;
+                n--;
+            }
+            cout<<sum<<endl;
+            sum=0;
+        }
+        else
+            break;
+    }
+    return 0;
+}
