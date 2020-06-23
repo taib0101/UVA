@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+#include<stdio.h>
+using namespace std;
+
+int main()
+{
+    float teka,jitse;
+    float t,x,y,z;
+
+    while(scanf("%d",&t)==1 && t<=100)
+    {
+        while(t>0&&(1<=x,y<=10)&&(1<=z<=1000))
+        {
+            cin>>x>>y>>z;
+
+            teka=x*z/(x+y);
+            jitse=(x-y)*z/(x+y);
+            printf("%0.0f\n",jitse+teka);
+            t--;
+        }
+
+    }
+    return 0;
+}
