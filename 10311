@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+const int mas = 100000000;
+
+bool fin[mas+5];
+
+void sieve()
+{
+	memset(fin,true,sizeof(fin));
+    fin[0] = fin[1] = false;
+    for(int i=2; i*i<=mas; i++)
+    {
+        if (fin[i])
+        {
+            for(int j=i*i; j<=mas; j+=i)
+            {
+                fin[j] = false;
+
+            }
+        }
+    }
+}
+
+int n,x,y,flag,i,j;
+
+int main()
+{
+    sieve();
+    while(cin>>n)
+    {
+        if(n%2==1)
+        {
+            if(fin[n-2] && n-2>0)
+				printf("%d is the sum of 2 and %d.\n",n,n-2);
+			else
+            	printf("%d is not the sum of two primes!\n",n);
+
+        }
+        else{
+        	flag = 0;
+        	for(i=n/2-1;i>1;i--)
+        	{
+            	if(fin[i]){
+            		x=n-i;
+	            	if(fin[x] && x>0)
+    	        	{
+            			y = i;
+                		flag=1;
+                		break;
+                	}
+            	}
+        	}
+       	if(flag)
+       	    printf("%d is the sum of %d and %d.\n",n,y,x);
+       	else
+    	    printf("%d is not the sum of two primes!\n",n);
+        }
+    }
+    	return 0;
+}
