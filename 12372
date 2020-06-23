@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    int t,l,w,h,i,flag;
+    while(cin>>t)
+    {
+        i = 1;
+        while(i <= t)
+        {
+            cin>>l>>w>>h;
+            flag = 0;
+            if(l > 20)
+                flag = 1;
+            if(w > 20)
+                flag = 1;
+            if(h > 20)
+                flag = 1;
+            if(flag == 0)
+                printf("Case %d: good\n",i);
+            else
+                printf("Case %d: bad\n",i);
+            i++;
+        }
+    }
+    return 0;
+}
