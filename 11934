@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    unsigned long long int a,b,c,d,l;
+    int coun,sum;
+
+    while(1)
+    {
+        sum = 0;
+        coun = 0;
+        cin>>a>>b>>c>>d>>l;
+        if(a==0 && b==0 && c==0 && d==0 && l==0)
+        {
+            break;
+        }else{
+            for(int i=0; i<=l; i++)
+            {
+                sum = (a*i*i)+ (b*i) +c;
+                if(abs(sum)%d == 0)
+                    coun++;
+            }
+            cout<<coun<<endl;
+        }
+    }
+    return 0;
+}
