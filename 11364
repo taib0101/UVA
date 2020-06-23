@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int t,n,arr[200],i;
+    int ma_x=0,mi_n=1000,equ;
+
+    while(cin>>t &&(t>=1 &&t<=100))
+    {
+        while(t>0)
+        {
+            cin>>n;
+            for(i=1; i<=n; i++)
+            {
+                cin>>arr[i];
+                if(arr[i]>ma_x)
+                    ma_x = arr[i];
+                if(arr[i]<mi_n)
+                    mi_n = arr[i];
+            }
+            equ = abs(ma_x-mi_n)*2;
+            cout<<equ<<endl;
+            equ = 0;
+            ma_x =0;
+            mi_n =1000;
+            t--;
+        }
+    }
+    return 0;
+}
