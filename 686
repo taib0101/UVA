@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int mas = 100000;
+bool fin[mas+10]= {0},i,j;
+int prime[mas+10];
+void sieve()
+{
+    fin[0] = fin[1] = 1;
+
+    for(int i=2; i<=mas; i++)
+    {
+        if (fin[i] == 0)
+        {
+            for(int j=i+i; j<=mas; j+=i)
+            {
+                fin[j] = 1;
+            }
+        }
+    }
+    for(int i=0,j=1; i<=mas; i++)
+    {
+        if(fin[i]==0)
+        {
+            prime[j] = i;
+            //cout<<prime[j]<<endl;
+            j++;
+        }
+    }
+}
+
+int main()
+{
+    sieve();
+    int g,m,maxi,x,y,cou;
+    while(cin>>g &&g>0)
+    {
+        cou = 0;
+        for(int i=0; prime[i]<=g/2 ; i++)
+        {
+            m = g - prime[i];
+            if (fin[m] == 0 && g%2 ==0)
+            {
+                x = prime[i];
+                y = m;
+                if(x>=y)
+                    swap(x,y);
+                cou++;
+                //cout<<g<<" = "<<x<<" + "<<y<<endl;
+            }
+        }
+        cout<<cou<<endl;
+    }
+
+    return 0;
+}
