@@ -1,0 +1,151 @@
+//9288305
+//6104349
+//https://ideone.com/DFqgSa
+#include<bits/stdc++.h>
+using namespace std;
+const int mas = 10000000;
+bool fin[mas+10];
+int prime[mas+10],i,j;
+void sieve()
+{
+    fin[0] = fin[1] = 1;
+
+    for(int i=2; i<=mas; i++)
+    {
+        if (fin[i]==0)
+        {
+            for(int j=i+i; j<=mas; j+=i)
+            {
+                fin[j] = 1;
+
+            }
+        }
+    }
+    for(int i=0,j=1; i<=mas+10; i++)
+    {
+        if(fin[i]==0)
+        {
+            prime[j] = i;
+            //cout<<prime[j]<<endl;
+            j++;
+        }
+    }
+}
+
+int main()
+{
+    sieve();
+    int n,arr[5],x,j,flag,get,y,k,y1;
+    while(cin>>n)
+    {
+        x = 4;
+        j = 1;
+        k = 1;
+        flag = 0;
+        if(n >= 8 && n<=71)
+        {
+qw:
+            get = n - x;
+            //cout<<"get="<< get<<endl;
+            for(i = 1; i<=3 ; i++)
+            {
+                //cout<<"x="<<x<<endl;
+                arr[3] =  prime[i];
+                // printf("arr[%d]=%d\n",j+2,arr[j]);
+                y = get - prime[i];
+                //cout<<"y = "<<y<<endl;
+                if(fin[y] == 0)
+                {
+                    arr[4] = y;
+                  //  printf("arr[%d]=%d\n",j+3,arr[4]);
+                    if((arr[3]+arr[4]+x)==n)
+                    {
+pw :
+                        y1 = x - prime[k];
+                        //cout<<"y1="<<y1<<endl;
+                        arr[1] = prime[k];
+                        if(fin[y1] == 0)
+                        {
+                            arr[2] = y1;
+                            flag = 1;
+                            break;
+                        }
+                        else
+                        {
+                            k++;
+                            goto pw;
+                        }
+                    }
+                }
+            }
+            if(flag == 1)
+                flag = 2;
+            else
+            {
+                x++;
+                goto qw;
+            }
+            for(i =1; i<=3 && flag ==2; i++)
+            {
+                cout<<arr[i]<<" ";
+            }
+            cout<<arr[4];
+            //cout<<flag<<endl;
+        }
+        else if (n > 71)
+        {
+rw:
+            get = n - x;
+            //cout<<"get="<< get<<endl;
+            for(i = 1; i<=20 ; i++)
+            {
+                //cout<<"x="<<x<<endl;
+                arr[3] =  prime[i];
+                // printf("arr[%d]=%d\n",j+2,arr[j]);
+                y = get - prime[i];
+                //cout<<"y = "<<y<<endl;
+                if(fin[y] == 0)
+                {
+                    arr[4] = y;
+                  //  printf("arr[%d]=%d\n",j+3,arr[4]);
+                    if((arr[3]+arr[4]+x)==n)
+                    {
+ww :
+                        y1 = x - prime[k];
+                        //cout<<"y1="<<y1<<endl;
+                        arr[1] = prime[k];
+                        if(fin[y1] == 0)
+                        {
+                            arr[2] = y1;
+                            flag = 1;
+                            break;
+                        }
+                        else
+                        {
+                            k++;
+                            goto ww;
+                        }
+                    }
+                }
+            }
+            if(flag == 1)
+                flag = 2;
+            else
+            {
+                x++;
+                goto rw;
+            }
+            for(i =1; i<=3 && flag ==2; i++)
+            {
+                cout<<arr[i]<<" ";
+            }
+            cout<<arr[4];
+            //cout<<flag<<endl;
+        }
+        else
+            cout<<"Impossible.";
+        cout<<endl;
+
+    }
+    return 0;
+}
