@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+   unsigned long long int n,arr[10000],i=1,j,k,flag,x;
+   int t;
+    cin>>t;
+    while(t--
+    {
+        cin>>n;
+        j = 1;
+        flag = 2;
+        while(n != 0)
+        {
+            arr[j] = n % 100;
+            n = n / 100;
+            //cout<<arr[j]<<" ";
+            j++;
+        }
+        k = --j;
+        //cout<<endl;
+        //cout<<k<<endl;
+        if((arr[k] == 1 ||arr[k] == 4||(arr[1]== 78)) &&(j==1))
+        {
+            cout<<"+\n";
+            flag = 1;
+        }
+        if(arr[1] == 35 )
+        {
+                flag = 1;
+                cout<<"-\n";
+        }
+        if (flag == 2)
+        {
+            while(arr[k] != 0)
+            {
+                x = arr[k] % 10;
+                arr[k] = arr[k] / 10;
+            }
+            //cout<<"x = "<<x<<endl;
+            if( x == 9)
+            {
+                cout<<"*\n";
+                flag = 1;
+
+            }else
+                flag  = 0;
+        }
+        if (flag == 0){
+            cout<<"?\n";
+        }
+
+        /*if (i >= t)
+            break;
+        i++;*/
+    }
+    return 0;
+}
