@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int tc,avg,sum;
+    double arr[2000],n,avg1,coun;
+
+    cin>>tc;
+    while(tc--)
+    {
+        sum = 0;
+        avg = 0;
+        coun = 0;
+        cin>>n;
+        for(int i=1; i<=n; i++)
+        {
+            cin>>arr[i];
+            sum = sum + arr[i];
+        }
+        avg = sum / n;
+        //cout<<"avg = "<<avg<<endl;
+        for(int i=1; i<=n; i++)
+        {
+            if(arr[i] > avg)
+                coun++;
+        }
+        avg1 = (100*coun) / n;
+        printf("%0.3lf",avg1);
+        cout<<"%"<<endl;
+    }
+    return 0;
+}
