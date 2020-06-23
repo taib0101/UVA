@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string get;
+    unsigned long int n,sum;
+    int t,i;
+
+    while(cin>>t)
+    {
+        i = 1;
+        sum = 0;
+        while(i <= t)
+        {
+            cin>>get;
+            if(get == "donate"){
+                    cin>>n;
+                sum = sum + n;
+            }
+            else
+                cout<<sum<<endl;
+            i++;
+        }
+    }
+    return 0;
+}
