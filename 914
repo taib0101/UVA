@@ -1,0 +1,90 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int mas = 10000000;
+bool fin[mas+10];
+int prime[mas+10],i,j;
+int cha [mas+10];
+int arr [mas+10];
+void sieve()
+{
+    fin[0] = fin[1] = 1;
+
+    for(int i=2; i<=mas; i++)
+    {
+        if (fin[i]==0)
+        {
+            for(int j=i+i; j<=mas; j+=i)
+            {
+                fin[j] = 1;
+            }
+        }
+    }
+    for(int i=0,j=1; i<=mas; i++)
+    {
+        if(fin[i]==0)
+        {
+            prime[j] = i;
+            j++;
+        }
+    }
+}
+
+int main()
+{
+    sieve();
+    int t,l,u,maxi,get,x,g,flag,op;
+    cin>>t;
+    for(int k=1; k<=t ; k++)
+    {
+        cin>>l>>u;
+        maxi = 0;
+        get = 0;
+        x = 0;
+        flag = 0;
+        op =0;
+        for(int i=1,q=1 ; ;i++ )
+        {
+            if(prime[i]>=l &&prime[i]<=u)
+            {
+                cha[q] =abs( prime[i] - prime[i+1] );
+                g =q;
+                op =1;
+                if(cha[q] > get)
+                    get =cha[q];
+                q++;
+            }
+
+            if(prime[i]>=u)
+                break;
+        }
+        if (op == 0){
+            g =0;
+            flag =1;
+        }
+        for(int i=1;  i < g; i++)
+        {
+            arr[cha[i]]++;
+            if(arr[cha[i]] > maxi){
+                maxi = arr[cha[i]] ;
+                x = cha[i];
+            }
+            //cout<<"jo= "<<cha[i]<<endl;
+        }
+        for(int i=1; i <= get; i++)
+        {
+            if(arr[i]== maxi && i!=x)
+                flag = 1;
+            arr[i] = 0;
+            cha[i] = 0;
+        }
+        //cout<<"j= "<<x<<endl;
+        if(flag == 1)
+            cout<<"No jumping champion\n";
+        else
+            cout<<"The jumping champion is "<<x<<endl;
+
+    }
+
+    return 0;
+}
+
