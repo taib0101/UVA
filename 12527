@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n,m,arr[11],y,i,flag,x,j;
+
+    while(cin>>n>>m)
+    {
+        i = 0;
+        j = n;
+        while(j <= m)
+        {
+            arr[0] = arr[1] = arr[2] = arr[3] = arr[4] = arr[5] = arr[6] = arr[7] = arr[8] = arr[9] = 0;
+            //cout<<j<<endl;
+            flag = 0;
+            y = j;
+            while(y != 0)
+            {
+                x = y % 10;
+                arr[x]++;
+                y = y / 10;
+                //cout<<"x = "<<x<<"="<<arr[x]<<endl;
+                if(arr[x] >= 2)
+                {
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0)
+                i++;
+            j++;
+        }
+        cout<<i<<endl;
+    }
+    return 0;
+}
