@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int a,b,vagfol,arr[10000],i,vagsesh,n;
+    while(cin>>a>>b)
+    {
+        i = 0;
+        while(b != 0)
+        {
+            vagfol = a/b;
+            arr[i] = vagfol;
+            vagsesh= a%b;
+            a = b;
+            b = vagsesh;
+            i++;
+        }
+        n =i;
+        for(int k=0;k<n; k++)
+        {
+            if(k==0)
+                cout<<"["<<arr[k]<<";";
+            else if(k == n-1)
+                cout<<arr[k]<<"]"<<endl;
+            else
+                cout<<arr[k]<<",";
+        }
+    }
+    return 0;
+}
