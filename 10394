@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int mas =  20000000;
+bool fin[mas+10];
+int prime[mas+10];
+//int gettwin[mas];
+void sieve()
+{
+    fin[0] = fin[1] = 1;
+
+    for(int i=2; i<=mas; i++)
+    {
+        if (fin[i]==0)
+        {
+            for(int j=i+i; j<=mas; j+=i)
+            {
+                fin[j] = 1;
+            }
+        }
+    }
+    for(int i=0,j=1; i<=mas; i++)
+    {
+        if(fin[i]==0)
+        {
+            prime[j] = i;
+            j++;
+        }
+    }
+    for(int i=2,k=1;prime[i]<=mas;i++)
+    {
+        if (abs(prime[i]-prime[i+1])==2)
+        {
+            prime[k] = prime [i];
+            k++;
+        }
+    }
+}
+
+int main()
+{
+    sieve();
+    int n;
+    while(cin>>n && n>0)
+    {
+        cout<<"("<<prime[n]<<", "<<prime[n]+2<<")"<<endl;
+    }
+    return 0;
+}
