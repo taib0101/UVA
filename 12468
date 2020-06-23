@@ -1,0 +1,19 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int a,b,x,y;
+    while(cin>>a>>b && (a,b) >= 0)
+    {
+        x = abs(a + b);
+        y = abs(a - b);
+        if((x > 100 && y < 50) || ( y < 50))
+            cout<<abs(y)<<endl;
+        else if(y == 0)
+            cout<<y<<endl;
+        else
+            cout<<abs(100-abs(a-b))<<endl;
+    }
+    return 0;
+}
