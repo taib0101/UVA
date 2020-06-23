@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+#include<cstdio>
+using namespace std;
+
+int main()
+{
+    int Hn,i;
+    double U,Hd,f,Hin,Hs,per,Hc;
+
+    while(cin>>Hn>>Hd>>U>>f&&(Hn,Hd,U,f)>0)
+    {
+        Hin = 0;
+        f = f/100;
+        per = Hd*f;
+        for( i=1; ; i++)
+        {
+            if(i > 1)
+            {
+                Hin = Hs;
+                Hd = abs(Hd-per);
+            }
+            Hc = Hd+Hin;
+            Hs = Hc-U;
+            printf("Hin=%0.1lf, Hd= %0.2lf, Hc= %0.1lf,Hs = %0.2lf, i =%d\n",Hin,Hd,Hc,Hs,i);
+            if(Hc > Hn)
+                break;
+            if(Hc-U < 0)
+                break;
+
+            //Hin = Hs;
+        }
+        if(Hd < 0.1)
+            i--;
+        if(Hc > Hn)
+            printf("success on day %d\n",i);
+        else
+            printf("failure on day %d\n",i);
+    }
+    return 0;
+}
