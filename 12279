@@ -1,0 +1,25 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int i,n,a,b,emo[10000];
+    i = 1;
+    while(scanf("%d", &n) != EOF && n>0)
+    {
+        a = 0;
+        b = 0;
+        memset(emo, 0 , sizeof(emo));
+        for(int i=1; i<=n; ++i)
+        {
+            cin>>emo[i];
+            if(emo[i] > 0)
+                a++;
+            else
+                b++;
+        }
+        printf("Case %d: %d\n",i,a-b);
+        ++i;
+    }
+    return 0;
+}
