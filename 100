@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+   unsigned long long int a=0, n, b,i;
+   unsigned long long  int maxi=0,l,h;
+
+    while(cin>>b>>n)
+    {
+        if(b>n)
+        {
+            l=b;
+            h=n;
+        }else{
+            l=n;
+            h=b;
+        }
+        for(int j=h ; j<=l; j++)
+        {
+            i = j;
+            while(i != 1)
+            {
+
+                if(i%2 == 1)
+                    i = (3*i) + 1;
+                else if(i%2 == 0)
+                    i = i/2;
+                a++;
+                continue;
+            }
+            if(a > maxi)
+                maxi=a;
+            a = 0 ;
+        }
+        cout<<b<<" "<<n<<" "<<maxi+1<<endl;
+        maxi = 0;
+    }
+    return 0;
+}
+
