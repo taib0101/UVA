@@ -1,0 +1,35 @@
+#include<iostream>
+#include<string.h>
+#include<stdio.h>
+using namespace std;
+
+class subject
+{
+    private:
+            char str[20];
+    public:
+           void set_a(char c[20]);
+
+};
+void subject::set_a(char c[20])
+{
+    strcpy(str,c);
+    cout<<str;
+}
+
+int main()
+{
+    string take;
+    int t;
+    subject object;
+    while(scanf("%d",&t)==1 && t>0)
+    {
+        while(t>0)
+        {
+            cin>>take;
+            object.set_a(take);
+
+            t--;
+        }
+    }
+}
