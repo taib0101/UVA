@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main ()
+{
+    int t,i,n,k,p,g,x;
+
+    cin>>t;
+    for (i=1; i<=t;i++)
+    {
+        cin>>n>>k>>p;
+        if ((p%n) != 0)
+        {
+            x = (p+k) - (n*(p/n+1));
+            if (x==0)
+               x = (p+k) - (n*(p/n));
+        }
+        else
+            x = (p+k) - (n*(p/n));
+        if (x<0)
+            cout<<"Case "<<i<<": "<<n+x<<endl;
+        else
+            cout<<"Case "<<i<<": "<<x<<endl;
+    }
+    return 0;
+}
