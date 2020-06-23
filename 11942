@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int arr[15],t,flag,arr2[11],flag1;
+    cin>>t;
+    cout<<"Lumberjacks:\n";
+    while(t--)
+    {
+        flag = 0;
+        flag1 = 0;
+        for(int i=1; i<=10; ++i)
+            cin>>arr[i];
+
+        if(arr[1] < arr[2])
+            memset(arr2,0,sizeof(arr2));
+
+        else
+        {
+            flag = -1;
+            memset(arr2,-1,sizeof(arr2));
+        }
+        for(int i=1; i<10 && flag == 0; ++i)
+        {
+
+            if(arr[i] > arr[i+1]) flag = -1;
+
+            if(flag != arr2[i])
+                flag1 = 1;
+
+            //cout<<"flag = "<<flag<<endl;
+        }
+        for(int i=1; i<10 && flag == -1; ++i)
+        {
+
+            if(arr[i] < arr[i+1]) flag = 0;
+            //cout<<arr2[i]<<endl;
+
+            if(flag != arr2[i])
+                flag1 = 1;
+            //cout<<"flag = "<<flag<<endl;
+        }
+        if(flag1 == 0)
+            cout<<"Ordered\n";
+        else
+            cout<<"Unordered\n";
+    }
+    return 0;
+}
