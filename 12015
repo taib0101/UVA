@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int t,x[11] ,maxx,y,z;
+    string str[100], str2[100];
+    string enter;
+    cin>>t;
+    z = 1;
+    while(t--)
+    {
+        maxx = 0;
+        for(int i=1; i<=10 ; ++i)
+        {
+            cin>>str[i];
+            cin>>x[i];
+
+            maxx = max(maxx, x[i]);
+        }
+        for(int i=1,j=0; i<=10; ++i)
+        {
+            if(x[i] == maxx)
+            {
+                str2[++j] = str[i];
+                y = j;
+            }
+        }
+        //cout<<maxx<<endl;
+        printf("Case #%d:\n",z);
+        for(int i=1; i<=y; ++i)
+            cout<<str2[i]<<endl;
+        z++;
+    }
+    return 0;
+}
