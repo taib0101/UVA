@@ -1,0 +1,107 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define Max 10000000
+bool fin[Max+10] ;
+vector<int> prime;
+ll cprime[Max],k;
+void sieve()
+{
+    fin[0] = fin[1] = 1;
+
+    for(int i=2; i<=Max; ++i)
+    {
+        if (fin[i]==0)
+        {
+            for(int j=i+i; j<=Max; j+=i)
+                fin[j] = 1;
+        }
+    }
+    for(int i=0,j=1; i<=Max; ++i)
+        if(fin[i]==0)
+            prime.push_back(i);
+
+}
+void segprime(ll l,ll r)
+{
+    ll j, cp,base;
+    fin[r-l+1];
+    k =0;
+    ll a = r;
+
+    if(a > Max)
+        a = sqrt(r);
+    memset(fin,0,sizeof(fin));
+    fin[0] = 1;
+
+    for(ll i=0; i < prime.size() && prime[i] <= a ; ++i)
+    {
+        cp = prime[i];
+        // cout<<"cp= "<<cp<<endl;
+        base = (l/cp)*cp;
+        //cout<<"base1= "<<base<<endl;
+        if(base < l)
+            base += cp;
+
+        for(ll j = base; j<=r ; j += cp)
+        {
+            //cout<<"base2= "<<j<<endl;
+            fin[j-l] = 1;
+            //cout<<"(j-l)= "<<j-l<<endl;
+        }
+        if(base == cp)
+            fin[base - l] = 0;
+    }
+    for(ll i =0; i<=r-l; ++i)
+    {
+        if(fin[i]==0)
+        {
+            cprime[k] = i+l;
+            k++;
+            //printf("i[%lld] = %lld\n",i,i+l);
+        }
+
+    }
+}
+
+int main()
+{
+    sieve();
+    ll l,r,maxi,mini,x,x1,y,y1,flag,j;
+    while(cin>>l>>r)
+    {
+        segprime(l,r);
+        maxi = 0;
+        mini = 10000;
+        flag = 0;
+        for(int i=0; i<k-1 ; ++i)
+        {
+            j = i+1;
+            if(abs(cprime[i]-cprime[i+1]) > maxi&& cprime[i+1]>0)
+            {
+                maxi = abs(cprime[i]-cprime[i+1]);
+                //cout<<"maxi = "<<maxi<<endl;
+                x = cprime[i];
+                x1 = cprime[i+1];
+                flag = 1;
+            }
+            if(abs(cprime[i]-cprime[i+1]) < mini && cprime[i+1]>0)
+            {
+                mini = abs(cprime[i]-cprime[i+1]);
+                //cout<<"mini = "<<mini<<endl;
+                y = cprime[i];
+                y1 = cprime[i+1];
+                flag = 1;
+            }
+             //cout<<cprime[i]<<endl;
+            cprime[i] = 0;
+        }
+        if(flag == 1)
+            printf("%lld,%lld are closest, %lld,%lld are most distant.\n",y,y1,x,x1);
+        else
+            cout<<"There are no adjacent primes.\n";
+
+    }
+
+    return 0;
+}
