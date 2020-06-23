@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    unsigned int a,b,arr[100000],arr2[100000],i,j;
+    unsigned int x,y,temp,counti,t,g,l=1,maxi=0;
+    while(1)
+    {
+        cin>>a>>b;
+        if (a==0 &&b==0)
+            return 0;
+        else
+        {
+            counti = 0;
+            i =1;
+            j = 1;
+            if(a<b)
+            swap(a,b)
+            while(a!=0)
+            {
+                x = a%10;
+                a = a/10;
+                arr[i] = x;
+                i++;
+            }
+            while(b!=0)
+            {
+                y = b%10;
+                b = b/10;
+                arr2[j] = y;
+                j++;
+            }
+            for(j=1 ; j<i; j++)
+            {
+                if (i>maxi)
+                    maxi = i;
+                t=j+1;
+                if((arr[j]+arr2[j])>9 &&i>j)
+                {
+                    arr2[t] += 1;
+                    counti++;
+                }
+                /* printf("arr[%d]=%d    arr2[%d]=%d\n",j,arr[j],j,arr2[j]);
+                  cout<<"t="<<t<<"  j="<<j<<endl;*/
+            }
+            for(j=1; j<maxi;j++)
+            {
+                arr2[j] = 0;
+            }
+            if(counti==0)
+                cout<<"No carry operation.\n";
+            else if(counti==1)
+                cout<<counti<<" carry operation.\n";
+            else
+                cout<<counti<<" carry operations.\n";
+        }
+    }
+    return 0;
+}
