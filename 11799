@@ -1,0 +1,26 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int t ,n,i,maxi,arr[10010];
+
+    while(cin>>t && t>0)
+    {
+        i = 1;
+        while(i<=t)
+        {
+            cin>>n;
+            maxi = 0;
+            for(int j=1; j<=n; j++)
+            {
+                cin>>arr[j];
+                if(arr[j]>maxi)
+                    maxi =arr[j];
+            }
+            printf("Case %d: %d\n",i,maxi);
+            i++;
+        }
+    }
+    return 0;
+}
