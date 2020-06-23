@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    char str[1000000];
+    int maxx,minn,n,i,j,x=1,flag;
+    while(scanf(" %s",&str) != EOF)
+    {
+        cin>>n;
+        printf("Case %d:\n",x);
+        for(int get=1; get<=n; ++get)
+        {
+            cin>>i>>j;
+            flag = 0;
+            maxx = max(i,j);
+            minn = min(i,j);
+            for(int k=minn; k<maxx; ++k)
+            {
+                if(str[k] != str[k+1])
+                    flag = 1;
+            }
+            if(!flag)
+                cout<<"Yes\n";
+            else
+                cout<<"No\n";
+        }
+        x++;
+    }
+    return 0;
+}
