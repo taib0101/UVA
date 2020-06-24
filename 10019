@@ -1,0 +1,43 @@
+/*  Bismillahir Rahmanir Rahim
+        AllAHU AKBAR
+*/
+#include<bits/stdc++.h>
+using namespace std;
+
+int convert(int n)
+{
+    int coun,x;
+    coun = 0 ;
+    while(n != 0)
+    {
+        x = n % 2;
+        n = n / 2;
+        if(x == 1)
+            coun++;
+    }
+    return coun;
+}
+
+int main()
+{
+    int n,x,y,a,t;
+    cin>>t;
+
+    while(t--)
+    {
+       cin>>n;
+       x = convert(n);
+       int i = 0,sum = 0;
+       while(n != 0)
+       {
+           a = n % 10;
+           sum = sum + a*pow(16,i);
+           n = n / 10;
+           i++;
+       }
+       n = sum;
+       y = convert(n);
+       cout<<x<<" "<<y<<endl;
+    }
+    return 0;
+}
