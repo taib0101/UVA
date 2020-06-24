@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    char str[100000],str2[100000];
+    while(gets(str))
+    {
+        for(int i=0; i<strlen(str); ++i)
+        {
+            str2[i] = str[i] - 7;
+        }
+        puts(str2);
+        memset(str2,'\0',strlen(str2));
+    }
+    return 0;
+}
