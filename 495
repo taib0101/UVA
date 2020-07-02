@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+#define MAXX 70
+#define ll long long
+using namespace std;
+vector<ll>fibo;
+
+void fibon()
+{
+    ll first = 0;
+    ll second = 1;
+    ll get = 0;
+    for(int i=1; i<=MAXX; ++i)
+    {
+        get = first + second;
+        second = first;
+        first = get;
+        //cout<<get<<endl;
+        fibo.push_back(get);
+    }
+}
+
+int main()
+{
+    fibon();
+    int n;
+    while(cin>>n && n>0)
+    {
+        cout<<fibo[n]<<endl;
+    }
+    return 0;
+}
