@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n,t,flag,j=1;
+    char ch;
+    cin>>t;
+    while(t--)
+    {
+        flag = 0;
+        if(j == 1)getchar();
+        scanf("%c",&ch);
+        cin>>n;
+        printf("Case %d: ",j);
+        for(int i=1; i<=n; ++i)
+            printf("%c",ch);
+        if((ch >= 65 && ch <= 90)|| (ch >= 97 && ch <= 122))
+            flag = 1;
+        while(scanf("%c",&ch)&& flag)
+        {
+            if(!(ch >= 65 && ch <= 90)|| (ch >= 97 && ch <= 122))
+                break;
+            cin>>n;
+            for(int i=1; i<=n; ++i)
+                printf("%c",ch);
+        }
+        cout<<"\n";
+        j++;
+    }
+    return 0;
+}
