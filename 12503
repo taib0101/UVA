@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int arr[110] = {2},t,ct;
+    char str[200];
+    scanf("%d",&t);
+
+    while(t--)
+    {
+        scanf("%d",&ct);
+        int sum = 0,i=1;
+        int damn = 0;
+        getchar();
+        while(ct--)
+        {
+            gets(str);
+
+            if(strcmp(str,"LEFT") == 0)
+            {
+                sum = sum - 1;
+                arr[i] = 0;
+            }
+            else if(strcmp(str,"RIGHT") == 0)
+            {
+                sum = sum + 1;
+                arr[i] = 1;            }
+            else
+            {
+                int get = 0;
+                for(int j=0,k=0; j<strlen(str); ++j)
+                {
+
+                    if(str[j] >= 48 && str[j] <= 57)
+                    {
+                        damn = str[j] - '0';
+                        get = get * pow(10,k) + damn;
+                        k++;
+                    }
+                }
+                if(!arr[get])
+                {
+                    sum = sum - 1;
+                     arr[i] = 0;
+                }
+                else
+                {
+                    sum = sum + 1;
+                     arr[i] = 1;
+                }
+
+            }
+            i++;
+
+        }
+        memset(arr,-1,sizeof(arr));
+        printf("%d\n",sum);
+    }
+    return 0;
+}
