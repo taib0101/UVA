@@ -1,0 +1,82 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int mxn = 1000000;
+vector < int > prime;
+static int list_fact[mxn];
+static ll arr[2];
+int findd[mxn+10] = {0};
+void sieve()
+{
+
+    findd[1] = findd[0] = 1;
+    for(int i=2; i*i<=mxn; ++i)
+    {
+        if(findd[i] == 0)
+        {
+            for(int j=i+i; j<=mxn; j += i)
+                findd[j] = 1;
+        }
+    }
+    for(int i=1; i<=mxn; ++i)
+    {
+        if(findd[i] == 0)
+            prime.push_back(i);
+    }
+}
+void prime_factor(ll l,ll h)
+{
+    ll maxx = 0,countt,n;
+    for(ll j=l ; j<=h; ++j)
+    {
+        ll total = 1;
+        ll sq = sqrt(j);
+        n = j;
+        //cout<<"n = "<<n<<endl;
+        for(int i=0; prime[i]<=sq; ++i)
+        {
+            ll cp = prime[i];
+            countt = 0;
+            if(n%cp == 0)
+            {
+                while(n%cp == 0)
+                {
+                    n /= cp;
+                    countt++;
+                }
+                //printf("%lld^%lld , ",cp,countt);
+                total = total * (countt + 1);
+            }
+            //here was fucking my bug,,,,,
+        }
+        if(n != 1)
+        {
+            //printf("%lld^1",n);
+            total *= 2;
+        }
+        if(total > maxx)
+        {
+            maxx = total;
+            arr[0] = maxx;
+            arr[1] = j;
+
+        }
+        //cout<<endl;
+        //cout<<"total = "<<total<<endl;
+    }
+}
+
+int main()
+{
+    sieve();
+    ll t,l,h;
+    cin>>t;
+    while(t--)
+    {
+        cin>>l>>h;
+        prime_factor(l,h);
+        printf("Between %lld and %lld, %lld has a maximum of %lld divisors.\n",l,h,arr[1],arr[0]);
+    }
+
+    return 0;
+}
