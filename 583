@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+const int mxn = 100000;
+vector< int >prime;
+static int findd[mxn + 10] = {0};
+static int prime_fact[mxn + 10],sizee;
+void sieve()
+{
+    findd[0] = findd[1] = 1;
+    for(int i=2; i*i<=mxn; ++i)
+    {
+        if(!findd[i])
+        {
+            for(int j=i*i; j<=mxn; j += i)
+                findd[j] = 1;
+        }
+    }
+    for(int i=0; i<=mxn; ++i)
+    {
+        if(!findd[i])
+            prime.push_back(i);
+    }
+}
+void prime_facto(ll n)
+{
+    n = abs(n);
+    int sq = sqrt(n);
+    sizee = 0;
+    for(int i=0; prime[i]<=sq; ++i)
+    {
+        int cp = prime[i];
+        if(n % cp ==0)
+        {
+            while(n % cp == 0)
+            {
+                prime_fact[++sizee] = cp;
+                n /= cp;
+            }
+        }
+    }
+    if(n != 1)
+        prime_fact[++sizee] = n;
+}
+int main()
+{
+    sieve();
+    ll n;
+    while(cin>>n && n != 0)
+    {
+        prime_facto(n);
+        if(n < 0)
+            printf("%lld = -1 x ",n);
+        else
+            printf("%lld = ",n);
+        for(int i=1; i<=sizee; ++i)
+        {
+            cout<<prime_fact[i];
+            if(i != sizee)
+                cout<<" x ";
+        }
+        cout<<endl;
+        memset(prime_fact,0,sizeof(prime_fact));
+    }
+
+    return 0;
+}
