@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int mxn = 10000100;
+vector < int > prime;
+int findd[mxn+10] = {0};
+void sieve()
+{
+
+    findd[1] = findd[0] = 1;
+    for(int i=2; i*i<=mxn; ++i)
+    {
+        if(findd[i] == 0)
+        {
+            for(int j=i+i; j<=mxn; j += i)
+                findd[j] = 1;
+        }
+    }
+    for(int i=1; i<=mxn; ++i)
+    {
+        if(findd[i] == 0)
+            prime.push_back(i);
+    }
+}
+ll prime_factor_divisor(ll n)
+{
+    ll sq = sqrt(n);
+    ll flag = 0,k=1,get = 0;
+    for(ll i=0; prime[i]<=sq; ++i)
+    {
+        ll cp = prime[i];
+        if(n%cp == 0)
+        {
+            while(n%cp == 0)
+            {
+                n /= cp;
+                if(k > 1) flag = 1,get = cp;
+            }
+            k++;
+        }
+    }
+    if(n != 1){
+       if(k >= 2)
+       {
+           get = n;
+           flag = 1;
+       }
+    }
+    if(flag == 1)
+        return get;
+    else
+        return -1;
+
+}
+int main()
+{
+    sieve();
+    ll n,get;
+    while(cin>>n && n != 0)
+    {
+        get = prime_factor_divisor(abs(n));
+        cout<<get<<endl;
+
+    }
+    return 0;
+}
