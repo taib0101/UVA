@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string str,enter;
+    int t,arr[150]={0};
+    cin>>t;
+    getline(cin,enter);
+
+    while(t--)
+    {
+        getline(cin,str);
+
+        for(int i=0; i<str.size(); ++i)
+        {
+            if(str[i] == 'M')
+                arr[str[i]]++;
+            else if(str[i] == 'F')
+                arr[str[i]]++;
+        }
+
+        if(arr[77] != arr[70] || arr[77] == 1 || arr[70] == 1)
+            cout<<"NO LOOP\n";
+
+        else
+            cout<<"LOOP\n";
+        arr[77] = arr[70] = 0;
+
+    }
+    return 0;
+}
