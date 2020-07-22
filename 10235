@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int mxn = 1000200;
+bool findd[mxn+10] = {0};
+void sieve()
+{
+    findd[0] = findd[1] = 1;
+    for(int i=2; i*i<=mxn; ++i)
+    {
+        if(findd[i] == 0)
+        {
+            for(int j=i*i; j<=mxn; j += i)
+                findd[j] = 1;
+        }
+    }
+}
+ll prime(ll n)
+{
+    int sum = 0;
+    while(n != 0)
+    {
+        sum = sum*10 + n%10;
+        n /= 10;
+    }
+    //cout<<"reverse = "<<sum<<endl;
+    return sum;
+}
+
+int main()
+{
+    sieve();
+    ll n;
+    while(cin>>n)
+    {
+        if(findd[n] == 0){
+            int rev = prime(n);
+            if(findd[rev] == 0 && rev != n)
+            {
+                printf("%lld is emirp.\n",n);
+            }
+            else
+            {
+                printf("%lld is prime.\n",n);
+            }
+        }else
+            printf("%lld is not prime.\n",n);
+    }
+    return 0;
+}
