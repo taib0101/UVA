@@ -1,0 +1,73 @@
+#include<bits/stdc++.h>
+using namespace std;
+string str2[200];
+int i = 0,len[250];
+vector<int> addd;
+void get(string str)
+{
+    str2[i++] = str;
+    len[i-1] = str2[i-1].size();
+}
+void add()
+{
+    int rslt = 0, carry = 0;
+    for(int j=0; j<i-1; ++j)
+    {
+        for(int k=j; k<i; ++k)
+        {
+            if(len[j] < len[k])
+            {
+                swap(len[j],len[k]);
+                swap(str2[j],str2[k]);
+            }
+        }
+    }
+
+    for(int j=0; j<i; ++j){
+        reverse(str2[j].begin(),str2[j].end());
+        //cout<<"len = "<<len[j]<<endl;
+    }
+    int get = i;
+    //cout<<"i = "<<get<<endl;
+    //len[--i];
+    int get1 = len[--i];
+    //cout<<"i = "<<str2[2][2] - '0'<<endl;
+    for(int k=0,f=0,s=get; k<=get; ++k,--s)
+    {
+        for(int k1=f; k1<get1; ++k1)
+        {
+            for(int k3=0; k3<s;++k3)
+            {
+                rslt = rslt + (str2[k3][k1] - '0');
+                //printf("str2[%d][%d] = %d\n",k3,k1,rslt);
+            }
+            addd.push_back((rslt+carry)%10);
+            carry = (rslt + carry)/10;
+            //cout<<rslt <<endl;
+
+            rslt = 0;
+        }
+        f = get1;
+
+        get1 = len[--i];
+    }
+    if(carry > 0) addd.push_back(carry);
+}
+int main()
+{
+    string str;
+    while(cin>>str)
+    {
+        int l = str.size();
+        if(l && str[0] == '0')
+            break;
+        get(str);
+    }
+    add();
+    for(int j=addd.size()-1; j>=0; --j)
+    {
+        cout<<addd[j];
+    }
+    cout<<endl;
+    return 0;
+}
