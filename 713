@@ -1,0 +1,83 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector< int > add;
+int x;
+
+void add_f(string a,string b)
+{
+    int len,len1;
+    len = a.size();
+    len1 = b.size();
+    if(len < len1)
+    {
+        swap(len,len1);
+        swap(a,b);
+    }
+    for(int i=len-1; i>=0; --i)
+    {
+        if(a[i] != '0')
+        {
+            len = i+1;
+            break;
+        }
+    }
+    for(int i=len1-1; i>=0; --i)
+    {
+        if(b[i] != '0')
+        {
+            len1 = i+1;
+            break;
+        }
+    }
+
+//    reverse(a.begin(),a.begin()+len);
+//    reverse(b.begin(),b.begin()+len1);
+//    cout<<a<<endl;
+//    cout<<b<<endl;
+//    cout<<"len = "<<len<<endl;
+//    cout<<"len1 = "<<len1<<endl;
+    int carry  = 0,rslt = 0;
+    for(int i=0; i<len1; ++i)
+    {
+        rslt = (a[i] - '0') + (b[i] - '0') + carry;
+//        cout<<"a = "<<a[i] - '0'<<endl;
+//        cout<<"b = "<<b[i] - '0'<<endl;
+//        cout<<"rslt = "<<rslt%10<<endl;
+        carry = rslt / 10;
+        add.push_back(rslt % 10);
+    }
+    for(int i=len1; i<len; ++i)
+    {
+        rslt = (a[i] - '0') + carry;
+        carry = rslt / 10;
+        add.push_back(rslt % 10);
+    }
+    if(carry) add.push_back(carry);
+    for(int i=0; i<add.size(); ++i)
+    {
+        if(add[i] != 0)
+        {
+            x = i;
+            break;
+        }
+    }
+}
+
+int main()
+{
+//    freopen("input.txt", "r", stdin);
+//  freopen("output.txt", "w", stdout);
+    string a,b;
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        cin>>a>>b;
+        add_f(a,b);
+        for(int i=x; i<add.size(); ++i)
+            cout<<add[i];
+        cout<<endl;
+        add.clear();
+    }
+    return 0;
+}
