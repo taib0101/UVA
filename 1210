@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+const int mas = 100000;
+bool fin[mas+10];
+vector<int > prime;
+void sieve()
+{
+    fin[0] = fin[1] = 1;
+
+    for(int i=2; i*i<=mas; ++i)
+    {
+        if (fin[i]==0)
+        {
+            for(int j=i*i; j<=mas; j+=i)
+                fin[j] = 1;
+        }
+    }
+    for(int i=0; i<=mas; i++)
+    {
+        if(fin[i]==0)
+            prime.push_back(i);
+    }
+}
+
+int main()
+{
+    sieve();
+    ll n ;
+    while(cin>>n && n > 0)
+    {
+        ll sum,countt = 0;
+        if(fin[n] == 0) countt++;
+        for(int i=0; prime[i]<n && i<prime.size(); ++i)
+        {
+            sum = 0 ;
+            for(int j=i; prime[j]<n && j<prime.size(); ++j)
+            {
+                sum = sum + prime[j];
+                if(sum == n)
+                {
+                    countt++;
+                    break;
+                }
+            }
+        }
+        cout<<countt<<endl;
+    }
+    return 0;
+}
