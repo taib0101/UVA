@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    unsigned long long int l1,h1,a,b,i;
+    unsigned long long int coun=0,maxi,v,n ;
+
+    while(cin>>a>>b)
+    {
+        maxi = 0;
+        l1 = a;
+        h1 = b;
+        if(l1==0 && h1==0)
+            break;
+        if(l1 > h1)
+            swap(l1,h1);
+
+        for(i=l1; i<=h1; ++i)
+        {
+            n = i;
+            coun = 0;
+//            cout<<"i = "<<i<<endl;
+            do
+            {
+                if(n%2 == 0)
+                    n = n/2;
+                else
+                    n = (3*n) + 1;
+                coun++;
+            }while(n != 1);
+            if(coun > maxi)
+            {
+                maxi = coun;
+                v = i;
+            }
+        }
+        cout<<"Between "<<l1<<" and "<<h1<<", "<<v<<" generates the longest sequence of "<<maxi<<" values."<<endl;
+    }
+    return 0;
+}
