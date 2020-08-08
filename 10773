@@ -1,0 +1,23 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    double d,v,u;
+    int t,i=1;
+    cin>>t;
+    while(t--)
+    {
+        cin>>d>>v>>u;
+        if(v==0 || v>=u || u==0)
+           printf("Case %d: can't determine\n",i);
+        else
+        {
+            double t1 = d / u;
+            double t2 = d / sqrt(u*u - v*v);
+            printf("Case %d: %0.3lf\n",i,abs(t1 - t2));
+        }
+        i++;
+    }
+    return 0;
+}
