@@ -1,0 +1,78 @@
+// ALhamdulillah rabbul al - amin ,, allahu akbar
+#include<bits/stdc++.h>
+using namespace std;
+const int mas = 32500;
+bool fin[mas+10] = {0};
+vector < int > prime;
+vector< int > oka[200];
+ int x = 0;
+void sieve()
+{
+    fin[0] = fin[1] = 1;
+
+    for(int i=2; i*i<=mas; i++)
+    {
+        if (fin[i]==0)
+        {
+            for(int j=i*i; j<=mas; j+=i)
+                fin[j] = 1;
+        }
+    }
+    for(int i=0; i<=mas; i++)
+    {
+        if(fin[i]==0)
+            prime.push_back(i);
+    }
+}
+void gett()
+{
+    for(int i=0;  i<prime.size(); ++i)
+    {
+        int one = abs(prime[i] - prime[i+1]);
+        int two = abs(prime[i+1] - prime[i+2]);
+        if(one == two)
+        {
+            oka[++x].push_back(prime[i]);
+            oka[x].push_back(prime[i+1]);
+            oka[x].push_back(prime[i+2]);
+
+            two = abs(prime[i+2] - prime[i+3]);
+            i++;
+            if(one == two){
+                oka[x].push_back(prime[i-1+3]);
+                i++;
+            }
+        }
+    }
+}
+
+int main()
+{
+    sieve();
+    gett();
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int l,h;
+    while(cin >>l>>h && l || h)
+    {
+
+        if(l > h)
+            swap(l,h);
+        for(int i=1; i<=x; ++i)
+        {
+
+            if(oka[i][0] >= l && oka[i][oka[i].size()-1] <= h)
+            {
+                for(int j=0; j<oka[i].size(); ++j)
+                {
+                    if(j != 0)cout<<" ";
+                    cout<<oka[i][j];
+                }
+                cout<<endl;
+            }
+
+        }
+    }
+
+    return 0;
+}
