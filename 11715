@@ -1,0 +1,41 @@
+//wa bt debug okay
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int c,i=1;
+    while(cin>>c && c)
+    {
+        double u,v,t,s,a;
+        printf("Case %d: ",i);
+        if(c == 1)
+        {
+            cin>>u>>v>>t;
+            printf("%.3lf %.3lf\n",v+u,(v-u)/t);
+        }
+        else if(c == 2)
+        {
+            cin>>u>>v>>a;
+            printf("%.3lf %.3lf\n",((v*v) - (u*u))/(2*a),(v-u)/a);
+        }
+        else if(c == 3)
+        {
+            cin>>u>>a>>s;
+            v = sqrt((u*u) + (2*a*s));
+            printf("%.3lf %.3lf\n",v,(v - u)/a);
+            v = 0;
+        }
+        else
+        {
+            cin>>v>>a>>s;
+            u = sqrt((v*v) - (2*a*s));
+            printf("%.3lf %.3lf\n",u,(v - u)/a);
+            u = 0;
+        }
+        i++;
+    }
+    return 0;
+}
