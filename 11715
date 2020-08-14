@@ -1,4 +1,3 @@
-//wa bt debug okay
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -14,7 +13,7 @@ int main()
         if(c == 1)
         {
             cin>>u>>v>>t;
-            printf("%.3lf %.3lf\n",v+u,(v-u)/t);
+            printf("%.3lf %.3lf\n",(u*t) + (.5*((v-u)/t)*t*t),(v-u)/t);
         }
         else if(c == 2)
         {
