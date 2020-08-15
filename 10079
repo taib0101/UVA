@@ -1,0 +1,15 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    ll n;
+    while(cin>>n && n >= 0)
+    {
+        n = ((n*n + n) / 2) + 1;
+        cout<<n<<endl;
+    }
+    return 0;
+}
