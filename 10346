@@ -1,0 +1,23 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+//     freopen("input.txt","r",stdin);
+//     freopen("output.txt","w",stdout);
+    int n,k;
+    while(scanf("%d %d",&n,&k) != EOF)
+    {
+        int m = n,r = 1;
+        while(n && r)
+        {
+            r = n % (k-1);
+            n /= (k-1);
+            m += n;
+            n = 0;
+        }
+        if(r == 0)
+            m--;
+        cout<<m<<endl;
+    }
+    return 0;
+}
