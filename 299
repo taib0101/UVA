@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t,n,arr[10000];
+    cin>>t;
+    while(t--)
+    {
+        cin>>n;
+        int c = 0;
+        for(int i=1; i<=n; ++i)
+            cin>>arr[i];
+
+        for(int i=1; i<n; ++i)
+        {
+            for(int j=i+1; j<=n; ++j)
+            {
+                if(arr[i] > arr[j])
+                {
+                    swap(arr[i],arr[j]);
+                    c++;
+                }
+            }
+        }
+        printf("Optimal train swapping takes %d swaps.\n",c);
+    }
+    return 0;
+}
