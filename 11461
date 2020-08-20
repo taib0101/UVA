@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool findd[100010] = {0};
+void sqare()
+{
+    for(int i = 1; i*i<=100000; ++i)
+        findd[i*i] = 1;
+}
+
+int main()
+{
+    sqare();
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+
+    int c,a,b;
+    while(cin>>a>>b && a && b)
+    {
+        c = 0;
+        for(int i=a; i<=b; ++i)
+        {
+            if(findd[i])
+                c++;
+        }
+        cout<<c<<endl;
+    }
+
+    return 0;
+}
