@@ -1,0 +1,28 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    char str[1000];
+    int t;
+    cin>>t;
+    getchar();
+    while(t--)
+    {
+        int c = 0,sum = 0;
+        scanf("%s",str);
+        int l = strlen(str);
+
+        for(int i=0; i<l; ++i)
+        {
+            if(str[i] == 'O')
+                c++;
+            else if(str[i] == 'X')
+                c = 0;
+            sum += c;
+        }
+        cout<<sum<<endl;
+    }
+    return 0;
+}
