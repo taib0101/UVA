@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str,enter;
+    int t,arr[50];
+    cin>>t;
+    getline(cin,enter);
+
+    while(t--)
+    {
+        getline(cin,str);
+
+        int sum = 0,j = 0;
+        for(int i=0; i<str.size(); i += 2)
+        {
+//            cout<<"i = "<<i<<endl;
+            if(str[i] != ' ')
+                arr[++j] = (str[i] - '0') * 2;
+            else
+                --i;
+        }
+        for(int i=1; i<=j; ++i)
+        {
+            int n = arr[i];
+//            cout<<"arr = "<<arr[i]<<endl;
+            while(n)
+            {
+                sum += n%10;
+                n /= 10;
+            }
+//            cout<<arr[i]<<endl;
+        }
+//        cout<<"sum = "<<sum<<endl;
+        int s = sum;
+        j = 0;
+        for(int k=1; k<str.size(); k += 2)
+        {
+//            cout<<"k = "<<k<<endl;
+
+            arr[++j] = (str[k] - '0');
+            if(str[k+1] == ' ')
+                k ++;
+        }
+        for(int i=1; i<=j; ++i)
+        {
+            sum += arr[i];
+//            printf("arr2[%d] = %d\n",i,arr[i]);
+        }
+
+//        cout<<"sum = "<<abs(sum-s)<<endl;
+        if(sum%10 == 0)
+            cout<<"Valid\n";
+        else
+            cout<<"Invalid\n";
+//        cout<<sum<<endl;
+
+    }
+    return 0;
+}
