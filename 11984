@@ -1,0 +1,22 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t,i=1;
+    cin>>t;
+
+    while(t--)
+    {
+        double c,d,f;
+        cin>>c>>d;
+        f = (1.8 * c) + 32;
+        f = f + d;
+        c = (5 * (f - 32)) / 9;
+        printf("Case %d: %0.2lf\n",i,c);
+        ++i;
+    }
+
+    return 0;
+}
