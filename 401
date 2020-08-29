@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+int flag ;
+string mirror(string str)
+{
+    string reversee = "A   3  HIL JM O   2TUVWXY51SE Z  8 ";
+    int l = str.size();
+    string str2 = str;
+    for(int i=0; i<l; ++i)
+    {
+        if(str[i] >= '0' && str[i] <= '9')
+            str[i] = reversee[25 + str[i] - '0'];
+        else
+            str[i] = reversee[str[i] -'A'];
+    }
+    for(int i=0; i<l; ++i)
+    {
+        if(str[i] != str2[i])
+            flag = 1;
+    }
+    return str;
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str1,str2,str3,str4;
+    while(getline(cin,str1))
+    {
+        flag = 0;
+        str2 = mirror(str1);
+        str3 = str1;
+        str4 = str2;
+        cout<<str1;
+//        cout<<"str3 = "<<str1<<endl;
+//        cout<<"str4 = "<<str2<<endl;
+        reverse(str1.begin(),str1.end());
+//        cout<<"str1 = "<<str1<<endl;
+        reverse(str2.begin(),str2.end());
+//        cout<<"str2 = "<<str2<<endl;
+        if(str1 == str3 && flag == 1)
+            cout<<" -- is a regular palindrome.\n";
+        else if(str1 == str3 && str2 == str4 && flag == 0)
+            cout<<" -- is a mirrored palindrome.\n";
+        else if(str2 == str3)
+            cout<<" -- is a mirrored string.\n";
+        else
+            cout<<" -- is not a palindrome.\n";
+        cout<<endl;
+
+    }
+    return 0;
+}
