@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str;
+    int sum ;
+    while(getline(cin,str))
+    {
+        sum = 0;
+        int len = str.size();
+
+        for(int i=0; i<len; ++i)
+        {
+            if(str[i] >= '0' && str[i] <= '9')
+                sum += str[i] - '0';
+            else if(str[i] == '!')
+            {
+                cout<<endl;
+                sum = 0;
+            }
+            else
+            {
+//                cout<<"sum = "<<sum<<endl;
+                if(str[i] == 'b')
+                {
+                    for(int j=1; j<=sum; ++j)
+                        cout<<' ';
+                    sum = 0;
+                }
+                else
+                {
+                    for(int j=1; j<=sum; ++j)
+                        cout<<str[i];
+                    sum = 0;
+                }
+            }
+        }
+        cout<<endl;
+    }
+    return 0;
+}
