@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r", stdin);
+//    freopen("output.txt","w", stdout);
+    string str[50000],str2,str3;
+    int i = 0, flag = 0;
+    map < string,int > mapp;
+    map < string,int > :: iterator it;
+
+    while(getline(cin,str2))
+    {
+        flag = 0;
+        for(int j = 0; j < str2.size(); ++j)
+        {
+            if((str2[j] >= 'A' && str2[j] <= 'Z') || (str2[j] >= 'a' && str2[j] <= 'z'))
+            {
+                if(str2[j] >= 'A' && str2[j] <= 'Z')
+                    str2[j] = str2[j] + 32;
+                str[i].push_back(str2[j]);
+                flag = 1;
+            }
+            else if(flag)
+            {
+                flag = 0;
+                i++;
+            }
+        }
+        i++;
+    }
+    for(int j = 0 ; j < i; ++j)
+       if(!str[j].empty()) mapp.insert(make_pair(str[j],j));
+    for(it = mapp.begin(); it != mapp.end(); ++it)
+        cout<<it -> first<<endl;
+        
+    return 0;
+}
