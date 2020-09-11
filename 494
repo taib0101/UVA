@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str;
+
+    while(getline(cin,str))
+    {
+        int countt = 0, flag = 0;
+        for(int i = 0; i < str.size(); ++i)
+        {
+//            cout<<"flag01 = "<<flag <<endl;
+            if(isalpha(str[i]) && !flag)
+            {
+                countt++;
+                flag = 1;
+//                cout<<"flag = "<<flag<<endl;
+//                cout<<"str = "<<str[i]<<endl;
+            }
+            else if(!(isalpha(str[i])))
+                flag = 0;
+
+        }
+        cout<<countt<<endl;
+    }
+    return 0;
+}
