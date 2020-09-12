@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str,str2[3000],temp;
+    std :: string :: iterator it;
+    int flag,i;
+    int arr[3000];
+    while(cin>>str)
+    {
+        if(str.size() == 1 && str[0] == '0')
+            break;
+        temp = str;
+        i = 0,flag = 0;
+        ll sum = 0, sum2 = 0 , k = 0, minuss[3000],tem = -1;
+        while (!flag)
+        {
+
+            sort(str.begin(),str.end());
+            str2[i++] = str;
+
+            it = str2[i-1].begin();
+
+
+//            cout<<"str2(sort) = "<<str2[i-1]<<endl;
+            for(;  str2[i-1].size() != 1; )
+            {
+//                cout<<"iterator(sort) = "<<*it<<endl;
+                if(str2[i-1][0] != '0')
+                    break;
+                str2[i-1].erase(it);
+            }
+
+            reverse(str.begin(),str.end());
+            str2[i++] = str;
+
+//            cout<<"str2(reverse) = "<<str2[i-1]<<endl;
+
+            for(int j=0; j < str2[i-2].size(); ++j)
+                sum = sum*10 + (str2[i-2][j] - '0');
+            for(int j=0; j < str2[i-1].size(); ++j)
+                sum2 = sum2*10 + (str2[i-1][j] - '0');
+
+            minuss[++k] = abs(sum - sum2);
+
+            ll n = minuss[k];
+
+            for(int x = 1; x < k && !flag; ++x)
+            {
+                for(int x1 = x + 1; x1 <= k; ++x1)
+                {
+                    if(minuss[x] == minuss[x1])
+                    {
+                        flag = 1;
+                        break;
+                    }
+                }
+            }
+            str.clear();
+
+            do
+            {
+                str.push_back(n % 10 + 48);
+                n = n / 10;
+            }while(n != 0);
+
+            reverse(str.begin(),str.end());
+
+            sum = 0;
+            sum2 = 0;
+        }
+        cout<<"Original number was "<<temp<<endl;
+        for(int j = 0 , k1=1; j<i; j += 2,++k1)
+        {
+            cout<<str2[j+1]<<" - "<<str2[j]<<" = "<<minuss[k1]<<endl;
+        }
+        memset(minuss,0,sizeof(minuss));
+        cout<<"Chain length "<<k<<endl;
+        for(int j=0; j < i; ++j)
+            str2[j].clear();
+        cout<<endl;
+
+    }
+    return 0;
+}
