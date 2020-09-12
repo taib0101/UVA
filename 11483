@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str[5000];
+    char ch = 34, ch2 = 92;
+    std :: string :: iterator it;
+    int t,k = 1;
+
+    while(cin>>t && t)
+    {
+        for(int i = 0; i <= t; ++i)
+            getline(cin,str[i]);
+        for(int i = 1; i <= t; ++i)
+        {
+            int n = 0;
+            for(int j = 0; j < str[i].size(); ++j)
+            {
+                if(str[i][j] == 34 || str[i][j] == 92)
+                {
+                    it = find(str[i].begin()+n, str[i].begin()+j, str[i][j]);
+                    str[i].insert(it,92);
+                    ++j;
+                }
+                else
+                    n = j;
+            }
+        }
+        cout<<"Case "<<k<<":"<<endl;
+        cout<<"#include<string.h>\n";
+        cout<<"#include<stdio.h>\n";
+        cout<<"int main()\n";
+        cout<<"{\n";
+        for(int i=1; i <= t; ++i)
+        {
+            cout<<"printf("<<ch<<str[i]<<ch2<<"n"<<ch<<");"<<endl;
+        }
+        cout<<"printf("<<ch<<ch2<<"n"<<ch<<");"<<endl;
+        cout<<"return 0;"<<endl;
+        cout<<"}\n";
+        for(int i = 1; i <= t; ++i)
+            str[i].clear();
+        ++k;
+
+    }
+    return 0;
+}
