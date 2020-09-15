@@ -1,0 +1,73 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str[500],enter;
+    int t,j=1;
+    cin>>t;
+    getline(cin,enter);
+
+    while(t--)
+    {
+        int n ,co = 0;
+        cin>>n;
+        for(int i=0; i<=n; ++i)
+            getline(cin,str[i]);
+        for(int i=1; i<=n; ++i)
+        {
+            co = 0;
+            int con = 0;
+            for(int k=0; k < str[i].size(); ++k)
+            {
+//                cout<<"kk = "<<k<<endl;
+                if(str[i][k] == ' ')
+                {
+//                    cout<<"ks = "<<k<<endl;
+                    if(co == 0 && con == 0)
+                       co = k ;
+                    con++;
+                }
+                else
+                {
+
+                    if(con > 1)
+                    {
+//                        cout<<"k = "<<k<<endl;
+//                        cout<<"after str["<<k+1<<"] = "<<str[k+1]<<endl;
+//                        cout<<"i = "<<i<<endl;
+//                        cout<<"con = "<<con<<endl;
+//                        cout<<"co = "<<co<<endl;
+                        str[i].erase(str[i].begin()+co,str[i].begin()+co+con-1);
+                        k = k - con;
+                        con = 0;
+                        co = 0;
+//                        cout<<"after str["<<k+1<<"] = "<<str[k+1]<<endl;
+                    }
+                    con  = 0;
+                    co = 0;
+                }
+            }
+            if(con > 1)
+               str[i].erase(str[i].begin()+co,str[i].begin()+co+con-1);
+
+
+        }
+        cout<<"Case "<<j<<":"<<endl;
+        for(int i=1; i<=n; ++i)
+        {
+//            for(int k=0; k<str[i].size(); ++k)
+//            {
+//                if(str[i][k] == ' ')
+//                    str[i][k] = '*';
+//            }
+            cout<<str[i]<<endl;
+            str[i].clear();
+        }
+        if(t != 0)cout<<endl;
+        ++j;
+    }
+    return 0;
+}
