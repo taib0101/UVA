@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+using namespace std;
+string str2;
+
+string get(int m,int x)
+{
+    str2.clear();
+    if(m <= x)
+    {
+        while(m != 0)
+        {
+            str2.push_back(m % 10 + '0');
+            m /= 10;
+        }
+        reverse(str2.begin(),str2.end());
+        return str2;
+    }
+    else
+        return "Blank";
+}
+string get1(int m,int x)
+{
+    str2.clear();
+    if(m <= x)
+    {
+        while(m != 0)
+        {
+            str2.push_back(m % 10 + '0');
+            m /= 10;
+        }
+        reverse(str2.begin(),str2.end());
+        return str2;
+    }
+    else
+        return "Blank";
+}
+
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int n;
+    vector < pair < string, string > > pairr[101];
+    string str;
+    while(cin>>n && n)
+    {
+        int m = n;
+        for(int i = m ; ; ++i)
+        {
+            m = i ;
+            if(i % 4 == 0)
+                break;
+        }
+        int x = m;
+        for(int i = 1,j = 1; ; ++i)
+        {
+            if(n != 1)
+            {
+                pairr[i].push_back(make_pair(get(m,n),get1(j,n)));
+                m--,j++;
+                pairr[i].push_back(make_pair(get1(j,n),get(m,n)));
+                m--,j++;
+            }
+            else
+                pairr[i].push_back(make_pair("Blank","1"));
+            if(x == 2 || i == x/4 || n == 1)
+                break;
+        }
+
+        int flag ;
+        cout<<"Printing order for "<<n<<" pages:\n";
+        for(int i = 1; i <= n; ++i)
+        {
+            flag = 0;
+            for(int j = 0; j < pairr[i].size(); ++j)
+            {
+                if(!flag)
+                {
+                    cout<<"Sheet "<<i<<", front: "<<pairr[i][j].first<<", "<<pairr[i][j].second<<endl;
+                    flag = 1;
+                }
+                else
+                {
+                    cout<<"Sheet "<<i<<", back : "<<pairr[i][j].first<<", "<<pairr[i][j].second<<endl;
+                    flag = 0;
+                }
+            }
+            pairr[i].clear();
+        }
+    }
+    return 0;
+}
