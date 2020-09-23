@@ -1,0 +1,108 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+
+string fact[1001];
+void multi()
+{
+    string str,str2;
+    vector < int > mull[5000];
+    int carry,get;
+    str.push_back('1');
+    int countt = 0;
+    fact[countt++] = str;
+    for(int i = 1; i <= 1000; ++i)
+    {
+        int x = i;
+        carry = 0;
+        get = 0;
+        while(x != 0)
+        {
+            str2.push_back(x % 10 + '0');
+            x /= 10;
+        }
+
+        int l1 = str.size();
+        int l2 = str2.size(), x1 = 0;
+
+        reverse(str.begin(), str.end());
+//        reverse(str2.begin(), str2.end());
+
+        for(int j = 0; j < l2; ++j, ++x1)
+        {
+            carry = 0;
+            for(int k = 0; k < x1; ++k)
+                mull[x1].push_back(0);
+            for(int k = 0; k < l1; ++k)
+            {
+                get = (str[k] - '0') * (str2[j] - '0') + carry;
+                mull[x1].push_back(get % 10);
+                carry = get / 10;
+//                cout<<"get = "<<get<<",carry = "<<carry<<endl;
+            }
+            if(carry)
+                mull[x1].push_back(carry);
+//            cout<<"carryyyyy = "<<carry<<endl;
+        }
+
+        get = 0, carry = 0;
+        str.clear();
+
+//        cout<<"str2 = "<<str2<<endl;
+
+        for(int i1 = 0,y = 0; i1 < x1; ++i1)
+        {
+            for( ; y < mull[i1].size(); ++y)
+            {
+                for(int k = i1; k < x1; ++k)
+                    get += mull[k][y];
+
+                get += carry;
+
+                str.push_back(get%10 + '0');
+                carry = get / 10;
+                get = 0;
+            }
+            y = mull[i1].size();
+        }
+        if(carry)
+        {
+            while(carry != 0)
+            {
+                str.push_back(carry % 10 + '0');
+                carry /= 10;
+            }
+        }
+        reverse(str.begin(), str.end());
+        for(int k = 0; k < x1; ++k)
+            mull[k].clear();
+        fact[countt++] = str;
+
+        str2.clear();
+    }
+
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    multi();
+    int n;
+    string str;
+    int arr[100] = {0};
+    while(cin>>n && n)
+    {
+        cout<<n<<"! --"<<endl;
+        str = fact[n];
+
+        for(int i = 0; i < str.size(); ++i)
+            arr[str[i]]++;
+
+        printf("   (0)%5d    (1)%5d    (2)%5d    (3)%5d    (4)%5d\n",arr['0'],arr['1'],arr['2'],arr['3'],arr['4']);
+        printf("   (5)%5d    (6)%5d    (7)%5d    (8)%5d    (9)%5d\n",arr['5'],arr['6'],arr['7'],arr['8'],arr['9']);
+
+        memset(arr,0,sizeof(arr));
+    }
+    return 0;
+}
