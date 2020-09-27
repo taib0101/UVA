@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str,enter;
+    int t;
+    cin>>t;
+    getline(cin,enter);
+    std::string:: iterator it;
+    map <string , int > mapp;
+    map < string , int > :: iterator it2;
+
+    while(t--)
+    {
+        enter.clear();
+        getline(cin,str);
+        int countt = 0;
+        for(int i = 0 ; str[i] == ' '; ++i)
+            countt++;
+        str.erase(str.begin() , str.begin() + countt);
+
+        for(int i = 0; str[i] != ' '; ++i)
+            enter.push_back(str[i]);
+        mapp[enter]++;
+
+    }
+
+    for(it2 = mapp.begin(); it2 != mapp.end() ; ++it2)
+        cout<<it2 -> first<<" "<<it2 -> second<<endl;
+    return 0;
+}
