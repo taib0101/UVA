@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct strt
+{
+    int a,b;
+};
+
+bool cmp(strt x, strt y)
+{
+    if(x.b != y.b)
+        return x.b < y.b;
+    return x.a > y.a;
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str;
+    strt arrr[500];
+    int arr[200]= {0},j,k = 0;
+    while(getline(cin,str))
+    {
+        j = 0;
+       if(k != 0)
+        cout<<endl;
+       for(int i = 0; i < str.size(); ++i)
+           arr[str[i]]++;
+        for(int i = 10; i <= 128; ++i)
+        {
+            if(arr[i] >= 1)
+            {
+//                cout<<"i = "<<i<<",arr = "<<arr[i]<<endl;
+                arrr[j++].a = i;
+                arrr[j-1].b = arr[i];
+            }
+        }
+       sort(arrr,arrr+j,cmp);
+       for(int i = 0; i < j ; ++i)
+        cout<<arrr[i].a<<" "<<arrr[i].b<<endl;
+
+        k = 1;
+       memset(arr,0,sizeof(arr));
+    }
+    return 0;
+}
