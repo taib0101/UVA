@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str;
+    int arr[200] = {0} , t;
+    cin>>t;
+    while(t--)
+    {
+        cin>>str;
+//        cout<<"size = "<<str.size()<<endl;
+        for(int i = 0; i < str.size(); ++i)
+            arr[str[i]]++;
+        int ch = 0;
+        char ko;
+//        for(int i = 65; i <= 90; ++i)
+//        {
+//            if(arr[i] > 0)
+//            {
+//                ko = i;
+//                cout<<ko<<" = "<<arr[i]<<endl;
+//            }
+//        }
+
+        if(arr['A'] >= 3 && arr['R'] >= 2 && arr['G'] >= 1 && arr['I'] >= 1 && arr['M'] >= 1 && arr['T'] >= 1)
+        {
+            for( ;  ; )
+            {
+                arr['A'] -= 3;
+                arr['R'] -= 2;
+                arr['G'] -= 1;
+                arr['I'] -= 1;
+                arr['M'] -= 1;
+                arr['T'] -= 1;
+                if(arr['A'] < 3 || arr['R'] < 2 || arr['G'] < 1 || arr['I'] < 1 || arr['M'] < 1 || arr['T'] < 1)
+                    break;
+                ch++;
+            }
+            cout<<ch+1<<endl;
+        }
+        else
+            cout<<ch<<endl;
+        memset(arr , 0 , sizeof(arr));
+    }
+    return 0;
+}
