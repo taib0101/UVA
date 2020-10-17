@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+using namespace std;
+//int sum = 0;
+int call(int n, string str)
+{
+    int sum;
+    int m = 1;
+
+    for(int i = 1; i <= str.size() - n; ++i)
+        m *= 2;
+//    cout<<"m = "<<m<<endl;
+
+    m -= 1;
+    sum = (str[n] - '0') * m;
+//    cout<<"sum = "<<sum<<endl;
+    if(n == 0)
+        return sum;
+    n--;
+    return  sum + call(n , str);
+}
+
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int n;
+    string str;
+    while(cin>>str)
+    {
+//        sum = 0;
+        if(str.size() == 1 && str[0] == '0')
+            break;
+        n = call(str.size()-1 , str);
+        cout<<n<<endl;
+    }
+    return 0;
+}
