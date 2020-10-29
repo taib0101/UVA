@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    map < string , int > mapp;
+    map < string , int > :: iterator it;
+    string str,enter;
+    int t,z;
+    cin>>t;
+    z = t++;
+    getline(cin,enter);
+    while(t--)
+    {
+        int i = 0 ;
+        while(getline(cin,str) && !str.empty() )
+        {
+            mapp[str]++;
+            i++;
+        }
+
+        for(it = mapp.begin() ; it != mapp.end(); ++it)
+        {
+
+           float x = (float (it -> second) / i) * 100;
+
+            cout<<it -> first;
+            printf(" %.4f\n", x);
+
+        }
+        if(z != t && t != 0)cout<<endl;
+        mapp.clear();
+    }
+    return 0;
+}
