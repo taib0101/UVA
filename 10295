@@ -1,0 +1,70 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    map < string, int,less <string> > mapp;
+    map < string, int,less <string> > :: iterator it;
+    string str;
+    int n,m;
+    cin>>n>>m;
+    for(int i = 1; i <= n; ++i)
+    {
+        int x;
+        cin>>str>>x;
+        mapp[str] = x;
+    }
+//    cout<<endl;
+    string enter,str2;
+    getline(cin,enter);
+    for(int i = 1; i <= m; ++i)
+    {
+        int sum = 0;
+        while(getline(cin,str))
+        {
+            int r = 0;
+            for(int i = 0; i < str.size(); ++i)
+            {
+                if(str[i] == ' ')
+                    r++;
+                else
+                    break;
+            }
+            str.erase(str.begin(),str.begin() + r);
+            if(str.size() == 1 && str == ".")
+                break;
+            for(int j = 0; j < str.size(); ++j)
+            {
+                if(str[j] != ' ')
+                {
+                    str2.push_back(str[j]);
+                }
+                else
+                {
+                    for(it = mapp.find(str2); it != mapp.end(); ++it)
+                    {
+                        if(it -> first == str2)
+                            sum += (it -> second);
+                    }
+                    str2.clear();
+                }
+            }
+            for(it = mapp.find(str2); it != mapp.end(); ++it)
+            {
+//                cout<<"Dukche\n";
+                if(it -> first == str2){
+                    sum += (it -> second);
+                }
+            }
+//            cout<<"last  = "<<str2<<endl;
+            str2.clear();
+        }
+        cout<<sum<<endl;
+    }
+
+//    for(it = mapp.begin(); it != mapp.end(); ++it)
+//        cout<<it -> first<<" "<<it -> second<<endl;
+    return 0;
+}
