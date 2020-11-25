@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int gcd(int a,int b)
+{
+    if(a % b == 0)
+        return b;
+    return gcd(b , a % b);// return na deyate wrong answer aiche
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int n;
+    while(cin>>n && n)
+    {
+        int g = 0;
+        for(int i = 1; i < n; ++i)
+        {
+            for(int j = i + 1; j <= n; ++j)
+                g += gcd(i,j);
+        }
+        cout<<g<<endl;
+    }
+    return 0;
+}
