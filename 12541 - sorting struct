@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct comp
+{
+    string str;
+    int d,m,ye;
+};
+bool cmp(struct comp x, struct comp y)
+{
+    if(x.ye != y.ye)
+        return x.ye < y.ye;
+
+    else if (x.m != y.m)
+        return x.m < y.m;
+
+    return x.d < x.d;
+}
+
+int main()
+{
+    int t, i = 0;
+    struct comp arr[101];
+    cin>>t;
+    while(t--)
+    {
+        cin >> arr[i].str >> arr[i].d >> arr[i].m >> arr[i].ye;
+
+        i++;
+    }
+    sort(arr , arr+i, cmp);
+//    for(int j = 0; j < i; ++j)
+//    {
+////        cout<<arr[j].str<<endl;
+//        cout << arr[j].str <<" "<< arr[j].d <<" "<< arr[j].m <<" "<< arr[j].ye<<endl;
+//    }
+    cout<<arr[i-1].str<<endl;
+    cout<<arr[0].str<<endl;
+    return 0;
+}
