@@ -1,0 +1,82 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define mx 101
+vector < int > gra[mx];
+bool vis[mx];
+
+void bfs(int source)
+{
+//    vis[source] = 1;
+    queue < int > que;
+    que.push(source);
+
+    while(!que.empty())
+    {
+        int node = que.front();
+        que.pop();
+//        cout << "node = " << node <<endl;
+        for(int i = 0; i < gra[node].size(); ++i)
+        {
+            int next = gra[node][i];
+            if(!vis[next]){
+                vis[next] = 1;
+                que.push(next);
+            }
+
+        }
+    }
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int n;
+    while(cin >> n && n)
+    {
+        int i;
+        while(cin >> i && i)
+        {
+            int j;
+            while(cin >> j && j)
+            {
+                gra[i].push_back(j);
+            }
+        }
+
+        int m;
+        cin >> m;
+        while(m--)
+        {
+            int l;
+            cin >> l;
+
+            memset(vis,0,sizeof(vis));
+            bfs(l);
+            int countt = 0;
+            vector < int > viss;
+            for(int i = 1; i <= n; ++i)
+            {
+                if(!vis[i])
+                {
+                    countt++;
+                    viss.push_back(i);
+                }
+            }
+            cout << countt;
+            if(countt)
+                cout << " ";
+            sort(viss.begin(),viss.end());
+            for(int i = 0; i < viss.size(); ++i){
+                cout << viss[i];
+                if(i < viss.size()-1)
+                    cout <<" ";
+            }
+            cout << endl;
+            viss.clear();
+        }
+        for(int i = 1; i <= n; ++i)
+            gra[i].clear();
+    }
+    return 0;
+}
