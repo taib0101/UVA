@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+map < string, vector < string > > mapp;
+map < string, vector < string > > :: iterator itt;
+map < string, bool > vis;
+map < string, int > dis;
+
+void bfs(string source)
+{
+    if(mapp.find(source) != mapp.end())//here was a bug gave run time error
+    {
+        vis[source] = 1;
+        dis[source] = 0;
+        queue < string > que;
+        que.push(source);
+
+        while(!que.empty())
+        {
+            string node = que.front();
+            que.pop();
+            itt = mapp.find(node);
+            for(int i = 0; i < itt->second.size(); ++i)
+            {
+                string next = itt->second[i];
+                if(!vis[next])
+                {
+                    vis[next] = 1;
+                    dis[next] = dis[node] + 1;
+                    que.push(next);
+                }
+
+            }
+        }
+    }
+}
+struct box
+{
+    int a;
+    string b;
+    int c;
+};
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int n, c = 0;
+    struct box arr[5000];
+    while(cin >> n && n)
+    {
+        string u,v;
+        while(n--)
+        {
+            cin >> u >> v;
+            mapp[u].push_back(v);
+            mapp[v].push_back(u);
+        }
+
+        string x;
+        int y,countt;
+        while(cin >> x >> y)
+        {
+            if(x == "0" && y == 0)
+                break;
+            countt = 0;
+            for(itt = mapp.begin(); itt != mapp.end(); ++itt)
+            {
+                vis[itt -> first] = 0;
+                dis[itt -> first] = 0;//here was a bugg
+            }
+            bfs(x);
+            for(itt = mapp.begin(); itt != mapp.end(); ++itt)
+            {
+                if(y < dis[itt->first])
+                    countt++;
+                if(!vis[itt->first])
+                    countt++;
+            }
+            arr[c++] = {countt,x,y};
+        }
+        mapp.clear();//here was a bugg
+        dis.clear();
+        vis.clear();
+    }
+    for(int i = 0; i < c; ++i)
+    {
+        cout << "Case " << i + 1<<": "<< arr[i].a<<" nodes not reachable from node "<<arr[i].b<<" with TTL = " << arr[i].c <<"."<<endl;
+    }
+    return 0;
+}
