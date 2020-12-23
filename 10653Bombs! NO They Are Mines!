@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+int row , colmn;
+bool vis[1001][1001];
+int dis[1001][1001];
+
+void bfs_gird(int x, int y)
+{
+    vis[x][y] = 1;
+    dis[x][y] = 0;
+    int dx[] = {-1,1,0,0,-1,-1,1,1};
+    int dy[] = {0,0,-1,1,-1,1,-1,1};
+
+    queue < pair < int , int > > qp;
+    qp.push({x,y});
+    while(!qp.empty())
+    {
+        x = qp.front().first;
+        y = qp.front().second;
+        qp.pop();
+        for(int i = 0; i < 4; ++i)
+        {
+            int xx = x + dx[i];
+            int yy = y + dy[i];
+            if(!vis[xx][yy] && xx >= 0 && yy >= 0 && xx < row && yy < colmn)
+            {
+                vis[xx][yy] = 1;
+                dis[xx][yy] = dis[x][y] + 1;
+                qp.push({xx,yy});
+            }
+        }
+    }
+
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    while(cin >> row >> colmn && row && colmn)
+    {
+        int r;
+        cin >> r;
+        memset(vis,0,sizeof(vis));
+        memset(dis,0,sizeof(dis));
+        while(r--)
+        {
+            int rr,c;
+            cin >> rr >> c;
+            for(int i = 1; i <= c; ++i)
+            {
+                int cc;
+                cin >> cc;
+                vis[rr][cc] = 1;
+            }
+        }
+        int a , b;
+        cin >> a >> b;
+        bfs_gird(a,b);
+        cin >> a >> b;
+        cout << dis[a][b] << endl;
+    }
+    return 0;
+}
