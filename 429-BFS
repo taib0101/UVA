@@ -1,0 +1,82 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > st;
+map < string, bool > vis;
+map < string, int > dis;
+
+void bfs(string x)
+{
+    vis[x] = 1;
+    dis[x] = 0;
+    queue < string > q;
+    q.push(x);
+    int n;
+    while(!q.empty())
+    {
+        n = 1;
+        string node = q.front();
+//        cout << "node = " << node << endl;
+        q.pop();
+        for(int i = 0; i < st.size() && n; ++i)
+        {
+            int co = 0;
+            string next = st[i];
+            if(!vis[next])
+            {
+                for(int j = 0; j < node.size(); ++j)
+                {
+                    if(next[j] != node[j])
+                        co ++;
+                }
+                if (co == 1)
+                {
+//                    cout << "next = " << next <<endl;
+                    vis[next] = 1;
+                    dis[next] = dis[node] + 1;
+                    q.push(next);
+                }
+            }
+        }
+    }
+}
+bool cmp (string x, string y)
+{
+    return x.size() < y.size();
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t;
+    cin >> t;
+    vector < string > v;
+    while(t--)
+    {
+        string str;
+        while(cin >> str && str != "*")
+            v.push_back(str);
+        sort(v.begin(),v.end(),cmp);
+        getline(cin , str);
+        while(getline(cin , str) && !str.empty())
+        {
+            stringstream ss(str);
+            string str2;
+            ss >> str >> str2;
+            for(int i = 0; i < v.size(); ++i)
+            {
+                if(str.size() == v[i].size()){
+                    st.push_back(v[i]), vis[v[i]] = 0;
+                }
+            }
+            bfs(str);
+            cout << str << " " << str2 << " ";
+            cout << dis[str2] << endl;
+            dis.clear();
+            vis.clear();
+            st.clear();
+        }
+        if(t)cout << endl;
+    }
+    return 0;
+}
