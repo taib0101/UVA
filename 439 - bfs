@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool vis[10][10] = {0};
+int dis[10][10];
+
+void bfs(int x, int y)
+{
+    vis[x][y] = 1;
+    dis[x][y] = 0;
+    int dx[] = {-2,-1,1,2,-2,-1,1,2};
+    int dy[] = {-1,-2,-2,-1,1,2,2,1};
+    queue < pair < int , int > > qp;
+    qp.push({x,y});
+
+    while(!qp.empty())
+    {
+        x = qp.front().first;
+        y = qp.front().second;
+        qp.pop();
+        for(int i = 0; i < 8; ++i)
+        {
+            int xx = x + dx[i];
+            int yy = y +dy[i];
+            if(!vis[xx][yy] && xx > 0 && yy > 0 && xx <= 8 && yy <= 8)
+            {
+                vis[xx][yy] = 1;
+                dis[xx][yy] = dis[x][y] + 1;
+                qp.push({xx,yy});
+            }
+        }
+    }
+}
+
+int main()
+{
+    char a1 , a2;
+    int b1, b2;
+
+    while(cin >> a1 >> b1 >> a2 >> b2)
+    {
+        bfs(a1-'a'+1,b1);
+        printf("To get from %c%d to %c%d takes %d knight moves.\n",a1,b1,a2,b2,dis[a2-'a'+1][b2]);
+        memset(vis, 0, sizeof(vis));
+    }
+    return 0;
+}
