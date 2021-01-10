@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+using namespace std;
+map < string , vector < string > > mapp;
+map < string , vector < string > > :: iterator mp;
+map < string , bool > vis;
+map < string , int > dis;
+void bfs(string x)
+{
+    vis[x] = 1;
+    dis[x] = 0;
+    queue < string > que;
+    que.push(x);
+    while(!que.empty())
+    {
+        string node = que.front();
+        mp = mapp.find(node);
+        que.pop();
+        for(int i = 0; mp != mapp.end()&&i < mp->second.size(); ++i)
+        {
+            string next = mp->second[i];
+            if(!vis[next])
+            {
+                vis[next] = 1;
+                dis[next] = dis[node] + 1;
+                que.push(next);
+            }
+        }
+    }
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t, tt, k = 1;
+    cin >> t;
+    tt = t;
+    while(t--)
+    {
+        int m, n, p;
+        set < string > str;
+        string st, sg;
+        cin >> m >> n >> p;
+        for(int i = 0; i < m; ++i){
+            cin >> st;
+            str.insert(st);
+        }
+        while(n--)
+        {
+            cin >> st >> sg;
+            if(str.find(st) != str.end() && str.find(sg) != str.end())
+            {
+                mapp[st].push_back(sg);
+                mapp[sg].push_back(st);
+            }
+        }
+        if(tt == t+1)
+            cout << "SHIPPING ROUTES OUTPUT\n" << endl;
+        cout << "DATA SET  " << k <<endl<<endl;
+        if(!p) cout << endl;
+        while(p--)
+        {
+            int n;
+            cin >> n >> st >> sg;
+            bfs(st);
+            if(dis[sg])cout <<"$"<< n * dis[sg] * 100 << endl;
+            else
+                cout << "NO SHIPMENT POSSIBLE" <<endl;
+            if(!p) cout << endl;
+            vis.clear();
+            dis.clear();
+        }
+        k++;
+        mapp.clear();
+        str.clear();
+    }
+    cout << "END OF OUTPUT"<<endl;
+    return 0;
+}
