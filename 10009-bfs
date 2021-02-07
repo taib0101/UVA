@@ -1,0 +1,87 @@
+#include<bits/stdc++.h>
+using namespace std;
+map < string , vector < string > > gp;
+map < string , bool > vis;
+map < string , int > dis;
+
+string bfs(string x, string y)
+{
+    string get;
+    vis[y] = 1;
+    dis[y] = 0;
+
+    queue < string > que;
+    que.push(y);
+    bool b = 1;
+
+    while(!que.empty() && b)
+    {
+        string node = que.front();
+        que.pop();
+        for(int i = 0; i < gp[node].size(); ++i)
+        {
+            string next = gp[node][i];
+            if(!vis[next])
+            {
+                vis[next] = 1;
+                dis[next] = dis[node] + 1;
+                que.push(next);
+            }
+        }
+    }
+    vis.clear();
+    que.push(x);
+    get.push_back(x[0]);
+    while(!que.empty())
+    {
+        string node = que.front();
+        que.pop();
+
+        for(int i = 0; i < gp[node].size(); ++i)
+        {
+            string next = gp[node][i];
+            if(!vis[next] && dis[node] > dis[next])
+            {
+                vis[next] = 1;
+                get.push_back(next[0]);
+                que.push(next);
+                break;
+            }
+        }
+    }
+    return get;
+}
+
+int main()
+{
+    int t,b = 0;
+    cin >> t;
+
+    while(t--)
+    {
+        if(b)
+            cout << endl;
+        b = 1;
+        int n, s;
+        cin >> n >> s;
+
+        while(n--)
+        {
+            string x, y;
+            cin >> x >> y;
+            gp[x].push_back(y);
+            gp[y].push_back(x);
+        }
+
+        while(s--)
+        {
+            string x, y;
+            cin >> x >> y;
+            cout <<  bfs(x,y) << endl;
+            dis.clear();
+            vis.clear();
+        }
+        gp.clear();
+    }
+    return 0;
+}
