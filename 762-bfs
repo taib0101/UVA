@@ -1,0 +1,96 @@
+#include<bits/stdc++.h>
+using namespace std;
+map < string, vector < string > > mp;
+vector < string > mapp;
+map < string, bool > vis;
+map < string, int > dis;
+
+bool bfs(string x,string y)
+{
+    bool k = 0;
+    vis[y] = 1;
+    dis[y] = 0;
+    queue < string > qp;
+    qp.push(y);
+
+    while(!qp.empty())
+    {
+        string node = qp.front();
+        qp.pop();
+
+        for(int i = 0; i < mp[node].size(); ++i)
+        {
+            string next = mp[node][i];
+            if(!vis[next])
+            {
+                vis[next] = 1;
+                dis[next] = dis[node] + 1;
+                qp.push(next);
+                if(next == x)
+                    k = 1;
+            }
+        }
+    }
+
+    vis.clear();
+    if(k){
+        qp.push(x);
+        mapp.push_back(x);
+    }
+
+    while(!qp.empty())
+    {
+        string node = qp.front();
+        qp.pop();
+        for(int i = 0, l = 0; i < mp[node].size() && !l; ++i)
+        {
+            string next = mp[node][i];
+            if(!vis[next] && dis[node] > dis[next])
+            {
+                l = 1;
+                vis[next] = 1;
+                mapp.push_back(next);
+                qp.push(next);
+            }
+        }
+    }
+    if(k)return 1;
+    return 0;
+}
+int main()
+{
+    int n, z = 1;
+    while(scanf("%d",&n) != EOF)
+    {
+        string st, sg;
+        if(!z)
+            cout << endl;
+        z = 0;
+        while(n--)
+        {
+            cin >> st >> sg;
+            mp[st].push_back(sg);
+            mp[sg].push_back(st);
+        }
+        getline(cin, st);
+        while(getline(cin,st) && !st.empty())
+        {
+            stringstream ss(st);
+            ss >> st >> sg;
+
+            if(bfs(st,sg))
+            {
+                for(int i = 0; i < mapp.size()-1; ++i)
+                    cout << mapp[i] << " " << mapp[i+1] << endl;
+            }
+            else
+                cout << "No route\n";
+            mapp.clear();
+            vis.clear();
+            dis.clear();
+        }
+        mp.clear();
+
+    }
+    return 0;
+}
