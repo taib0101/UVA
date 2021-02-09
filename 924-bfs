@@ -1,0 +1,77 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector < int > vec[2501];
+bool vis[2501] = {0};
+int dis[2501];
+int khis[2501] = {0};
+int x, y;
+bool bfs(int a)
+{
+    if(vec[a].size() == 0)
+        return 0;
+    vis[a] = 1;
+    queue < int > que;
+    que.push(a);
+    dis[a] = 0;
+    int maxx = 0;
+    while(!que.empty())
+    {
+        int node = que.front();
+        que.pop();
+        for(int i = 0; i < vec[node].size(); ++i)
+        {
+            int next = vec[node][i];
+            if(!vis[next])
+            {
+                vis[next] = 1;
+                dis[next] = dis[node] + 1;
+                que.push(next);
+                khis[dis[next]]++;
+                maxx = max(maxx , dis[next]);
+            }
+        }
+    }
+    int maxxx = 0;
+    for(int i = 0; i <= maxx; ++i)
+    {
+        if(khis[i] > maxxx){
+            maxxx = khis[i];
+            x = maxxx;
+            y = i;
+        }
+    }
+    return 1;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    for(int i = 0; i < n; ++i)
+    {
+        int m;
+        cin >> m;
+        while(m--)
+        {
+            int mm;
+            cin >> mm;
+            vec[i].push_back(mm);
+        }
+    }
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int m, maxx = 0;
+        cin >> m;
+
+        if(bfs(m))
+            cout << x << " " << y << endl;
+        else
+            cout << "0\n";
+        memset(vis,0,sizeof(vis));
+        memset(dis,0,sizeof(dis));
+        memset(khis,0,sizeof(khis));
+    }
+    return 0;
+}
