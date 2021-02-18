@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+int k , kk;
+int n, arr[10001], m;
+
+void bsc(int m, int l, int h)
+{
+    // binary search without mid
+    while(l <= h)
+    {
+        int sum = arr[l] + arr[h];
+        if(sum > m)
+            h--;
+        else if(sum < m)
+            l++;
+        else
+        {
+            if(l != h){
+                k = arr[l];
+                kk = arr[h];
+            }
+            l++ , h--;
+        }
+    }
+}
+
+int main()
+{
+
+    while(cin >> n)
+    {
+        for(int i = 0; i < n; ++i)
+            cin >> arr[i];
+
+        cin >> m;
+        sort(arr , arr+n);
+        bsc(m,0,n-1);
+
+        cout << "Peter should buy books whose prices are " <<k<<" and "<<kk<<"." << endl<<endl;
+        memset(arr,0,sizeof(arr));
+    }
+    return 0;
+}
