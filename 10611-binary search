@@ -1,0 +1,75 @@
+                Allahu Akbar
+#include<bits/stdc++.h>
+using namespace std;
+int k, kk, arr[50001], t;
+
+void bsc(int l, int h, int x)
+{
+    if(l > h)
+        return;
+    int mid = (l + h) / 2;
+    if(arr[l] < x)
+    {
+        k = arr[l];
+        bsc(l+1,h,x);
+    }
+    else if(arr[h] > x)
+    {
+        kk = arr[h];
+        bsc(l,h-1,x);
+    }
+    else if(l == 0 && arr[l] == x){
+        int ll = l;
+        while(arr[ll] == x)
+        {
+            ll++;
+            kk = arr[ll];
+        }
+        k = 0;
+        return;
+    }
+    else if(h == t-1 && arr[h] == x){
+        int hh = h;
+        while(arr[hh] == x)
+        {
+            hh--;
+            k = arr[hh];
+        }
+        kk = 0;
+        return;
+    }
+}
+
+int main()
+{
+    while(cin >> t)
+    {
+        for(int i = 0; i < t; ++i)
+            cin >> arr[i];
+        int tt;
+        sort(arr, arr+t);
+        cin >> tt;
+        while(tt--)
+        {
+            int t1;
+            cin >> t1;
+            if(arr[0] > t1 && arr[t-1] > t1)
+                cout << "X" << " " << arr[0] << endl;
+            else if(arr[0] < t1 && arr[t-1] < t1)
+                cout << arr[t-1] << " " << "X" << endl;
+            else{
+                bsc(0, t-1, t1);
+                if(k == 0 && kk == 0)
+                    cout << "X" << " " << "X" << endl;
+                else if(k == 0)
+                    cout << "X" << " " << kk << endl;
+                else if(kk == 0)
+                    cout << k << " " << "X" << endl;
+
+                else
+                    cout << k << " " << kk << endl;
+            }
+        }
+    }
+    return 0;
+}
