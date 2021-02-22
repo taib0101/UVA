@@ -1,0 +1,14 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    double p, k, n;
+
+    while(cin >> n >> p)
+    {
+        k = pow(p , 1 / n);
+        printf("%0.0lf\n",k);
+    }
+    return 0;
+}
