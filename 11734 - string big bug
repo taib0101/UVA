@@ -1,0 +1,155 @@
+#include<bits/stdc++.h>
+using namespace std;
+int flag;
+int flagg;
+void fun(string str, string str2)
+{
+    int sizee = str.size();
+    int sizee2 = str2.size();
+    if(str[0] == ' ' && sizee > sizee2 && flagg == 0)
+    {
+        int coun = 0;
+        for(int i = 0; str[i] == ' '; ++i)
+            coun++, flagg = 1;
+        str.erase(str.begin(), str.begin()+ coun);
+
+        if(str == str2)
+        {
+            flag = 1;
+            for(int i = 0; i < str2.size(); ++i)
+            {
+                if(str[i] != str2[i])
+                    flag = 2;
+            }
+
+        }
+        else if(sizee > sizee2)
+        {
+            flagg = 2;
+            coun = 0;
+            int ff = 0, x;
+            for(int i = 0; i < str.size(); ++i)
+            {
+                if(str[i] == ' ')
+                {
+                    coun++;
+                    if(!ff)
+                    {
+                        x = i;
+                        ff = 1;
+                        flag = 3;
+                    }
+                }
+                else
+                {
+                    if(ff)
+                    {
+                        str.erase(str.begin()+x, str.begin()+coun+x);
+                        i = x;
+                        ff = 0;
+                    }
+                    coun = 0;
+                }
+
+
+            }
+            str.erase(str.begin()+x, str.begin()+coun+x);
+            if(str == str2)
+            {
+                flag = 3;
+                for(int i = 0; i < str2.size(); ++i)
+                {
+                    if(str[i] != str2[i])
+                        flag = 2;
+                }
+            }
+            else
+                flag = 2;
+        }
+    }
+    else if(sizee == sizee2)
+    {
+        flag = 1;
+        for(int i = 0; i < str2.size(); ++i)
+        {
+            if(str[i] != str2[i])
+                flag = 2;
+
+        }
+    }
+    if(sizee > sizee2)
+    {
+        int coun = 0;
+        int ff = 0, x;
+        for(int i = 0; i < str.size(); ++i)
+        {
+            if(str[i] == ' ')
+            {
+                coun++;
+                if(!ff)
+                {
+                    x = i;
+                    ff = 1;
+                    flag = 3;
+                }
+            }
+            else
+            {
+                if(ff)
+                {
+                    str.erase(str.begin()+x, str.begin()+coun+x);
+                    i = x;
+                    ff = 0;
+                }
+                coun = 0;
+            }
+
+        }
+        str.erase(str.begin()+x, str.begin()+coun+x);
+        if(str == str2)
+        {
+            flag = 3;
+            for(int i = 0; i < str2.size(); ++i)
+            {
+                if(str[i] != str2[i])
+                    flag = 2;
+            }
+        }
+        else
+            flag = 2;
+
+    }
+    else if(sizee < sizee2)
+        flag = 2;
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str, str2;
+    int t, c = 1;
+    cin >> t;
+    flagg = 0;
+    getline(cin,str);
+
+    while(t--)
+    {
+        getline(cin,str);
+        getline(cin,str2);
+        int sizee1 = str.size();
+        int sizee2 = str2.size();
+        flag = 0;
+
+        fun(str, str2);
+        cout << "Case " << c << ": ";
+        if(flag == 1 || flagg == 1)
+            cout << "Yes" << endl, flagg = 2;
+        else if(flag == 2)
+            cout << "Wrong Answer" << endl, flagg = 2;
+        else
+            cout << "Output Format Error" << endl;
+        c++;
+    }
+    return 0;
+}
