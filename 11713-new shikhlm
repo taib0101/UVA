@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        string str, str2;
+        cin >> str >> str2;
+        int flag = 0;
+        int isvowel = 0;
+        int isvowel2 = 0;
+        if(str.size() == str2.size())
+        {
+            for(int i = 0; i < str.size(); ++i)
+            {
+                isvowel = (str[i] == 'a' || str[i] == 'A' || str[i] == 'e' || str[i] == 'E' ||
+                               str[i] == 'i' || str[i] == 'I' || str[i] == 'o' || str[i] == 'O' || str[i] == 'u'
+                               || str[i] == 'U');
+                isvowel2 = (str2[i] == 'a' || str2[i] == 'A' || str2[i] == 'e' || str2[i] == 'E' ||
+                                str2[i] == 'i' || str2[i] == 'I' || str2[i] == 'o' || str2[i] == 'O' || str2[i] == 'u'
+                                || str2[i] == 'U');
+                if(str[i] != str2[i])
+                {
+                    if(!isvowel || !isvowel2)
+                        flag = 1;
+                }
+
+            }
+            if(!flag)
+                cout << "Yes" << endl;
+            else
+                cout << "No" << endl;
+
+        }
+        else if(str.size() != str2.size())
+            cout << "No" << endl;
+
+    }
+    return 0;
+}
