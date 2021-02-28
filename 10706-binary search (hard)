@@ -1,0 +1,83 @@
+                   ///// ALLAHU AKBAR//////////
+#include<bits/stdc++.h>
+using namespace std;
+vector < unsigned long long int > vec;
+unsigned long long int x, y;
+void make_seqance()
+{
+    unsigned long long int m = 0;
+    int l = 1;
+    vec.push_back(0);
+    for(int i = 1,j = 1; ; ++i, ++j)
+    {
+        m += log10(j) + i;//here was a bugs
+        i += log10(j);//here was a bugs//        cout << "j = " << j << ",i = " << i << ",m = " << m << endl;
+        vec.push_back(m);
+        if(m >= 2147483647)
+            break;
+
+    }
+}
+void bsc(unsigned long long int pos)
+{
+    int l = 0;
+    int h = vec.size()-1;
+
+    while(l <= h)
+    {
+        if(vec[h] >= pos)
+        {
+            y = vec[h];
+            h--;
+        }
+        else if(vec[l] <= pos)
+        {
+            x = vec[l];
+            l++;
+        }
+    }
+}
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    make_seqance();
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        unsigned long long int pos, get;
+        bool bb = 0;
+        vector < int > vecc;
+        string str;
+        cin >> pos;
+        bsc(pos);//        cout << x << " " << y << endl;
+        int a = 0, j = 1;
+        for(unsigned long long int i = x+1; i <= y && !bb; ++j)
+        {
+            unsigned long long int n = j;//            cout << "j = " << j << endl;
+            while(n != 0)
+            {
+                vecc.push_back(n % 10);//                cout << "vecc = " << n % 10<< endl;
+                n /= 10;
+            }
+            int sizee = vecc.size();
+            while(sizee--)
+            {
+                str.push_back(vecc[sizee] + '0');//                cout << "vecc = " << vecc[sizee]<< endl;
+                if(i == pos)
+                {
+                    get = a;//                    cout << "get = " << get << endl;
+                    bb = 1;
+                    break;
+                }
+                i++;
+                a++;
+            }
+            vecc.clear();
+        }//        cout << "str-size = " << str.size() << endl;
+        cout << str[get] << endl;
+    }
+    return 0;
+}
+
