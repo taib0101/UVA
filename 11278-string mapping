@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+char findd(char x)
+{
+    char mapp[] = {" ~1234567890-=!@#$%^&*()_+qwertyuiop[]QWERTYUIOP{}|asdfghjkl;'ASDFGHJKL:zxcvbnm,./ZXCVBNM<>?"};
+    char gett[] = {" ~123qjlmfp/[]!@#QJLMFP?{}456.orsuyb;=$%^>ORSUYB:+|789aehtdck-&*(AEHTDCK0zx,inwvg')ZX<INWVG`"};
+
+    int get;
+    int sizee = strlen(mapp);
+    int sizee2 = strlen(gett);
+    if(x == '`')
+        return '`';
+    for(int i = 0; i < sizee; ++i)
+    {
+        if(mapp[i] == x)
+        {
+            get = i;
+
+            if(x == '?')
+                return '"';
+            break;
+        }
+    }
+    if(x == 34)
+        return '_';
+    return gett[get];
+}
+
+int main()
+{
+    string str;
+    while(getline(cin,str))
+    {
+        string str2;
+        for(int i = 0; i < str.size(); ++i)
+        {
+            str2.push_back(findd(str[i]));
+            if(str[i] == 92)
+                str2[i] = 92;
+        }
+        cout << str2 << endl;
+    }
+    return 0;
+}
