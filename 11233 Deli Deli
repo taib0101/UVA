@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int t, tt;
+    cin >> t >> tt;
+    map < string , string > mp;
+    map < string , string > :: iterator it;
+    while(t--)
+    {
+        string str, str2;
+        cin >> str >> str2;
+        mp[str2] = str;
+    }
+    while(tt--)
+    {
+        string str;
+        cin >> str;
+        int flag = 0;
+        for(it = mp.begin(); it != mp.end(); ++it)
+        {
+            if(it -> second == str)
+            {
+                flag = 1;
+                str = it -> first;
+                break;
+            }
+        }
+        if(flag)
+            cout << str << endl;
+        else
+        {
+            int sizee = str.size()-1;
+            int isvowel = (str[sizee-1] == 'a' || str[sizee-1] == 'e' ||
+            str[sizee-1] == 'i' || str[sizee-1] == 'o' || str[sizee-1] == 'u');
+
+            if(str[sizee] == 'y' && !isvowel)
+            {
+                str.erase(str.begin()+sizee, str.end());
+                str.push_back('i');
+                str.push_back('e');
+                str.push_back('s');
+            }
+            else if(str[sizee] == 'o' || str[sizee] == 's' || (str[sizee-1] == 'c' && str[sizee] == 'h')
+                    || (str[sizee-1] == 's' && str[sizee] == 'h') || str[sizee] == 'x')
+            {
+                str.push_back('e');
+                str.push_back('s');
+            }
+            else
+                str.push_back('s');
+            cout << str << endl;
+        }
+
+    }
+    return 0;
+}
