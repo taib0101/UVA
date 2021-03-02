@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+string mk(string x, int sz)
+{
+    for(int i = x.size(); i < sz; ++i)
+        x.push_back(' ');
+    return x;
+}
+
+int main()
+{
+    string str, str2[150];
+    int c = 0;
+    int sizee = 0;
+    while(getline(cin, str))
+    {
+        str2[c++] = str;
+        int ss = str.size();
+        sizee = max(sizee, ss);
+    }
+
+    for(int i = 0; i < c; ++i)
+    {
+        int ss = str2[i].size();
+        if(ss < sizee){
+            str2[i] = mk(str2[i], sizee);
+        }
+    }
+    string str3[2000];
+    int k;
+    for(int i = 0,j = 0; i < sizee; ++i)
+    {
+        for(int x = c-1; x >= 0; --x)
+        {
+            str3[j].push_back(str2[x][i]);
+        }
+        k = j++;
+    }
+    for(int i = 0; i <= k; ++i)
+        cout << str3[i] << endl;
+
+    return 0;
+}
