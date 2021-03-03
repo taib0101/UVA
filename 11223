@@ -1,0 +1,99 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    map < string, char > mp;
+    mp[".-"] = 'A';
+    mp["-..."] = 'B';
+    mp["-.-."] = 'C';
+    mp["-.."] = 'D';
+    mp["."] = 'E';
+    mp["..-."] = 'F';
+    mp["--."] = 'G';
+    mp["...."] = 'H';
+    mp[".."] = 'I';
+    mp[".---"] = 'J';
+    mp["-.-"] = 'K';
+    mp[".-.."] = 'L';
+    mp["--"] = 'M';
+    mp["-."] = 'N';
+    mp["---"] = 'O';
+    mp[".--."] = 'P';
+    mp["--.-"] = 'Q';
+    mp[".-."] = 'R';
+    mp["..."] = 'S';
+    mp["-"] = 'T';
+    mp["..-"] = 'U';
+    mp["...-"] = 'V';
+    mp[".--"] = 'W';
+    mp["-..-"] = 'X';
+    mp["-.--"] = 'Y';
+    mp["--.."] = 'Z';
+    mp["-----"] = '0';
+    mp[".----"] = '1';
+    mp["..---"] = '2';
+    mp["...--"] = '3';
+    mp["....-"] = '4';
+    mp["....."] = '5';
+    mp["-...."] = '6';
+    mp["--..."] = '7';
+    mp["---.."] = '8';
+    mp["----."] = '9';
+    mp[".-.-.-"] = '.';
+    mp["--..--"] = ',';
+    mp["..--.."] = '?';
+    mp[".----."] = 39;
+    mp["-.-.--"] = '!';
+    mp["-..-."] = '/';
+    mp["-.--."] = '(';
+    mp["-.--.-"] = ')';
+    mp[".-..."] = '&';
+    mp["---..."] = ':';
+    mp["-.-.-."] = ';';
+    mp["-...-"] = '=';
+    mp[".-.-."] = '+';
+    mp["-....-"] = '-';
+    mp["..--.-"] = '_';
+    mp[".-..-."] = '"';
+    mp[".--.-."] = '@';
+
+    int t, x = 1;
+    cin >> t;
+    string str;
+    getline(cin, str);
+    while(t--)
+    {
+        getline(cin,str);
+        string str2, str3;
+        for(int i = 0; i < str.size(); ++i)
+        {
+            if(str[i] != ' ')
+                str2.push_back(str[i]);
+            else
+            {
+                auto it = mp.find(str2);
+                if(it != mp.end())
+                {
+                    str3.push_back(it->second);
+                    str2.clear();
+
+                }
+                else
+                    str3.push_back(' ');
+            }
+        }
+        auto it = mp.find(str2);
+        if(it != mp.end())
+        {
+            str3.push_back(it->second);
+            str2.clear();
+        }
+        cout << "Message #" << x << endl;
+        cout << str3 << endl;
+        x++;
+        if(t)
+            cout << endl;
+    }
+    return 0;
+}
