@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool pr[5000002] = {0};
+vector < int > vec;
+bool depr[5000002] = {0};
+int arr[5000002] = {0};
+void sieve()
+{
+    for(int i = 2; i*i <= 5000000; ++i)
+    {
+        if(!pr[i])
+        {
+            for(int j = i*i; j <= 5000000; j += i)
+                pr[j] = 1;
+        }
+    }
+    for(int i = 2; i <= 5000000; ++i)
+    {
+        if(!pr[i])
+            vec.push_back(i);
+    }
+}
+void primefactor()
+{
+   for(int i = 2; i <= 5000000; ++i)
+   {
+       if(!pr[i])
+        depr[i] = 1;
+       else
+       {
+           int sum = 0, x = i;
+           for(int j = 0; vec[j]*vec[j] <= x && j < vec.size(); ++j)// eikhaner bug er karone tle asche i er bodole x dite hbe
+           {
+               int cp = vec[j];
+               if(x % cp == 0)
+               {
+                   while(x % cp == 0)
+                       x /= cp;
+                    sum += cp;
+               }
+           }
+           if(x != 1)// mone rakh taib shikhao vul krchili
+            sum += x;
+           if(!pr[sum])
+            depr[i] = 1;
+       }
+   }
+   int total = 0;
+   for(int i = 2; i <= 5000000; ++i)// prefix sum or cumalitive sum
+   {
+       total += depr[i];
+       arr[i] = total;
+   }
+}
+int main()
+{
+    sieve();
+    primefactor();
+    int x, y;
+    while(cin >> x>> y && x)
+    {
+        cout << arr[y] - arr[x-1] << endl;
+    }
+    return 0;
+}
