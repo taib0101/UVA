@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    map < string , int > dise;
+    map < string , int > paise;
+
+    int n;
+    string str[3000];
+    bool flag = 0;
+    while(cin >> n)
+    {
+        if(flag)
+            cout << endl;
+        flag = 1;
+        for(int i = 0; i < n; ++i)
+            cin >> str[i];
+        int nn = n;
+        while(nn--)
+        {
+            int x, y;
+            string st;
+            cin >> st;
+            cin >> x >> y;
+            int yy = y;
+
+            while(yy--)
+            {
+                dise[st] += x / y;
+                string stt;
+                cin >> stt;
+                paise[stt] += x / y;
+            }
+        }
+        for(int i = 0; i < n; ++i)
+        {
+            cout << str[i] << " " << paise[str[i]] - dise[str[i]] << endl;
+            str[i].clear();
+        }
+        dise.clear();
+        paise.clear();
+    }
+    return 0;
+}
