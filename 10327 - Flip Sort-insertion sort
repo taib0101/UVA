@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+//insertion_sort
+int main()
+{
+    int n;
+    while(cin >> n)
+    {
+        int arr[n];
+        for(int i = 0; i < n; ++i)
+            cin >> arr[i];
+        int co = 0;
+        for(int i = 0; i < n; ++i)
+        {
+            int x = arr[i];
+            int j = i - 1;
+            for( ; j >= 0 && arr[j] > x; --j)
+            {
+                arr[j+1] = arr[j];
+                co++;
+            }
+            arr[j+1] = x;
+        }
+        cout << "Minimum exchange operations : " << co << endl;
+    }
+    return 0;
+}
