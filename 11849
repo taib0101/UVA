@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    set < int > sett;
+    int n, nn;
+    while(cin >> n >> nn && n && nn)
+    {
+        int x;
+        while(n--)
+        {
+            cin >> x;
+            sett.insert(x);
+        }
+        int xx = 0;
+        while(nn--)
+        {
+            cin >> x;
+            if(sett.find(x) != sett.end())
+                xx++;
+        }
+//        cout << "xx = " << xx << endl;
+        cout << xx << endl;
+        sett.clear();
+    }
+    return 0;
+}
