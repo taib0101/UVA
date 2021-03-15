@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int n;
+    while(cin >> n)
+    {
+        long long int sum = 0, t = 3;
+        long long int nn =   n / 2 + 1;
+
+        nn = nn*nn* 2;
+        nn--;
+        while(t--)
+        {
+            sum += (nn - 2);
+        }
+        if(n == 1)
+            cout << "1" << endl;
+        else
+            cout << sum << endl;
+    }
+    return 0;
+}
