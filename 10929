@@ -1,0 +1,20 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string str;
+    while(cin >> str)
+    {
+        if(str.size() == 1 && str[0] == '0')
+            break;
+        int rm = 0;
+        for(int i = 0; i < str.size(); ++i)
+            rm = (rm * 10 + (str[i] - '0')) % 11;
+        if(!rm)
+            cout << str << " is a multiple of 11." << endl;
+        else
+            cout << str << " is not a multiple of 11." << endl;
+    }
+    return 0;
+}
