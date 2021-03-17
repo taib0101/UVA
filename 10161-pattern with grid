@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int n;
+    while(cin >> n && n)
+    {
+        long long int lvl = sqrt(n);
+        if(lvl * lvl != n)
+            lvl += 1;
+//        cout << "sq = " << lvl << endl;
+        long long int x = (lvl-1) * (lvl-1) + 1;
+        long long int y = lvl * lvl;
+//        cout << "x = " << x << ", y = " << y << endl;
+//        cout << "mid = " << (x+y) / 2 << endl;
+        long long int mid = (x+y) / 2;
+        long long int a, b;
+        if(lvl % 2 != 0)
+        {
+            if(n < mid)
+                a = lvl, b = lvl - abs(mid-n);
+            else if(n > mid)
+                a = lvl - abs(mid-n), b = lvl;
+            else
+                a = lvl, b = lvl;
+        }
+        else
+        {
+            if(n < mid)
+                a = lvl - abs(mid-n), b = lvl;
+            else if(n > mid)
+                a = lvl, b = lvl - abs(mid-n);
+            else
+                a = lvl, b = lvl;
+        }
+        cout << a << " " << b << endl;
+    }
+    return 0;
+}
