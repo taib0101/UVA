@@ -1,0 +1,38 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string str;
+    while(cin >> str)
+    {
+        if(str.size() == 1 && str[0] == '0')
+            break;
+        int rm = 0, sum = 0;
+        for(int i = 0; i < str.size(); ++i){// big integer vag
+            rm = (rm * 10 + (str[i] - '0')) % 9;
+            sum += (str[i] - '0');
+        }
+        if(!rm)
+        {
+            int co = 0;
+            while(sum % 9 == 0 && sum > 9)
+            {
+                co++;
+                int n = sum;
+                sum = 0;
+                while(n != 0)
+                {
+                    sum += n % 10;
+                    n /= 10;
+                }
+            }
+            if(sum == 9)
+                co++;
+            cout << str << " is a multiple of 9 and has 9-degree " << co << "." << endl;
+        }
+        else
+            cout << str << " is not a multiple of 9." << endl;
+    }
+    return 0;
+}
