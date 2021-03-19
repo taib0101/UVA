@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    ll x, y;
+    while(cin >> x)
+    {
+        ll n = x, sum = 0;
+        string str, tm;
+        while(n)
+        {
+            str.push_back((n%10) + '0');
+            n /= 10;
+        }
+        x = 0, y = 0;
+        string ss;
+        sort(str.begin(),str.end());
+        ss = str;
+        reverse(str.begin(),str.end());
+        int a = 0;
+        for(int i = 0; i < ss.size() && ss[i] == '0'; ++i)
+            a = i+1;
+        if(a != 0)
+        {
+            char s = ss[a];
+            for(int i = a; i > 0; --i)
+                ss[i] = '0';
+            ss[0] = s;
+
+        }
+        for(int i = 0; i < ss.size(); ++i)
+        {
+            x = x*10 + (str[i] - '0');
+            y = y*10 + (ss[i] - '0');
+        }
+        cout << x << " - " << y << " = " << abs(x - y) << " = 9 * " << abs(x-y) / 9 << endl;
+
+    }
+    return 0;
+}
