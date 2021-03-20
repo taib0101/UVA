@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    char arr[5][5];
+    int t,co = 1;
+    cin >> t;
+    while(t--)
+    {
+        char c;
+        int x, y;
+        for(int i = 0; i < 5; ++i)
+        {
+            for(int j = 0; j < 5; ++j)
+            {
+                cin >> arr[i][j];
+                if(arr[i][j] == '|')
+                    x = j;
+                else if(arr[i][j] == '>' || arr[i][j] == '<')
+                {
+                    c = arr[i][j];
+                    y = j;
+                }
+            }
+        }
+        cout << "Case " << co << ": ";
+        if(c == '>')
+        {
+            if(x < y)
+                cout << "No Ball" << endl;
+            else
+                cout << "Thik Ball" << endl;
+        }
+        else
+        {
+            if(x > y)
+                cout << "No Ball" << endl;
+            else
+                cout << "Thik Ball" << endl;
+        }
+        co++;
+//        cout << "x = " << x << ", y = " << y << endl;
+    }
+    return 0;
+}
