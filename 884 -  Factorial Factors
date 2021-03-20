@@ -1,0 +1,68 @@
+    /// ALlahu Akbar/////
+#include<bits/stdc++.h>
+using namespace std;
+bool cpp[1000002] = {0};
+int a[1000000];
+vector < int >  prime()//O(nloglogn)
+{
+    vector < int > primee;
+
+    for(int i = 4; i <= 1000000; i += 2)
+        cpp[i] = 1;
+    for(int i = 3; i * i<= 1000000; i += 2)
+    {
+        for(int j = i*i; j <= 1000000; j += i)
+        {
+            if(!cpp[j])
+                cpp[j] = 1;
+        }
+    }
+    for(int i = 2; i <= 1000000; ++i)
+    {
+        if(!cpp[i])
+            primee.push_back(i);
+    }
+    return primee;
+}
+void make(vector < int > pr)
+{
+    int sum = 0;
+    for(int i = 2; i <= 1000000; ++i)
+    {
+        if(!cpp[i])
+        {
+            sum++;
+            a[i] = sum;
+        }
+        else
+        {
+            int x = i;
+            for(int j = 0; j < pr.size() && pr[j] * pr[j] <= x; ++j)
+            {
+                int cp = pr[j];
+                if(x % cp == 0)
+                {
+                    while(x % cp == 0)
+                    {
+                        sum++;
+                        x /= cp;
+                    }
+                }
+            }
+            if(x != 1)
+                sum++;
+            a[i] = sum;
+        }
+    }
+}
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    vector < int > pr = prime();
+    make(pr);
+    int n;
+    while(cin >> n)
+        cout << a[n] << endl;
+    return 0;
+}
