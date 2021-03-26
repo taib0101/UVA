@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool bb;
+void recursive(int arr[],int i, int sum, char ch)
+{
+
+    if(ch == '+')
+        sum += arr[i];
+    else if(ch == '*')
+        sum = sum * arr[i];
+    else if(ch == '-')
+        sum = sum - arr[i];
+    if(i == 5)
+    {
+        if(sum == 23)
+            bb = 1;
+        return;
+    }
+    if(!bb)
+    {
+        recursive(arr,i+1,sum,'+');
+        recursive(arr,i+1,sum,'-');
+        recursive(arr,i+1,sum,'*');
+    }
+
+}
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int arr[6],a,b,c,d,e;
+    while(cin >> a >> b >> c >> d >> e && (a || b || c|| d|| e))
+    {
+        arr[1] = a;
+        arr[2] = b;
+        arr[3] = c;
+        arr[4] = d;
+        arr[5] = e;
+        bb = 0;
+        sort(arr+1,arr+6);// notun skhechi
+        do
+        {
+            recursive(arr,1,0,'+');// here was a bug
+        }
+        while(next_permutation(arr+1,arr+6) && !bb);// notun shikechi
+        if(bb)
+            cout << "Possible" << endl;
+        else
+            cout << "Impossible" << endl;
+    }
+    return 0;
+}
