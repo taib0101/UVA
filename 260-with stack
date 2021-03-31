@@ -1,0 +1,76 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool vis[201][201] = {0};
+char arr[201][201];
+int n;
+
+bool bfs_grid(char a,int x,int y)
+{
+    stack < pair < int, int > > qp;// with dfs cz using stack
+    vis[x][y] = 1;
+    int dx[] = {-1,-1,0,0,1,1};
+    int dy[] = {-1,0,-1,1,0,1};
+    qp.push({x,y});
+    int coun = 0;
+    while(!qp.empty())
+    {
+        x = qp.top().first;
+        y = qp.top().second;
+        qp.pop();
+        for(int i = 0; i < 6; ++i)
+        {
+            int xx = x + dx[i];
+            int yy = y + dy[i];
+
+            if(!vis[xx][yy] && arr[xx][yy] == a && xx >= 1 && xx <= n && yy >= 1 && yy <= n)
+            {
+                if(xx == n && a == 'b')
+                    return 1;
+                else if(yy == n && a == 'w')
+                    return 1;
+                vis[xx][yy] = 1;
+                qp.push({xx,yy});
+            }
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int k = 1;
+    while(cin >> n && n)
+    {
+        for(int i = 1; i <= n; ++i)
+        {
+            for(int j = 1; j <= n; ++j)
+                cin >> arr[i][j];
+        }
+
+
+        for(int i = 1; i <= n && n; ++i)
+        {
+            for(int j = 1; j <= n && n; ++j)
+            {
+//                printf("vis[%d][%d] = %d\n",i,j,vis[i][j]);
+                if(!vis[i][j])
+                {
+                    if(bfs_grid(arr[i][j],i,j))
+                    {
+                        char ch = toupper(arr[i][j]);
+                        cout<<k << " " << ch << endl;
+                        n = 0;
+                        break;
+                    }
+                }
+
+            }
+        }
+        k++;
+        memset(arr,'\0',sizeof(arr));
+        memset(vis,0,sizeof(vis));
+    }
+    return 0;
+}
