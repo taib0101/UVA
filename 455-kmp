@@ -1,0 +1,97 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+pair < bool , int > text(vector < string > str,string txt)
+{
+    bool fg;
+    for(int i = 0; i < str.size(); ++i)
+    {
+        string s = str[i];
+
+        fg = 0;
+        int t = txt.size();
+        int sx = s.size();
+        
+        if(t%sx)
+            fg = 1;
+        for(int j = 0,k = 0; j < txt.size() && !fg; ++j)
+        {
+            if(txt[j] != s[k])
+                fg = 1;
+
+            if(k == s.size()-1)
+                k = -1;
+            k++;
+        }
+        if(!fg)
+            return {1,s.size()};
+    }
+    return {0,0};
+}
+
+pair < bool, int > failure_function(string pt)
+{
+    vector < string > str;
+    int lps[100],i = 0, j = 1;
+    lps[0] = 0;
+    bool vis[100] = {0}, fg = 0;
+    int stl = pt.size() - 1;
+    while(j <= stl)
+    {
+        if(pt[i] == pt[j])
+        {
+            fg = 1;
+            lps[j] = i + 1;
+            i++;
+            j++;
+        }
+        else if(i == 0)
+        {
+            lps[j] = 0;
+            j++;
+        }
+        else
+            i = lps[i-1];
+    }
+    for(int i = 0; i <= stl; ++i)
+    {
+        if(!vis[lps[i]])
+        {
+            vis[lps[i]] = 1;
+            str.push_back(pt.substr(0,lps[i]+1));
+        }
+    }
+    pair < bool , int > pa = text(str,pt);
+    if(pa.first,fg)
+    {
+        if(pa.first)
+            return {1,pa.second};
+        return {0,0};
+        cout << pa.second << endl;
+    }
+    else
+        return {0,0};
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string pattern;
+    bool fg = 0;
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        cin >> pattern;
+        if(fg)
+            cout << endl;
+        pair < bool, int > pa = failure_function(pattern);
+        if(pa.first)
+            cout << pa.second << endl;
+        else
+            cout << pattern.size() << endl;
+        fg = 1;
+    }
+    return 0;
+}
