@@ -1,0 +1,63 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector < int > vc[1001];
+bool vis[1001];
+int dis[1001];
+
+void bfs(int s)
+{
+    dis[s] = 0;
+    vis[s] = 1;
+    queue < int > que;
+    que.push(s);
+
+    while(!que.empty())
+    {
+        int node = que.front();
+        que.pop();
+        for(int i = 0; i < vc[node].size(); ++i)
+        {
+            int next = vc[node][i];
+            if(!vis[next])
+            {
+                vis[next] = 1;
+                dis[next] = dis[node] + 1;
+                que.push(next);
+            }
+        }
+    }
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t, q = 0;
+    cin >> t;
+
+    while(t--)
+    {
+        int p, d;
+        cin >> p >> d;
+        if(q)
+            cout << endl;
+        q = 1;
+        for(int i = 1; i <= d; ++i)
+        {
+            int x, y;
+            cin >> x >> y;
+            vc[x].push_back(y);
+            vc[y].push_back(x);
+        }
+        memset(vis,0,sizeof(vis));
+        memset(dis,0,sizeof(dis));
+        bfs(0);
+        vc[0].clear();
+        for(int i = 1; i < p; ++i){
+            cout << dis[i] << endl;
+            vc[i].clear();
+        }
+
+    }
+    return 0;
+}
