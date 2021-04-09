@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct obj
+{
+    string a;
+    int b,c;
+};
+
+bool cmp(struct obj x, struct obj y)
+{
+    if(x.b != y.b)
+        return x.b > y.b;
+    if(x.c != y.c)
+        return x.c < y.c;
+    return x.a < y.a;
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t,q = 1;
+    cin >> t;
+    while(t--)
+    {
+        struct obj arr[12];
+        string str;
+        int def, ata;
+        for(int i = 0; i < 10; ++i)
+        {
+            cin >> str >> def >> ata;
+            arr[i] = {str,def,ata};
+        }
+        sort(arr,arr+10,cmp);
+
+        priority_queue < string > pq;
+        vector < string > vec;
+        for(int i = 0;i < 5; ++i)
+            pq.push(arr[i].a);
+        while(!pq.empty())
+        {
+            vec.push_back(pq.top());
+            pq.pop();
+        }
+        reverse(vec.begin(),vec.begin()+5);
+        for(int i = 5;i < 10; ++i)
+            pq.push(arr[i].a);
+        while(!pq.empty())
+        {
+            vec.push_back(pq.top());
+            pq.pop();
+        }
+        reverse(vec.begin()+5,vec.begin()+10);
+        printf("Case %d:\n",q);
+        cout << "(" << vec[0] << ", " << vec[1] << ", " << vec[2] << ", " << vec[3] << ", " << vec[4] << ")" << endl;
+        cout << "(" << vec[5] << ", " << vec[6] << ", " << vec[7] << ", " << vec[8] << ", " << vec[9] << ")" << endl;
+        q++;
+    }
+    return 0;
+}
