@@ -1,0 +1,72 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool ff;
+int t, maxx;
+vector < int > ans;
+vector < int > temp;
+void recur(vector < int > vc, int i,bool fg,int sum)
+{
+    int sz = vc.size();
+    if(fg)
+    {
+        sum += vc[i];
+        temp.push_back(vc[i]);
+        if(sum > maxx && sum < t)
+        {
+            maxx = sum;
+            ans = temp;
+        }
+    }
+    if(sum == t)
+    {
+        maxx = sum;
+        ff = 1;
+        ans.clear();
+        ans.push_back(vc[i]);
+        return;
+    }
+    if(i == sz-1)
+        return;
+    for(int j = i+1; j < sz && !ff; ++j)
+    {
+        recur(vc,j,1,sum);
+        temp.pop_back();
+        if(ff && i != -1)
+            ans.push_back(vc[i]);
+    }
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int x = 1;
+    while(cin >> t)
+    {
+        int n;
+        cin >> n;
+        vector < int > vc;
+        for(int i = 0; i < n; ++i)
+        {
+            int x;
+            cin >> x;
+            vc.push_back(x);
+        }
+        ff = 0;
+        maxx = 0;
+        recur(vc,-1,0,0);
+        if(ff)
+            reverse(ans.begin(),ans.end());
+        for(int i = 0; i < ans.size() && maxx; ++i)
+            cout << ans[i] << " ";
+        if(maxx == 0)
+        {
+            for(int i = 0; i < vc.size(); ++i)
+            cout << vc[i] << " ";
+        }
+        printf("sum:%d\n",maxx);
+        ans.clear();
+        temp.clear();
+    }
+    return 0;
+}
