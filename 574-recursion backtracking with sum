@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+vector < int > vec[100];
+vector < int > temp;
+map < ll, bool > mp;
+int a;
+bool ff;
+void recur(vector < int > vc, int i, int n,bool fg,int sum,ll mull)
+{
+    int sz = vc.size();
+    if(fg)
+    {
+        sum += vc[i];
+        temp.push_back(vc[i]);
+        mull = mull*10 + vc[i];
+    }
+    if(sum == n)
+    {
+        if(!mp[mull])
+        {
+            vec[a++] = temp;
+            mp[mull] = 1;
+        }
+    }
+
+    if(i == sz-1)
+        return;
+    for(int j = i+1; j < sz; ++j)
+    {
+        recur(vc,j,n,1,sum,mull);
+        temp.pop_back();
+    }
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int n,m;
+    while(cin >> n >> m && n && m)
+    {
+        vector < int > vc;
+        for(int i = 0; i < m; ++i)
+        {
+            int x;
+            cin >> x;
+            vc.push_back(x);
+        }
+        a = 0;
+        ff = 0;
+        recur(vc,-1,n,0,0,0);
+        printf("Sums of %d:\n",n);
+        if(a)
+        {
+            for(int i = 0; i < a; ++i)
+            {
+                for(int j = 0; j < vec[i].size(); ++j)
+                {
+                    cout << vec[i][j];
+                    if(j != vec[i].size()-1)
+                        cout << "+";
+                }
+
+                vec[i].clear();
+                cout << endl;
+            }
+        }
+        else
+            cout << "NONE" << endl;
+        mp.clear();
+    }
+    return 0;
+}
