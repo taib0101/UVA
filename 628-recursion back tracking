@@ -1,0 +1,82 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > ans[100000];
+vector < string > temp;
+int a;
+void recur(vector < string > str,string s,int i,int ii,bool fg,char ch)
+{
+    int sz = str.size();
+    int sz2 = s.size();
+    if(fg)
+    {
+        if(ch == '#')
+            temp.push_back(str[i]);
+        else
+        {
+            string x;
+            x.push_back(i+'0');
+            temp.push_back(x);
+        }
+
+    }
+    if(ii == sz2-1)
+    {
+        ans[a++] = temp;
+        return;
+    }
+
+    if(s[ii+1] == '#')
+    {
+        for(int j = 0; j < sz; ++j)
+        {
+            recur(str,s,j,ii+1,1,s[ii+1]);
+            temp.pop_back();
+        }
+
+    }
+    else if(s[ii+1] == '0')
+    {
+        for(int j = 0; j < 10; ++j)
+        {
+            recur(str,s,j,ii+1,1,s[ii+1]);
+            temp.pop_back();
+        }
+
+    }
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t;
+    while(cin >> t)
+    {
+        vector < string > str;
+        for(int i = 0; i < t; ++i)
+        {
+            string s;
+            cin >> s;
+            str.push_back(s);
+        }
+        cin >> t;
+        vector < string > str2;
+        cout << "--" << endl;
+        for(int i = 0; i < t; ++i)
+        {
+            string s;
+            cin >> s;
+            a = 0;
+            recur(str,s,-1,-1,0,'a');
+            for(int i = 0; i < a; ++i)
+            {
+                for(int j = 0; j < ans[i].size(); ++j)
+                    cout << ans[i][j];
+                cout << endl;
+                ans[i].clear();
+            }
+        }
+
+    }
+    return 0;
+}
