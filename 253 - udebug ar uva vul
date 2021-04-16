@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str;
+    while(cin >> str)
+    {
+        bool fg = 0;
+        string ss;
+        for(int i = 0; i < 6; ++i)
+            ss.push_back(str[i]);
+        str.erase(str.begin(),str.begin()+6);
+        
+        for(int i = 0,k = 5, s = 3; i < 3; ++i, --k)
+        {
+            string x;
+            x.push_back(ss[i]);
+            x.push_back(ss[k]);
+            sort(x.begin(),x.end());
+            int sz = str.size()-1;
+            
+            for(int ii = 0,kk = sz; ii < s; ++ii, --kk)
+            {
+                string y;
+                y.push_back(str[ii]);
+                y.push_back(str[kk]);
+                sort(y.begin(),y.end());
+                if(x == y)
+                {
+                    str.erase(str.begin()+ii,str.begin()+ii+1);
+                    kk--;
+                    s--;
+                    str.erase(str.begin()+kk,str.begin()+kk+1);
+                    break;
+                }
+            }
+        }
+        if(!str.empty())
+            cout << "FALSE" << endl;
+        else
+            cout << "TRUE" << endl;
+    }
+    return 0;
+}
