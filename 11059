@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int n, k = 1;
+    while(cin >> n)
+    {
+        vector < ll > vc;
+        for(int i = 0; i < n; ++i)
+        {
+            int x;
+            cin >> x;
+            vc.push_back(x);
+        }
+        ll mul , maxx = 0;
+        for(int i = 0; i < vc.size(); ++i)
+        {
+            mul = 1;
+            for(int j = i; j < vc.size(); ++j)
+            {
+                mul *= vc[j];
+                if(mul > maxx)
+                    maxx = mul;
+            }
+        }
+        printf("Case #%d: The maximum product is %lld.\n\n",k,maxx);
+        k++;
+    }
+    return 0;
+}
