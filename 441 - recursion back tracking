@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector < int > ans[1000];
+vector < int > temp;
+int a = 0;
+void recur(vector < int > vc,int i, int lvl)
+{
+    int sz = vc.size();
+    if(lvl == 6)
+    {
+        ans[a++] = temp;
+        return;
+    }
+    for(int j = i+1; j < sz; ++j)
+    {
+        temp.push_back(vc[j]);
+        recur(vc,j,lvl+1);
+        temp.pop_back();
+    }
+    return;
+}
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int n;
+    bool fg = 0;
+    while(cin >> n && n)
+    {
+        vector < int > vc;
+        if(fg)
+            cout << endl;
+        fg = 1;
+        for(int i = 0; i < n; ++i)
+        {
+            int x;
+            cin >> x;
+            vc.push_back(x);
+        }
+        a = 0;
+        recur(vc,-1,0);
+        for(int i = 0; i < a; ++i)
+        {
+            for(int j = 0; j < ans[i].size(); ++j)
+            {
+                cout << ans[i][j];
+                if(j != ans[i].size()-1)
+                    cout << " ";
+            }
+                
+            cout << endl;
+            ans[i].clear();
+        }
+    }
+    return 0;
+}
