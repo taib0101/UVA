@@ -1,0 +1,81 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool prime[101] = {0};
+vector < int > temp;
+vector < int > ans[81026];
+int a = 0;
+void sieve()
+{
+    for(int i = 4; i <= 100; i += 2)
+        prime[i] = 1;
+    for(int i = 3; i*i <= 100; i += 2)
+    {
+        for(int j = i*i; j <= 100; j += i)
+        {
+            if(!prime[j])
+                prime[j] = 1;
+        }
+    }
+}
+void recur(vector < int > vc, int i, int lvl,bool fg,bool arr[])
+{
+    int sz = vc.size() - 1;
+    if(!fg)
+        temp.push_back(1);
+    if(lvl == sz)
+    {
+        if(!prime[vc[i]+1])
+            ans[a++] = temp;
+//        cout << "return" << endl;
+        return;
+    }
+    for(int j = 1; j <= sz; ++j)
+    {
+        int ass = vc[i] + vc[j];
+        if(!prime[ass] && !arr[vc[j]])
+        {
+            arr[vc[j]] = 1;
+            temp.push_back(vc[j]);
+//            cout << "call = " << arr[vc[j]] << ", vc = " << vc[j] << endl;
+            recur(vc,j,lvl+1,1,arr);
+//            cout << "back = " << arr[vc[j]] << ", vc = " << vc[j] << endl;
+            temp.pop_back();
+            arr[vc[j]] = 0;
+        }
+    }
+    if(!fg)
+        temp.pop_back();
+}
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    sieve();
+    int n, q = 1;
+    while(cin >> n)
+    {
+        if(q != 1)
+            cout << endl;
+        vector < int > vc;
+        for(int i = 1; i <= n; ++i)
+            vc.push_back(i);
+        bool arr[17];
+        a = 0;
+        memset(arr,0,sizeof(arr));
+        recur(vc,0,0,0,arr);
+        printf("Case %d:\n",q);
+        for(int i = 0; i < a; ++i)
+        {
+            for(int j = 0; j < ans[i].size(); ++j)
+            {
+                cout << ans[i][j];
+                if(j != ans[i].size()-1)
+                    cout << " ";
+            }
+            cout << endl;
+            ans[i].clear();
+        }
+        q++;
+    }
+    return 0;
+}
