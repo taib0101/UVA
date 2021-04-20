@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    long long int k;
+    while(cin >> k)
+    {
+        int c = 0;
+        vector < pair < long long int , int > > vp;
+        for(int i = k+1; ; ++i)
+        {
+            long long int xx = (k * i) / (i - k);
+            if((k * i) % (i - k) == 0)
+            {
+//                cout << "xx = " << xx << endl;
+                vp.push_back({xx,i});
+                c++;
+            }
+
+            if(xx == i)
+                break;
+        }
+        cout << c << endl;
+        for(int i = 0; i < c; ++i)
+            printf("1/%d = 1/%lld + 1/%d\n",k,vp[i].first,vp[i].second);
+
+    }
+    return 0;
+}
