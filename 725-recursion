@@ -1,0 +1,93 @@
+                      ////// Allahu Akber ////////
+#include<bits/stdc++.h>
+using namespace std;
+bool pr[62] = {0};
+map < string, int > mpp;
+map < int, string > mpn;
+vector < char > tem;
+
+void recur(string str,map < char, bool > mp,int lvl,int mull)
+{
+    int sz = str.size()-1;
+    if(lvl == 5)
+    {
+        string st;
+        st.push_back(tem[0]);
+        st.push_back(tem[1]);
+        st.push_back(tem[2]);
+        st.push_back(tem[3]);
+        st.push_back(tem[4]);
+        mpp[st] = mull;
+        mpn[mull] = st;
+        return;
+    }
+    for(int j = 0; j <= sz; ++j)
+    {
+        if(!mp[str[j]])
+        {
+            mull = mull * 10 + (str[j] - '0');
+            tem.push_back(str[j]);
+            mp[str[j]] = 1;
+            recur(str,mp,lvl+1,mull);
+            mp[str[j]] = 0;
+            mull /= 10;
+            tem.pop_back();
+        }
+    }
+}
+pair < pair < string, string >,bool > cheack(int x, int y)
+{
+    bool arr[70] = {0};
+    auto it = mpn.find(x);
+    if(it == mpn.end())
+        return {{it->second,it->second},0};
+    if(mpn.find(y) == mpn.end())
+        return {{it->second,it->second},0};
+    string ss;
+    ss += it->second;
+    it = mpn.find(y);
+    ss += it->second;
+    for(int i = 0; i < ss.size(); ++i)
+    {
+        if(!arr[ss[i]])
+            arr[ss[i]] = 1;
+        else
+            return {{it->second,it->second},0};
+    }
+    ss = it->second;
+    it = mpn.find(x);
+    return {{ss,it->second},1};
+}
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str;
+    str = "0123456789";
+    map < char, bool > mp;
+    recur(str,mp,0,0);
+    int c;
+    bool aa = 0;
+    while(cin >> c && c)
+    {
+        bool qq = 0;
+        if(aa)
+            cout << endl;
+        aa = 1;
+        for(auto i = mpp.begin(); i != mpp.end(); ++i)
+        {
+            int nn = i->second * c;
+            if(nn > 98765)
+                break;
+            pair < pair < string, string >,bool > pa = cheack(i->second,nn);
+            if(pa.second)
+            {
+                qq = 1;
+                cout << pa.first.first << " / " << pa.first.second << " = " << c << endl;
+            }
+        }
+        if(!qq)
+            printf("There are no solutions for %d.\n",c);
+    }
+    return 0;
+}
