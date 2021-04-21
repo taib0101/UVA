@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct data
+{
+    string str;
+    int l, h;
+};
+int main()
+{
+    int t;
+    cin >> t;
+    bool b = 0;
+    while(t--)
+    {
+        struct data arr[10001];
+        int n;
+        cin >> n;
+        if(b)
+            cout << endl;
+        b = 1;
+        for(int i = 0; i < n; ++i)
+        {
+            string s;
+            int ll, hh;
+            cin >> s >> ll >> hh;
+            arr[i] = {s,ll,hh};
+        }
+        int m;
+        cin >> m;
+        map < string, bool > mp;
+        while(m--)
+        {
+            int cc, bb = 0;
+            cin >> cc;
+            string s;
+            for(int i = 0; i < n; ++i)
+            {
+                if(cc >= arr[i].l && cc <= arr[i].h)
+                {
+                    bb++;
+                    s = arr[i].str;
+                }
+            }
+            if(bb != 1)
+                cout << "UNDETERMINED" << endl;
+            else
+                cout << s << endl;
+        }
+    }
+    return 0;
+}
