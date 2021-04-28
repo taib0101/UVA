@@ -1,0 +1,96 @@
+#include<bits/stdc++.h>
+using namespace std;
+int a;
+bool brd[95][9][9];//here was bug ---> runtime error total 8 er mddhe 8 nisilam kintu 8 na niya 1 baray nite hoy
+bool safe(vector < pair < int,int > > pv, int r1, int c1)
+{
+    int r2, c2;
+    for(int i = 0; i < pv.size(); ++i)
+    {
+        r2 = pv[i].first;
+        c2 = pv[i].second;
+        if(r1 == r2)
+            return 0;
+        if(c1 == c2)
+            return 0;
+        if(abs(r1-r2) == abs(c1-c2))
+            return 0;
+    }
+    return 1;
+}
+void nqueen(int col,vector < pair < int,int > > pv)
+{
+    if(col == 9)
+    {
+        int r , c;
+        for(int i = 0; i < pv.size(); ++i)
+        {
+            r = pv[i].first;
+            c = pv[i].second;
+            brd[a][r][c] = 1;
+        }
+        a++;
+        return;
+    }
+    for(int i = 1; i <= 8; ++i)
+    {
+        if(safe(pv,i,col))
+        {
+            pv.push_back({i,col});
+            nqueen(col+1, pv);
+            pv.pop_back();
+        }
+    }
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t, r, c, z = 0;
+    vector < pair < int , int > > pv;
+    a = 1;
+    nqueen(1, pv);
+
+    cin >> t;
+    vector < int > ar[100];
+    while(t--)
+    {
+        if(z)
+            cout << endl;
+        z = 1;
+        cin >> r >> c;
+        int aa = 1;
+        for(int i = 1; i < a && r <= 8 && c <= 8; ++i)
+        {
+            if(brd[i][r][c])
+            {
+                for(int j = 1; j <= 8; ++j)
+                {
+                    for(int k = 1; k <= 8; ++k)
+                    {
+                        if(brd[i][k][j])
+                            ar[aa].push_back(k);
+                    }
+                }
+                aa++;
+            }
+        }
+        printf("SOLN       COLUMN\n");
+        printf(" #      1 2 3 4 5 6 7 8\n\n");
+        for(int i = 1; i < aa && r <= 8 && c <= 8; ++i)
+        {
+            printf("%2d      ",i);
+            int sz = ar[i].size();
+            for(int j = 0; j < sz; ++j)
+            {
+                cout << ar[i][j];
+                if(j != sz-1)
+                    cout << " ";
+            }
+            ar[i].clear();
+            cout << endl;
+        }
+    }
+    return 0;
+}
