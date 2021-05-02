@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > rs;
+
+void recur(char c,map < char , int > arr,int nh, int h,int n,int i,vector < char > temp)
+{
+    if(c == '0' || c == '1')
+    {
+        temp.push_back(c);
+        arr[c]++;
+    }
+    if(arr['0'] > nh || arr['1'] > n)
+        return;
+    if(i == n)
+    {
+        string str;
+        if(arr['0'] == nh && arr['1'] == h)
+        {
+            for(i = 0 ; i < temp.size(); ++i)
+                str.push_back(temp[i]);
+            rs.push_back(str);
+        }
+        return;
+    }
+    recur('0',arr,nh,h,n,i+1,temp);
+    recur('1',arr,nh,h,n,i+1,temp);
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t,q = 0;
+    cin >> t;
+    while(t--)
+    {
+        if(q)
+            cout << endl;
+        q = 1;
+        int n, h;
+        cin >> n >> h;
+        map < char , int > mp;
+        vector < char > temp;
+        recur('3',mp,abs(n-h),h,n,0,temp);
+        for(int i = 0; i < rs.size(); ++i)
+            cout << rs[i] << endl;
+        rs.clear();
+    }
+    return 0;
+}
