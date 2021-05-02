@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 10;
+vector < string > dfs(int i,string st, vector < string > ans,char str[],char arr[N][N],int x, int y)
+{
+    int dx[] = {0,-1,0};
+    int dy[] = {1,0,-1};
+    if(str[i] != '@')
+        ans.push_back(st);
+    if(str[i] == '#')
+        return ans;
+    for(int z = 0; z < 3; ++z)
+    {
+        int xx = x + dx[z];
+        int yy = y + dy[z];
+        if(arr[xx][yy] == str[i+1])
+        {
+            string stt;
+            if(dx[z] == 0 && dy[z] == 1)
+                stt = "right";
+            if(dx[z] == -1 && dy[z] == 0)
+                stt = "forth";
+            if(dx[z] == 0 && dy[z] == -1)
+                stt = "left";
+            return dfs(i+1,stt,ans, str, arr,xx,yy);
+        }
+    }
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int m, n, x, y;
+        cin >> m >> n;
+        char arr[N][N];
+        for(int i = 0; i < m; ++i)
+        {
+            for(int j = 0; j < n; ++j)
+            {
+                cin >> arr[i][j];
+                if(arr[i][j] == '@')
+                {
+                    x = i;
+                    y = j;
+                }
+            }
+        }
+        char str[] = "@IEHOVA#";
+        vector < string > ans;
+        vector < string > vc = dfs(0,"dwn",ans,str,arr, x, y);
+        for(int i = 0; i < vc.size(); ++i)
+        {
+            cout << vc[i];
+            if(i != vc.size()-1)
+                cout << " ";
+        }
+
+        cout << endl;
+    }
+    return 0;
+}
