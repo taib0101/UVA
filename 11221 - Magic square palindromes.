@@ -1,0 +1,77 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 1000;
+bool cmp(int r, int c, int t,char arr[N][N])
+{
+    string x, y;
+    for(int i = 0; i < t; ++i)
+    {
+        x.push_back(arr[r][i]);
+        y.push_back(arr[i][c]);
+    }
+    reverse(x.begin(),x.end());
+    if(x == y)
+        return 1;
+    return 0;
+}
+
+int main()
+{
+//    abcd befc cfeb dcbx
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string str1,str2,enter;
+    int t,c = 1;
+    cin>>t;
+    getline(cin,enter);
+
+    while(t--)
+    {
+        getline(cin,str1);
+        int l = str1.size();
+        for(int i = 0; i < l; ++i)
+        {
+            if(isalpha(str1[i]))
+            {
+                if(isupper(str1[i]))
+                    str1[i] = tolower(str1[i]);
+               str2.push_back(str1[i]);
+            }
+        }
+        l = str2.size();
+        int sl = sqrt(l);
+        bool tt;
+        printf("Case #%d:\n",c);
+        if(sl * sl == l)
+        {
+            tt = 0;
+            char arr[N][N];
+            for(int i = 0,x = 0; i < l; ++x)
+            {
+                for(int j = 0; j < sl; ++j, ++i)
+                    arr[x][j] = str2[i];
+            }
+            int co = 0;
+            for(int i = 0,k = sl-1; i < sl; ++i, --k)
+            {
+                if(cmp(i,k,sl,arr))
+                    co++;
+                else
+                {
+                    tt = 1;
+                    break;
+                }
+
+            }
+            if(!tt)
+                cout << co << endl;
+            else
+                cout<<"No magic :(\n";
+        }
+        else
+            cout<<"No magic :(\n";
+        c++;
+        str2.clear();
+    }
+    return 0;
+}
