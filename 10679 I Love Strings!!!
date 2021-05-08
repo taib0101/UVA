@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-
+// kmp_ string matching algorithm
 bool kmp_match(string s,string t,int lps[])
 {
     int sz = s.size();
