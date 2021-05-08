@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 110;
+int lcs(char xx[],char yy[],int xs,int ys,int dp[N][N])
+{
+    int get = 0;
+    for(int i = 1; i <= xs; ++i)
+    {
+        for(int j = 1; j <= ys; ++j)
+        {
+            if(xx[i] == yy[j])
+                dp[i][j] = dp[i-1][j-1] + 1;
+            else
+                dp[i][j] = max(dp[i][j-1],dp[i-1][j]);
+            get = dp[i][j];
+        }
+    }
+    return get;
+}
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    string x, y;
+    int k = 1;
+    while(getline(cin , x) && x[0] != '#')
+    {
+        getline(cin , y);
+        char xx[110], yy[110];
+        int xs = x.size();
+        int ys = y.size();
+        for(int i = 1; i <= xs; ++i)
+            xx[i] = x[i-1];
+        for(int i = 1; i <= ys; ++i)
+            yy[i] = y[i-1];
+        int dp[N][N];
+        memset(dp,0,sizeof(dp));
+        printf("Case #%d: you can visit at most %d cities.\n",k,lcs(xx,yy,xs,ys,dp));
+        k++;
+    }
+    return 0;
+}
