@@ -1,0 +1,71 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+bool kmp_match(string s,string t,int lps[])
+{
+    int sz = s.size();
+    int i = 0,j = 0;
+    while(i < sz)
+    {
+        if(s[i] == t[j])
+        {
+            if(j == t.size()-1)
+                return 1;
+            i++,j++;
+        }
+
+        else if(j != 0)
+            j = lps[j-1];
+        else
+            i++;
+    }
+    return 0;
+}
+
+bool failure_fun(string s,string t)
+{
+    int lps[1010];
+    int i = 0, j = 1, sz = t.size();
+    while(j < sz)
+    {
+        if(t[i] == t[j])
+        {
+            lps[j] = i + 1;
+            i++;
+            j++;
+        }
+        else if(i == 0)
+        {
+            lps[j] = 0;
+            j++;
+        }
+        else
+            i = lps[i-1];
+    }
+    if(kmp_match(s,t,lps))
+        return 1;
+    return 0;
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        string str;
+        cin >> str;
+        int tt;
+        cin >> tt;
+        while(tt--)
+        {
+            string str2;
+            cin >> str2;
+            if(failure_fun(str,str2))
+                cout << "y" << endl;
+            else
+                cout << "n" << endl;
+        }
+    }
+    return 0;
+}
