@@ -1,0 +1,122 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+vector < string > make(string x)
+{
+    string y;
+    vector < string > vc;
+    for(int i = 0; i < x.size(); ++i)
+    {
+        if(x[i] != ' ')
+            y.push_back(x[i]);
+        else if(!y.empty())
+        {
+            vc.push_back(y);
+            y.clear();
+        }
+
+    }
+    if(!y.empty())
+        vc.push_back(y);
+    return vc;
+}
+
+int main()
+{
+    int k = 1;
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    map < string, int > mp;
+    mp["one"] = 1;
+    mp["two"] = 2;
+    mp["three"] = 3;
+    mp["four"] = 4;
+    mp["five"] = 5;
+    mp["six"] = 6;
+    mp["seven"] = 7;
+    mp["eight"] = 8;
+    mp["nine"] = 9;
+    mp["ten"] = 10;
+    mp["eleven"] = 11;
+    mp["twelve"] = 12;
+    mp["thirteen"] = 13;
+    mp["fourteen"] = 14;
+    mp["fifteen"] = 15;
+    mp["sixteen"] = 16;
+    mp["seventeen"] = 17;
+    mp["eighteen"] = 18;
+    mp["nineteen"] = 19;
+    mp["twenty"] = 20;
+    mp["thirty"] = 30;
+    mp["forty"] = 40;
+    mp["fifty"] = 50;
+    mp["sixty"] = 60;
+    mp["seventy"] = 70;
+    mp["eighty"] = 80;
+    mp["ninety"] = 90;
+    string st;
+    while(getline(cin,st))
+    {
+////        one hundred twenty thousand
+////        cout << "k = " << k << endl;
+        bool bb = 0;
+        vector < string > vc = make(st);
+        int co, sum = 0;
+        vector < int > vcc;
+        for(int i = 0; i < vc.size(); ++i)
+        {
+            co = 1;
+            if(vc[i] == "negative")
+                bb = 1,i++;
+            if(i+1 < vc.size())
+            {
+                if(vc[i] != "negative")
+                {
+                    if(vc[i+1] == "hundred" || vc[i+1] == "thousand" || vc[i+1] == "million")
+                    {
+                        if(vc[i+1] == "hundred")
+                        {
+                            sum += mp[vc[i]];
+                            sum *= 100;
+                        }
+                        else if(vc[i+1] == "thousand")
+                        {
+                            sum += mp[vc[i]];
+                            sum *= 1000;
+                            vcc.push_back(sum);
+                            sum = 0;
+                        }
+                        else
+                        {
+                            sum += mp[vc[i]];
+                            sum *= 1000000;
+                            vcc.push_back(sum);
+                            sum = 0;
+                        }
+                        i++;
+                        if(i+1 < vc.size())
+                        {
+                            if(vc[i+1] == "hundred" || vc[i+1] == "thousand" || vc[i+1] == "million")
+                                i--;
+                        }
+                    }
+                    else
+                        sum += mp[vc[i]];
+                }
+            }
+            else
+                sum += mp[vc[i]];
+        }
+        vcc.push_back(sum);
+        sum = 0;
+        for(int i = 0; i < vcc.size(); ++i)
+        {
+            sum += vcc[i];
+//            cout << vcc[i] << endl;
+        }
+        if(bb && sum != 0)
+            cout << "-";
+        cout << sum << endl;
+    }
+    return 0;
+}
