@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+vector < string > make(string x)
+{
+    vector < string > vc;
+    string y;
+    for(int i = 0; i < x.size(); ++i)
+    {
+        if(x[i] != ' ')
+            y.push_back(x[i]);
+        else if(!y.empty())
+        {
+            vc.push_back(y);
+            y.clear();
+        }
+    }
+    if(!y.empty())
+        vc.push_back(y);
+    return vc;
+}
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    int t, k = 1;
+    cin >> t;
+    string str;
+    t++;
+    getline(cin,str);
+    bool b = 0;
+    while(t--)
+    {
+        bool bb = 1;
+        while(getline(cin,str))
+        {
+            if(str.empty())
+                break;
+            vector < string > vc = make(str);
+            string x;
+            for(int i = 0,j = 0; i < vc.size(); ++i)
+            {
+//                cout << vc[i] << endl;
+                if(j < vc[i].size())
+                {
+                    x.push_back(vc[i][j]);
+                    j++;
+                }
+            }
+            if(bb)
+            {
+                printf("Case #%d:\n",k);
+                k++;
+                b = 1;
+            }
+
+            bb = 0;
+            cout << x << endl;
+        }
+        if(b && t != 0)
+            cout << endl;
+    }
+    return 0;
+}
