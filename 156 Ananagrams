@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+map < string , vector < string > > mp;
+
+void make(string x)
+{
+    vector < string > vc;
+    string y;
+    for(int i = 0; i < x.size(); ++i)
+    {
+        if(x[i] != ' ')
+            y.push_back(x[i]);
+        else if(!y.empty())
+        {
+            vc.push_back(y);
+            y.clear();
+        }
+    }
+    if(!y.empty())
+        vc.push_back(y);
+    y.clear();
+    for(int i = 0; i < vc.size(); ++i)
+    {
+         for(int j = 0; j < vc[i].size(); ++j)
+         {
+             if(isupper(vc[i][j]))
+                y.push_back(tolower(vc[i][j]));
+             else
+                y.push_back(vc[i][j]);
+         }
+         sort(y.begin(),y.end());
+         mp[y].push_back(vc[i]);
+         y.clear();
+    }
+}
+
+int main()
+{
+    string st;
+    set < string > stt;
+    while(getline(cin,st))
+    {
+        if(st[0] == '#' && st.size() == 1)
+            break;
+        make(st);
+    }
+    for(auto i = mp.begin(); i != mp.end(); ++i)
+    {
+        if(i -> second.size() == 1)
+            stt.insert(i -> second[0]);
+    }
+    for(auto it = stt.begin(); it != stt.end(); ++it)
+        cout << *it << endl;
+    return 0;
+}
