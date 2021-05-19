@@ -39,12 +39,9 @@ int main()
     return 0;
 }
 ..................................................
-eita wrong answer aise
-
-
 #include<bits/stdc++.h>
 using namespace std;
-
+O(n)
 int lps(string x)
 {
     int n = x.size();
@@ -70,11 +67,16 @@ int lps(string x)
             }
         }
     }
-    return dp[n-1];
+    int maxx = 0;
+    for(int i = 0; i < n; ++i)
+        maxx = max(dp[i],maxx);
+    return maxx;
 }
 
 int main()
 {
+//    freopen("input,txt","r",stdin);
+//    freopen("output,txt","w",stdout);
     int t;
     cin >> t;
     string x;
