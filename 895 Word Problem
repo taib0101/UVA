@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("input.txt","r",stdin);
+//    freopen("output.txt","w",stdout);
+    vector < string > vc;
+    string str;
+    while(cin >> str && str[0] != '#')
+        vc.push_back(str);
+
+    getline(cin,str);
+    while(getline(cin,str) && str[0] != '#')
+    {
+        int arr[200], arr2[200];
+        memset(arr,0,sizeof(arr));
+        for(int i = 0; i < str.size(); ++i)
+        {
+            if(str[i] != ' ')
+                arr[str[i]]++;
+        }
+        int sum = 0;
+        for(int i = 0; i < vc.size(); ++i)
+        {
+            memset(arr2,0,sizeof(arr2));
+            bool bb = 1;
+            for(int j = 0; j < vc[i].size(); ++j)
+                arr2[vc[i][j]]++;
+            for(int j = 0; j < vc[i].size(); ++j)
+            {
+                if(arr[vc[i][j]] < arr2[vc[i][j]])
+                {
+                    bb = 0;
+                    break;
+                }
+            }
+            if(bb)
+                sum++;
+        }
+        cout << sum << endl;
+    }
+    return 0;
+}
