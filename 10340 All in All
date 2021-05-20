@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+bool cmp(string x,string y)
+{
+    int j = 0;
+    for(int i = 0; i < y.size(); ++i)
+    {
+        if(y[i] == x[j])
+            j++;
+    }
+    if(j == x.size())
+        return 1;
+    return 0;
+}
+
+int main()
+{
+    string x, y;
+    while(cin >> x >> y)
+    {
+        if(x.size() > y.size())
+            swap(x,y);
+        if(cmp(x,y))
+            cout << "Yes" << endl;
+        else
+            cout << "No" << endl;
+    }
+    return 0;
+}
