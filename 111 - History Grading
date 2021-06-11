@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+using namespace std;
+//lcs
+int main()
+{
+    int t;
+    while(cin >> t)
+    {
+        int tt;
+        int r[t+10];
+        for(int i = 1; i <= t; ++i)
+        {
+            cin >> tt;
+            r[tt] = i;
+        }
+        int o[t+10];
+        while(cin >> tt)
+        {
+            memset(o,0,sizeof(o));
+            o[tt] = 1;
+            for(int i = 2; i <= t; ++i)
+            {
+                cin >> tt;
+                o[tt] = i;
+            }
+            int dp[t+10][t+10];
+            memset(dp,0,sizeof(dp));
+
+            for(int i = 1; i <= t; ++i)
+            {
+                for(int j = 1; j <= t; ++j)
+                {
+                    if(r[i] == o[j])
+                        dp[i][j] = dp[i-1][j-1] + 1;
+                    else
+                        dp[i][j] = max(dp[i][j-1],dp[i-1][j]);
+                }
+            }
+            cout << dp[t][t] << endl;
+        }
+    }
+    return 0;
+}
