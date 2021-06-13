@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int low_bond(vector < int > lis,int a,int j)
+{
+    int mid, i, l = 0, h = lis.size() - 1;
+    while(l <= h)
+    {
+        mid = (l + h) / 2;
+        if(lis[mid] > a)
+            i = mid, h = mid - 1;
+        else
+            l = mid + 1;
+    }
+    return i;
+}
+
+int main()
+{
+    int n, c = 1;
+    vector < int > nm;
+    while(cin >> n && n != -1)
+    {
+        if(c != 1)
+            cout << endl;
+        nm.push_back(n);
+        while(cin >> n && n != -1)
+            nm.push_back(n);
+        vector < int > lis;
+        reverse(nm.begin(),nm.end());
+        lis.push_back(nm[0]);
+        for(int i = 1; i < nm.size(); ++i)
+        {
+            if(lis.back() <= nm[i])
+                lis.push_back(nm[i]);
+            else
+            {
+                int j = low_bond(lis,nm[i],i);
+                lis[j] = nm[i];
+            }
+
+        }
+        printf("Test #%d:\n",c);
+        printf("  maximum possible interceptions: %d\n",lis.size());
+        c++;
+        nm.clear();
+    }
+    return 0;
+}
