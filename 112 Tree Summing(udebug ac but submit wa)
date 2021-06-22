@@ -1,0 +1,235 @@
+#include<bits/stdc++.h>
+using namespace std;
+int kk;
+pair < int, pair < string,bool > >  make(string str)
+{
+    int sum = 0;
+    bool bc = 0,bp = 0;
+    if(str[0] == '-')
+    {
+        bc = 1;
+        if(isdigit(str[1]))
+            bp = 1;
+        //str.erase(str.begin()+0,str.begin()+1);
+    }
+    if(isdigit(str[0]))
+        bp = 1;
+    for(int i = 0; i < str.size(); ++i)
+    {
+        if(str[i] == ' ')
+        {
+            str.erase(str.begin()+i,str.begin()+i+1);
+            --i;
+        }
+    }
+    if(bc)
+        str.erase(str.begin(),str.begin()+1);
+    for(int i = 0; i < str.size() && (isdigit(str[i]) || str[i] == ' '); ++i)
+    {
+        if(str[i] != ' ')
+            sum = (sum*10) + (str[i] - '0');
+        str.erase(str.begin()+i,str.begin()+i+1);
+        i--;
+    }
+    if(bc == 1)
+        sum = sum * -1;
+    //cout << "here = " << sum << ",str =" << str << endl;
+        //str.erase(str.begin(),str.begin()+1);
+    if(bp)
+        return {sum,{str,1}};
+    return {sum,{str,0}};
+}
+
+struct node
+{
+    int x;
+    struct node *left, *right;
+};
+
+void tree(struct node *ptr,string m,bool b)
+{
+    if(m[kk] == ')' || kk == m.size()-1)
+    {
+        kk++;
+        return;
+    }
+    if(isdigit(m[kk]) || m[kk] == '-')
+    {
+        struct node *root = (struct node *) malloc (sizeof(struct node));
+        int sum = 0;
+        bool bc = 0;
+        if(m[kk] == '-')
+        {
+            bc = 1;
+            kk++;
+        }
+        for(int j = kk; isdigit(m[j]); ++j)
+            sum = (sum * 10) + (m[j] - '0'),kk = j;
+        if(bc)
+            sum = sum * -1;
+        root -> x = sum;
+        root -> left = NULL;
+        root -> right = NULL;
+        // cout << "hoy nai = " << sum << endl;
+        // cout << "itr = " << ptr << endl;
+        if(b == 0)
+        {
+            kk++;
+            ptr -> left = root;
+            tree(ptr -> left,m,0);
+        }
+        else
+        {
+            kk++;
+            ptr -> right = root;
+            tree(ptr -> right,m,1);
+        }
+    }
+    else if(m[kk] == '(')
+    {
+        kk++; 
+        tree(ptr,m,0);
+        kk++;
+        tree(ptr,m,1);
+        kk++;
+    }
+
+}
+int bs;
+void show(struct node *ptr,int sum,int n)
+{
+    if(ptr == NULL)
+    {
+        if(sum == n)
+        {
+            bs = 1;
+            //cout << "bsyes" << endl;
+        }
+        return;
+    }
+    sum += ptr -> x;
+    //printf("ele = %d, sum = %d\n",ptr -> x,sum);
+    if(!bs)
+    {
+        show(ptr -> left,sum,n);
+        // cout << ptr -> x << endl;
+        show(ptr -> right,sum,n);
+    }
+
+}
+
+int main()
+{
+    // freopen("input.txt","r",stdin);
+    // freopen("output.txt","w",stdout);
+    int n;
+    string str,m;
+    vector < string > st;
+    bool b = 0;
+    getline(cin,str);
+    pair < int , pair < string, bool > > p = make(str);
+    n = p.first;
+    m  = m + p.second.first;
+    vector < string > vc;
+    // cout << "n = " << p.first << " , str = " << p.second << endl;
+    while(getline(cin,str))
+    {
+        if(!str.empty())
+        {
+            p =  make(str);
+            if(p.second.second)
+            {
+                bs = 0;
+                struct node *head = NULL;
+                head = (struct node *) malloc (sizeof(struct node));
+                if(m[1] != ')')
+                {
+                    int k2 = 2,sum = 0;
+                    if(m[1] == '-')
+                    {
+                        for(int i = 2; isdigit(m[i]); ++i)
+                            sum = sum * 10 + (m[i] - '0'),k2 = i;
+                        k2++;
+                        sum = sum * -1;
+                        //cout << "head sum = " << sum << endl;
+                    }
+                    else
+                    {
+                        for(int i = 1; isdigit(m[i]); ++i)
+                            sum = sum * 10 + (m[i] - '0'),k2 = i;
+                        k2++;
+                }
+                    head -> x = sum;
+                    head -> left = NULL;
+                    head -> right = NULL;
+                    kk = k2;
+                    tree(head,m,0);
+                    show(head,0,n);
+                }
+                // vc.push_back(m);
+                if(bs)
+                    vc.push_back("yes");
+                else
+                    vc.push_back("no");
+                // cout << "ok= " << m << endl;
+                m.clear();
+                m = m + p.second.first;
+                n = p.first;
+            }
+            else
+            {
+                m = m + p.second.first;
+            }
+            
+            
+        }
+
+    }
+    p = make(str);
+    if(p.second.second)
+    {
+        m = p.second.first;
+        n = p.first;
+    }
+    else
+    {
+        m.clear();
+        m = m + p.second.first;
+    }
+    bs = 0;
+    struct node *head = NULL;
+    head = (struct node *) malloc (sizeof(struct node));
+    if(m[1] != ')')
+    {
+        int k2 = 2,sum = 0;
+        if(m[1] == '-')
+        {
+            for(int i = 2; isdigit(m[i]); ++i)
+                sum = sum * 10 + (m[i] - '0'),k2 = i;
+            k2++;
+            sum = sum * -1;
+            //cout << "head sum = " << sum << endl;
+        }
+        else
+        {
+            for(int i = 1; isdigit(m[i]); ++i)
+                sum = sum * 10 + (m[i] - '0'),k2 = i;
+            k2++;
+        }
+        head -> x = sum;
+        head -> left = NULL;
+        head -> right = NULL;
+        kk = k2;
+        tree(head,m,0);
+        show(head,0,n);
+    }
+    if(bs)
+        vc.push_back("yes");
+    else
+        vc.push_back("no");
+    for(int i = 0; i < vc.size(); ++i)
+    {
+        cout << vc[i] << endl;
+    }
+    return 0;
+}
