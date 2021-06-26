@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+ll make(vector < int > vc)
+{
+    ll sum = 0;
+    for(int i = vc.size()-1; i >= 0; --i)
+        sum = (sum * 10) + vc[i];
+    return sum;
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n;
+        cin >> n;
+        if(n == 1)
+            cout << "1" << endl;
+        else if(n <= 1000000000)
+        {
+            bool b = 0;
+            vector < int > vc;
+            for(int i = 9; i >= 2; --i)
+            {
+                if(n % i == 0)
+                {
+                    while(n % i == 0)
+                    {
+                        vc.push_back(i);
+                        n = n / i;
+                    }
+                }
+            }
+            if(n == 1)
+                cout << make(vc) << endl;
+            else
+                cout << "-1" << endl;
+        }
+        else
+            cout << "-1" << endl;
+    }
+    return 0;
+}
