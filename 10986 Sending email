@@ -1,0 +1,95 @@
+***   Allahu Akbar ****
+*** Alhamdulillah ****
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 20001;
+struct node
+{
+    int vertex;
+    int cost_vertex;
+};
+class cmp
+{
+    public :
+        bool operator() (node x,node y)
+        {
+            return x.cost_vertex > y.cost_vertex;
+        }
+};
+pair < int , int > dijkstra(map < pair < int,int > , int > cost,vector < int > g[],int s, int t)
+{
+    int inf = 1000000000;
+    int d[N];
+    fill(d,d+N,inf);
+    d[s] = 0;
+    int vis[N];
+    memset(vis,0,sizeof(vis));
+    priority_queue < node , vector < node > , cmp > q;
+    q.push({s,0});
+    bool b = 0;
+    if(s == t)
+        return {0,1};
+    while(!q.empty())
+    {
+        int u = q.top().vertex;
+        q.pop();
+        for(int i = 0; i < g[u].size() && !vis[u]; ++i)
+        {
+            int v = g[u][i];
+            if(d[u] + cost[{u,v}] < d[v])
+            {
+                if(v == t)
+                    b = 1;
+                d[v] = d[u] + cost[{u,v}];
+                //cout << "u = " << u  << ", v = " << v << ", dis = " << d[v] << endl;
+                q.push({v,d[v]});
+            }
+        }
+        vis[u] = 1;
+    }
+    //cout << "dis = " << d[t] << endl;
+    if(b)
+        return {d[t],1};
+    return {0,0};
+}
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+    int c = 1;
+    while(t--)
+    {
+        int n, m, s, t;
+        cin >> n >> m >> s >> t;
+        map < pair < int , int > , int > cost;
+        map < pair < int , int > , bool > mm;
+        vector < int > grph[20001];
+        bool b = 0;
+        for(int i = 0; i < m; ++i)
+        {
+            int u, v, w;
+            cin >> u >> v >> w;
+            if(u == s || v == s)
+                b = 1;
+            if(!mm[{u,v}])
+            {
+                mm[{u,v}] = 1;
+                cost[{u,v}] = 10000000;
+                cost[{v,u}] = 10000000;
+            }
+            grph[u].push_back(v);
+            grph[v].push_back(u);
+            cost[{u,v}] = min(cost[{u,v}],w);
+            cost[{v,u}] = min(cost[{v,u}],w);
+        }
+        pair < int , bool > p = dijkstra(cost,grph,s,t);
+        if(p.second && b)
+            printf("Case #%d: %d\n",c,p.first);
+        else
+            printf("Case #%d: unreachable\n",c);
+        c++;
+    }
+    return 0;
+}
