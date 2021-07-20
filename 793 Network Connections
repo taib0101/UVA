@@ -1,0 +1,81 @@
+#include<bits/stdc++.h>
+using namespace std;
+pair < char, pair < int , int > > make(string x)
+{
+    stringstream ss(x);
+    char c;
+    int a, b;
+    ss >> c >> a >> b;
+    return {c,{a,b}};
+}
+int find(int a,int *arr)
+{
+    if(*(arr+a) == a)
+        return a;
+    return find(*(arr+a),arr);
+}
+void Union(int a,int b,int *arr)
+{
+    int v = find(a,arr);
+    int u = find(b,arr);
+    if(v != u)
+        *(arr + v) = u;
+}
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+    t++;
+    string str;
+    bool l = 0;
+    getline(cin,str);
+    bool bb = 0;
+    while(t--)
+    {
+        if(l && bb)
+            cout << endl;
+        l = 1;
+        bool b = 1;
+        int arr[100000];
+        int cc = 0;
+        int qq = 0;
+        
+        while(getline(cin,str) && !str.empty())
+        {
+            if(b)
+            {
+                stringstream ss(str);
+                int n;
+                ss >> n;
+                b = 0;
+                //cout << "n = " << n << endl;
+                for(int i = 1; i <= n; ++i)
+                    arr[i] = i;
+            }
+            else
+            {
+                pair < char, pair < int , int > > pp = make(str);
+                int a = pp.second.first;
+                int b = pp.second.second;
+                if(pp.first == 'c')
+                    Union(a,b,arr);
+                else
+                {
+                    if(find(a,arr) == find(b,arr))
+                        cc++;
+                    else
+                        qq++;
+                }
+                //cout << "1 = " << pp.first << " , 2 = " << pp.second.first << " , 3 = " << pp.second.second << endl;
+            }
+            bb = 1;
+        }
+        if(bb)
+        {
+            cout << cc << "," << qq << endl;
+        }
+    }
+    return 0;
+}
