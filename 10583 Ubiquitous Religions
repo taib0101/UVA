@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int find(int a,int *arr)
+{
+    if(*(arr+a) == a)
+        return a;
+    *(arr+a) = find(*(arr+a),arr);
+    return *(arr+a);
+}
+
+void Union(int u,int v,int *arr)
+{
+    u = find(u,arr);
+    v = find(v,arr);
+    if( u != v)
+        *(arr + v) = u;
+}
+
+int main()
+{
+    int n, m;
+    int c = 1;
+    int arr[ 50010];
+    while(cin >> n >> m && n && m)
+    {
+        for(int i = 1; i <= n; ++i)
+            arr[i] = i;
+        int u, v;
+        while(m--)
+        {
+            cin >> u >> v;
+            Union(u,v,arr);
+        }
+        int co = 0;
+        for(int i = 1; i <= n; ++i)
+        {
+            if(arr[i] == i)
+                co++;
+        }
+        printf("Case %d: %d\n",c,co);
+        c++;
+    }
+    return 0;
+}
