@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int find(int u,int *arr)
+{
+    if(*(arr + u) == u)
+        return u;
+    *(arr + u) = find(*(arr + u),arr);
+    return *(arr + u);
+}
+
+void Union(int u,int v,int *arr)
+{
+    u = find(u,arr);
+    v = find(v,arr);
+    if(u != v)
+        *(arr + v) = u;
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n, m; 
+        cin >> n >> m;
+        int arr[n+10];
+        for(int i = 1; i <= n; ++i)
+            arr[i] = i;
+        while(m--)
+        {
+            int u, v;
+            cin >> u >> v;
+            Union(u,v,arr);
+        }
+        int a[n+10];
+        memset(a,0,sizeof(a));
+        for(int i = 1; i <= n; ++i)
+            a[find(i,arr)]++;
+        int maxx = 0;
+        for(int i = 1; i <= n; ++i)
+            maxx = max(maxx,a[i]);
+        cout << maxx << endl;
+    }
+    return 0;
+}
