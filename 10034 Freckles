@@ -1,0 +1,106 @@
+////////////////////Allahu Akbar////////////////////
+#include<bits/stdc++.h>
+using namespace std;
+
+struct ele
+{
+    float x1;
+    float x2;
+    float y1;
+    float y2;
+    float cc;
+};
+bool cmp(struct ele aa,struct ele bb)
+{
+    return aa.cc < bb.cc;
+}
+map < pair < float ,float >, pair < float ,float > > mpp;
+map < pair < float ,float > , int > r;
+pair < float , float > find(float a1,float b1)
+{
+    auto it = mpp.find({a1,b1});
+    if(it->second.first == a1 && it->second.second == b1)
+        return {a1,b1};
+    mpp[{a1,b1}] = find(it->second.first,it->second.second);
+    return mpp[{a1,b1}];
+    
+}
+void Union(float a1,float b1,float a2,float b2,float c,float *sum)
+{
+    pair < float , float > u = find(a1,b1);
+    pair < float , float  > v = find(a2,b2);
+    float u1 = u.first;
+    float u2 = u.second;
+    float v1 = v.first;
+    float v2 = v.second;
+    if(mpp[{u1,u2}] != mpp[{v1,v2}])
+    {
+        if(r[{u1,u2}] > r[{v1,v2}])
+            mpp[{v1,v2}] = {u1,u2};
+        else if(r[{u1,u2}] < r[{v1,v2}])
+            mpp[{u1,u2}] = {v1,v2};
+        else
+        {
+            mpp[{v1,v2}] = {u1,u2};
+            r[{u1,u2}]++;
+        }
+        *sum += c;
+        //cout << "su = " << *sum << endl;
+        auto it = mpp.find({u1,u2});
+        //cout << it->second.first << " " << it->second.second << endl;
+    }
+}
+
+int main()
+{
+    bool bl = 0;
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        if(bl)
+            cout << endl;
+        bl = 1;
+        mpp.clear();
+        r.clear();
+        int n;
+        vector < pair < float, float > > vp;
+        cin >> n;
+        while(n--)
+        {
+            float x, y;
+            cin >> x >> y;
+            mpp[{x,y}] = {x,y};
+            vp.push_back({x,y});
+        }
+        struct ele ar[10010];
+        int z = 0;
+        for(int i = 0; i < vp.size()-1; ++i)
+        {
+            for(int j = i+1; j < vp.size(); ++j)
+            {
+                float a1 = vp[i].first;
+                float a2 = vp[j].first;
+                float b1 = vp[i].second;
+                float b2 = vp[j].second;
+                float c = sqrt(abs((a1-a2)*(a1-a2)) + abs((b1-b2)*(b1-b2)));
+                //cout << "cc = " << c << endl;
+                ar[z].x1 = a1;
+                ar[z].x2 = a2;
+                ar[z].y1 = b1;
+                ar[z].y2 = b2;
+                ar[z].cc = c;
+                z++;
+            }
+        }
+        float sum = 0;
+        sort(ar,ar+z,cmp);
+        //cout << "z = " << z << endl;
+        for(int i = 0; i < z; ++i)
+        {
+            Union(ar[i].x1,ar[i].y1,ar[i].x2,ar[i].y2,ar[i].cc,&sum);
+        }
+        printf("%0.02f\n",sum);
+    }
+    return 0;
+}
