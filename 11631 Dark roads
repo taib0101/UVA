@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct ele
+{
+    int uu;
+    int vv;
+    int cc;
+};
+bool cmp (struct ele x,struct ele y)
+{
+    return x.cc < y.cc;
+}
+int find(int u,int *p)
+{
+    if(p[u] == u)
+        return u;
+    p[u] = find(p[u],p);
+    return p[u];
+}
+void Union(int u,int v, int c,int *p,int *r,int *sum)
+{
+    u = find(u,p);
+    v = find(v,p);
+    if(u != v)
+    {
+        if(r[u] > r[v])
+            p[v] = u;
+        else if(r[u] < r[v])
+            p[u] = v;
+        else
+        {
+            p[v] = u;
+            r[u]++;
+        }
+    }
+    else
+        *sum += c;
+}
+int main()
+{
+    int n, e;
+    while(cin >> n >> e && (n || e))
+    {
+        struct ele ar[e+10];
+        int p[n+10],r[n+10];
+        for(int i = 0 ; i <= n; ++i)
+            p[i] = i;
+        memset(r,0,sizeof(r));
+        for(int i = 0; i < e; ++i)
+        {
+            int u, v, c;
+            cin >> u >> v >> c;
+            ar[i] = {u,v,c};
+        }
+        sort(ar,ar+e,cmp);
+        
+        int sum = 0;
+        for(int i = 0; i < e; ++i)
+        {
+            Union(ar[i].uu,ar[i].vv,ar[i].cc,p,r,&sum);
+            //printf("u = %d, v = %d, c = %d\n",ar[i].uu,ar[i].vv,ar[i].cc);
+        }
+            
+        cout << sum << endl;
+    }
+    return 0;
+}
