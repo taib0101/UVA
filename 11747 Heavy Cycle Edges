@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct ele
+{
+    int uu;
+    int vv;
+    int cc;
+};
+bool cmp(struct ele x,struct ele y)
+{
+    return x.cc < y.cc;
+}
+vector < int > vec;
+int find(int u,int *p)
+{
+    if(p[u] == u)
+        return u;
+    p[u] = find(p[u],p);
+    return p[u];
+}
+void Union(int u,int v,int c,int *p,int *r)
+{
+    u = find(u,p);
+    v = find(v,p);
+    if(u != v)
+    {
+        if(r[u] > r[v])
+            p[v] = u;
+        else if(r[u] < r[v])
+            p[u] = v;
+        else
+        {
+            p[v] = u;
+            r[u]++;
+        }
+    }
+    else
+        vec.push_back(c);
+}
+int main()
+{
+    int n, m;
+    while(cin >> n >> m && (n || m))
+    {
+        vec.clear();
+        struct ele ar[m+10];
+        for(int i = 0; i < m; ++i)
+        {
+            int x, y, z;
+            cin >> x >> y >> z;
+            ar[i] = {x,y,z};
+        }
+        int p[n+10], r[n+10];
+        sort(ar,ar+m,cmp);
+        for(int i = 0; i < n; ++i)
+            p[i] = i;
+        memset(r,0,sizeof(r));
+        for(int i = 0; i < m; ++i)
+            Union(ar[i].uu,ar[i].vv,ar[i].cc,p,r);
+        if(vec.size())
+        {
+            for(int i = 0; i < vec.size(); ++i)
+            {
+                cout << vec[i];
+                if(i != vec.size()-1)
+                    cout << " ";
+            }
+                
+            cout << endl;
+        }
+        else
+            cout << "forest" << endl;
+    }
+    return 0;
+}
