@@ -1,0 +1,79 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct ele
+{
+    int uu;
+    int vv;
+    int cc;
+};
+bool cmp(struct ele p,struct ele q)
+{
+    return p.cc < q.cc;
+}
+int find(int u,int *p)
+{
+    if(p[u] == u)
+        return u;
+    p[u] = find(p[u],p);
+    return p[u];
+}
+void Union(int u,int v,int c,int *p,int *r,int *sum)
+{
+    u = find(u,p);
+    v = find(v,p);
+    if(u != v)
+    {
+        if(r[u] > r[v])
+            p[v] = u;
+        else if(r[u] < r[v])
+            p[u] = v;
+        else
+        {
+            p[v] = u;
+            r[u]++;
+        }
+        *sum = c;
+        //cout << "sum = " << *sum << endl;
+    }
+}
+int main()
+{
+    int n, m;
+    while(cin >> n >> m && (n || m))
+    {
+        int u, v, c;
+        bool detect[n+10];
+        memset(detect,0,sizeof(detect));
+        struct ele ar[m+10];
+        for(int i = 0; i < m; ++i)
+        {
+            cin >> u >> v >> c;
+            detect[u] = 1;
+            detect[v] = 1;
+            ar[i] = {u,v,c};
+        }
+        bool bb = 1;
+        int p[n+10], r[n+10];
+        for(int i = 0; i < n; ++i)
+        {
+            p[i] = i;
+            r[i] = 0;
+            if(!detect[i])
+            {
+                bb = 0;
+                break;
+            }
+        }
+        sort(ar,ar+m,cmp);
+        if(!bb)
+            cout << "IMPOSSIBLE" << endl;
+        else
+        {
+            int xx;
+            for(int i = 0; i < m; ++i)
+                Union(ar[i].uu,ar[i].vv,ar[i].cc,p,r,&xx);
+            cout << xx << endl;
+        }
+    }
+    return 0;
+}
