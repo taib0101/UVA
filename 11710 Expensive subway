@@ -1,0 +1,83 @@
+#include<bits/stdc++.h>
+using namespace std;
+map < string , string > p;
+map < string , int > r;
+struct ele
+{
+    string uu;
+    string vv;
+    int cc;
+};
+bool cmp(struct ele x,struct ele y)
+{
+    return x.cc < y.cc;
+}
+string find(string u)
+{
+    if(p[u] == u)
+        return u;
+    p[u] = find(p[u]);
+    return p[u];
+}
+void Union(string u,string v,int c,int *sum)
+{
+    u = find(u);
+    v = find(v);
+    if(u != v)
+    {
+        if(r[u] > r[v])
+            p[v] = u;
+        else if(r[u] < r[v])
+            p[u] = v;
+        else 
+        {
+            p[v] = u;
+            r[u]++;
+        }
+        *sum += c;
+    }
+}
+int main()
+{
+    int n, m;
+    while(cin >> n >> m && (n || m))
+    {
+        p.clear();
+        r.clear();
+        string s;
+        for(int i = 1; i <= n; ++i)
+        {
+            cin >> s;
+            p[s] = s;
+            r[s] = 0;
+        }
+        struct ele ar[m+10];
+        for(int i = 0; i < m; ++i)
+        {
+            string u, v;
+            int c;
+            cin >> u >> v >> c;
+            ar[i] = {u,v,c};
+        }
+        int sum = 0;
+        sort(ar,ar+m,cmp);
+        for(int i = 0; i < m; ++i)
+            Union(ar[i].uu,ar[i].vv,ar[i].cc,&sum);
+        int co = 0;
+        string u;
+        cin >> u;
+        for(auto it = p.begin(); it != p.end(); ++it)
+        {
+            string u = it -> first;
+            if(p[u] == u)
+                co++;
+            if(co > 1)
+                break;
+        }
+        if(co == 1)
+            cout << sum << endl;
+        else
+            cout << "Impossible" << endl;
+    }
+    return 0;
+}
