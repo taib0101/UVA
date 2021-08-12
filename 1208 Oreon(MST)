@@ -1,0 +1,127 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct ele
+{
+    char u;
+    char v;
+    int c;
+};
+vector < int > make(string str,int n)
+{
+    stringstream ss(str);
+    string s;
+    vector < int > vi;
+    int i = 1;
+    while(ss >> s)
+    {
+        int sum = 0, sz;
+        if(i == n)
+            sz = s.size() - 1;
+        else
+            sz = s.size() - 2;
+        //cout << "s = " << s << endl;
+        for(int ii = 0; ii <= sz; ++ii)
+            sum = sum * 10 +  (s[ii] - '0');
+        i++;
+        vi.push_back(sum);
+    }
+    return vi;
+}
+bool cmp(struct ele x,struct ele y)
+{
+    if(x.c != y.c)
+        return x.c < y.c;
+    else
+    {
+        if(x.u != y.u)
+            return x.u < y.u;
+        return x.v < y.v;
+    }
+    return 1;
+}
+char findd(char u1,char *pr)
+{
+    if(pr[u1] == u1)
+        return u1;
+    pr[u1] = findd(pr[u1],pr);
+    return pr[u1];
+}
+vector < pair < char, pair < char, int > > > make_Union(vector < ele > vn,char pr[],int rk[])
+{
+    vector < pair < char, pair < char, int > > > vpp;
+    for(int i = 0; i < vn.size(); ++i)
+    {
+        char uu = vn[i].u;
+        char vv = vn[i].v;
+        char u1 = findd(vn[i].u,pr);
+        char v1 = findd(vn[i].v,pr);
+        if(u1 != v1)
+        {
+            if(rk[u1] > rk[v1])
+                pr[v1] = u1;
+            else if(rk[u1] < rk[v1])
+                pr[u1] = v1;
+            else
+            {
+                pr[v1] = u1;
+                rk[u1]++;
+            }
+            vpp.push_back({uu,{vv,vn[i].c}});
+        }
+    }
+    return vpp;
+}
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+    int co = 1;
+    while(t--)
+    {
+        int n;
+        cin >> n;
+        string str;
+        getline(cin,str);
+        vector < vector < int > > vv;
+        for(int i = 0; i < n; ++i)
+        {
+            getline(cin,str);
+            vv.push_back(make(str,n));
+        }
+        int rk[130];
+        char pr[130];
+        memset(rk,0,sizeof(rk));
+        for(int i = 0; i <= 25; ++i)
+        {
+            char ch = i + 'A';
+            pr[ch] = ch;
+        }
+        vector < ele > vn;
+        for(int i = 0; i < vv.size(); ++i)
+        {
+            char c1 = i + 'A';
+            for(int j = 0; j < vv[i].size(); ++j)
+            {
+                if(vv[i][j])
+                {
+                    char c2 = j + 'A';
+                    struct ele dd;
+                    dd = {c1,c2,vv[i][j]};
+                    vn.push_back(dd);
+                }
+            }
+        }
+        sort(vn.begin(),vn.end(),cmp);
+        // cout << "here it is cheack plz " << endl;
+        // for(int i = 0; i < vn.size(); ++i)
+        //     cout << vn[i].u << "-" << vn[i].v << " " << vn[i].c << endl;
+        vector < pair < char, pair < char, int > > > vpp = make_Union(vn,pr,rk);
+        printf("Case %d:\n",co);
+        co++;
+        for(int i = 0; i < vpp.size(); ++i)
+            cout << vpp[i].first << "-" << vpp[i].second.first << " " << vpp[i].second.second << endl;
+    }
+    return 0;
+}
