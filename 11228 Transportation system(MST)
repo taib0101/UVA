@@ -1,0 +1,117 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct node
+{
+    double x1;
+    double y1;
+    double x2;
+    double y2;
+    double cc;
+};
+map < pair < double ,double > , pair < double ,double > > mpp;
+map < pair < double,double > , double > r;
+bool cmp(struct node xx,struct node yy)
+{
+    return xx.cc < yy.cc;
+}
+pair < double ,double > findd(double u,double v)
+{
+    auto it = mpp.find({u,v});
+    double uu = it -> second . first;
+    double vv = it -> second . second;
+    if(uu == u && vv == v)
+        return {u,v};
+    mpp[{u,v}] = findd(uu,vv);
+    return mpp[{u,v}];
+}
+void Union(double u1,double v1,double u2,double v2,double c,double m,double *rail,double *road,int *c1)
+{
+    pair < double,double > u = findd(u1,v1);
+    pair < double,double > v = findd(u2,v2);
+    double a1 = u.first;
+    double b1 = u.second;
+    double a2 = v.first;
+    double b2 = v.second;
+    // cout << mpp[{a1,b1}].first << " " << mpp[{a1,b1}].second << endl;
+    // cout << mpp[{a2,b2}].first << " " << mpp[{a2,b2}].second << endl;   
+    if(mpp[{a1,b1}] != mpp[{a2,b2}])
+    {
+        
+        if(r[{a1,b1}] > r[{a2,b2}])
+            mpp[{a2,b2}] = mpp[{a1,b1}];
+        else if(r[{a1,b1}] < r[{a2,b2}])
+            mpp[{a1,b1}] = mpp[{a2,b2}];
+        else
+        {
+            mpp[{a2,b2}] = mpp[{a1,b1}];
+            r[{a1,b1}]++;
+        }
+        if(c <= m)
+            *road += c, *c1 += 1;
+        else
+            *rail += c;
+        //cout << "c = " << c << endl;
+    }
+}
+int main()
+{
+    int t;
+    cin >> t;
+    int ii = 1;
+    while(t--)
+    {
+        int n, m;
+        cin >> n >> m;
+        mpp.clear();
+        r.clear();
+        vector < pair < double , double > > vp;
+        for(int i = 0; i < n; ++i)
+        {
+            int x, y;
+            cin >> x >> y;
+            vp.push_back({x,y});
+        }
+        vector < node > vv;
+        int jj = 0;
+        for(int i = 0; i < vp.size()-1; ++i)
+        {
+            for(int j = i+1; j < vp.size(); ++j,++jj)
+            {
+                double a1 = vp[i].first;
+                double a2 = vp[j].first;
+                double b1 = vp[i].second;
+                double b2 = vp[j].second;
+                double c = sqrt(abs((a1-a2)*(a1-a2))+abs((b1-b2)*(b1-b2)));
+                node dd;
+                dd.x1 = a1;
+                dd.y1 = b1;
+                dd.x2 = a2;
+                dd.y2 = b2;
+                dd.cc = c;
+                vv.push_back(dd);
+                mpp[{a1,b1}] = {a1,b1};
+                mpp[{a2,b2}] = {a2,b2};
+                r[{a1,b1}] = 0;
+                r[{a2,b2}] = 0;
+                //cout << "fuck = " << c << endl;
+            }
+        }
+        sort(vv.begin(),vv.end(),cmp);
+        double road = 0;
+        double rail = 0;
+        int state = 1;
+        int c1 = 0;
+        for(int i = 0; i < vv.size(); ++i)
+        {
+            //printf("(%.lf,%.lf) --->>> (%.lf,%.lf) - c = %.lf\n",vv[i].x1,vv[i].y1,vv[i].x2,vv[i].y2,vv[i].cc);
+            Union(vv[i].x1,vv[i].y1,vv[i].x2,vv[i].y2,vv[i].cc,m,&rail,&road,&c1);
+        }
+        //cout << "final == " << mpp[{0,0}].first << " " << mpp[{0,0}].second << endl;
+        if(n-c1 != 1)
+            printf("Case #%d: %d %0.0lf %0.0lf\n",ii,n-c1,road,rail);
+        else
+            printf("Case #%d: %d %0.0lf %0.0lf\n",ii,state,road,rail);
+        ii++;
+    }
+    return 0;
+}
