@@ -1,0 +1,119 @@
+/////////////////////////Allahu Akbar///////////////////////////////
+/////////////In he name of Allah , the entirely merciful , the specially mercifull //////////////////
+//This problem is Minimum spanning tree (krushkal algorithm) with maximum path and implemented by dfs(algorithm) also
+#include<bits/stdc++.h>
+using namespace std;
+pair < pair < string,string > , int > make(string st)
+{
+    stringstream ss(st);
+    string x, y;
+    int z;
+    ss >> x >> y >> z;
+    return {{x,y},z};
+}
+map < string , string > pr;
+map < string , int > rk;
+struct ele
+{
+    string uu;
+    string vv;
+    int cc;
+};
+bool cmp(struct ele x, struct ele y)
+{
+    return x.cc > y.cc;
+}
+map < string , vector < string > > mv;
+map < string , map < string , int > >  cost;
+bool bl;
+string findd(string u)
+{
+    if(pr[u] == u)
+        return u;
+    pr[u] = findd(pr[u]);
+    return pr[u];
+}
+void make_Union(vector < ele > vs,string x,string y)
+{
+    bool b1 = 0;
+    for(int i = 0; i < vs.size(); ++i)
+    {  
+        string u = findd(vs[i].uu);
+        string v = findd(vs[i].vv);
+        if(u != v)
+        {
+            if(rk[u] > rk[v])
+                pr[v] = u;
+            else if(rk[u] < rk[v])
+                pr[u] = v;
+            else
+            {
+                pr[v] = u;
+                rk[u]++;
+            }
+            mv[u].push_back(v);
+            mv[v].push_back(u);
+            cost[u][v] = vs[i].cc;
+            cost[v][u] = vs[i].cc;
+        }
+    }
+}
+int minn;
+void dfs(string x,string y,map < string , bool > mbl)
+{
+    if(x == y)
+    {
+        bl = 0;
+        return;
+    }
+    if(mbl[x])
+        return;
+    mbl[x] = 1;
+    for(int i = 0; i < mv[x].size() && bl; ++i)
+    {
+        string next = mv[x][i];
+        minn = min(minn,cost[x][next]);
+        dfs(next,y,mbl);
+    }
+}
+int main()
+{
+    int n, m;
+    int co = 1;
+    while(cin >> n >> m && n && m)
+    {
+        string st;
+        pr.clear();
+        rk.clear();
+        mv.clear();
+        cost.clear();
+        getline(cin,st);
+        vector < ele > vs;
+        bl = 1;
+        for(int i = 0; i < m; ++i)
+        {
+            struct ele dd;
+            getline(cin,st);
+            pair < pair < string,string > , int > pp = make(st);
+            //cout << pp.first.first << " " << pp.first.second << " " << pp.second << endl;
+            dd = {pp.first.first,pp.first.second,pp.second};
+            pr[pp.first.first] = pp.first.first;
+            pr[pp.first.second] = pp.first.second;
+            vs.push_back(dd);
+        }
+        string x, y;
+        cin >> x >> y;
+        sort(vs.begin(),vs.end(),cmp);
+        make_Union(vs,x,y);
+        map < string , bool > mbl;
+        minn = 10000000;
+        dfs(x,y,mbl);
+        printf("Scenario #%d\n",co);
+        co++;
+        if(minn != 10000000)
+            printf("%d tons\n\n",minn);
+        else
+            printf("-1 tons\n\n");
+    }
+    return 0;
+}
