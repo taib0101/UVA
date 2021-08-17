@@ -1,0 +1,121 @@
+////// In the name of Alllah , the entirely merciful , the specially merciful /////////
+#include<bits/stdc++.h>
+using namespace std;
+struct node
+{
+    int uu;
+    int vv;
+    int cc;
+};
+bool cmp(struct node x,struct node y)
+{
+    return x.cc < y.cc;
+}
+int findd(int u,int *pr)
+{
+    if(pr[u] == u)
+        return u;
+    pr[u] = findd(pr[u],pr);
+    return pr[u];
+}
+vector < int > grph[110];
+int cost[110][110];
+int maxx;
+void make_union(int pr[],vector < node > vn,int rk[])
+{
+    for(int i = 0; i < vn.size(); ++i)
+    {
+        int u1 = vn[i].uu;
+        int v1 = vn[i].vv;
+        int u = findd(vn[i].uu,pr);
+        int v = findd(vn[i].vv,pr);
+        if(u != v)
+        {
+            if(rk[u] > rk[v])
+                pr[v] = u;
+            else if(rk[u] < rk[v])
+                pr[u] = v;
+            else
+            {
+                pr[v] = u;
+                rk[u]++;
+            }
+            //cout << "u = " << u1 << ", v = " << v1 << " , c = " << vn[i].cc << endl;
+            grph[u1].push_back(v1);
+            grph[v1].push_back(u1);
+            cost[u1][v1] = vn[i].cc;
+            cost[v1][u1] = vn[i].cc;
+        }
+        //cout << "ok here" << endl;
+    }
+}
+bool bl;
+void dfs(int px,int x,int y,bool visit[])
+{
+    if(x == y)
+    {
+        bl = 0;
+        //maxx = cost[px][y];
+        return;
+    }
+    if(visit[x])
+    {
+        return;
+    }  
+    visit[x] = 1;
+    for(int i = 0; i < grph[x].size() && bl; ++i)
+    {
+        int next = grph[x][i];
+        dfs(x,next,y,visit);
+        if(!bl)
+            maxx = max(maxx,cost[x][next]);
+    }
+}
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
+    int n, m, l;
+    int co = 1;
+    while(cin >> n >> m >> l && (n || m || l))
+    {
+        vector < node > vn;
+        if(co != 1)
+            cout << endl;
+        for(int i = 0; i < m; ++i)
+        {
+            struct node dd;
+            int u, v, c;
+            cin >> u >> v >> c;
+            dd = {u,v,c};
+            if(u <= n && v <= n)
+                vn.push_back({u,v,c});
+        }
+        memset(cost,0,sizeof(cost));
+        int pr[n+10], rk[n+10];
+        memset(rk,0,sizeof(rk));
+        for(int i = 1; i <= n; ++i)
+            pr[i] = i;
+        sort(vn.begin(),vn.end(),cmp);
+        make_union(pr,vn,rk);
+        printf("Case #%d\n",co);
+        while(l--)
+        {
+            maxx = 0;
+            bl = 1;
+            bool visit[n+10];
+            memset(visit,0,sizeof(visit));
+            int u, v;
+            cin >> u >> v;
+            dfs(0,u,v,visit);
+            if(!bl)
+                cout << maxx << endl;
+            else
+                cout << "no path" << endl;
+        }
+        co++;
+        for(int i = 1; i <= n; ++i)
+            grph[i].clear();
+    }
+    return 0;
+}
