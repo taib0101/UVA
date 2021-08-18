@@ -1,0 +1,112 @@
+//In the name of Allah, the entirelly mercifull ,the specially mercifull
+// Dynamic ow kra jay all pair shortest path diye floyed warshall Algorithm
+#include<bits/stdc++.h>
+using namespace std;
+struct node
+{
+    int uu;
+    int vv;
+    int cc;
+};
+bool cmp (struct node x,struct node y)
+{
+    return x.cc > y.cc;
+}
+int minn;
+vector < int > grph[110];
+int cost[110][110];
+int findd(int u,int *pr)
+{
+    if(pr[u] == u)
+        return u;
+    pr[u] = findd(pr[u],pr);
+    return pr[u];
+}
+void make_Union(vector < node > vn,int pr[],int rk[])
+{
+    for(int i = 0; i < vn.size(); ++i)
+    {
+        int u1 = vn[i].uu;
+        int v1 = vn[i].vv;
+        int u = findd(u1,pr);
+        int v = findd(v1,pr);
+        if(u != v)
+        {
+            if(rk[u] > rk[v])
+                pr[v] = u;
+            else if(rk[u] < rk[v])
+                pr[u] = v;
+            else
+            {
+                pr[v] = u;
+                rk[u]++;
+            }
+            //cout << "u = " << u1 << " , v = " << v1 << " , c = " << vn[i].cc << endl;
+            grph[u].push_back(v);
+            grph[v].push_back(u);
+            cost[u][v] = vn[i].cc;
+            cost[v][u] = vn[i].cc;
+        }
+    }
+}
+bool bl;
+void dfs(int x,int y,bool vs[])
+{
+    if(x == y)
+    {
+        bl = 0;
+        return;
+    }
+    if(vs[x])
+        return;
+    vs[x] = 1;
+    
+    for(int i = 0; i < grph[x].size() && bl; ++i)//here was bugg
+    {
+        int next = grph[x][i];
+        dfs(next,y,vs);
+        if(!bl)
+            minn = min(minn,cost[x][next]);
+    }
+}
+int main()
+{
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
+    int n, r;
+    int co = 1;
+    while(cin >> n >> r && n && r)
+    {
+        int pr[n+10], rk[n+10];
+        memset(rk,0,sizeof(rk));
+        for(int i = 1; i <= n; ++i)
+            pr[i] = i;
+        vector < node > vn;
+        int u, v, c;
+        for(int i = 1; i <= r; ++i)
+        {
+            cin >> u >> v >> c;
+            if(u <= n && v <= n)
+                vn.push_back({u,v,c});
+        }
+        sort(vn.begin(),vn.end(),cmp);
+        minn = 10000000;
+        cin >> u >> v >> c;
+        for(int i = 0; i < 110; ++i)
+            grph[i].clear();
+        memset(cost,0,sizeof(cost));
+        make_Union(vn,pr,rk);
+        bool vs[n+10];
+        memset(vs,0,sizeof(vs));
+        bl = 1;
+        dfs(u,v,vs);
+        int x = ceil(int (c/(minn - 1)));
+        printf("Scenario #%d\n",co);
+        if(c % (minn-1) == 0)
+            printf("Minimum Number of Trips = %d\n\n",x);
+        else
+            printf("Minimum Number of Trips = %d\n\n",x+1);
+        co++;
+    }
+    return 0;
+}
