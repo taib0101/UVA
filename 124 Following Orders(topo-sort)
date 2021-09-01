@@ -1,4 +1,6 @@
 // In the name of Allah , the entirely mercifull , the spacially mercifull
+// Alhamdulillah
+// Implemented by topological sort
 #include<bits/stdc++.h>
 using namespace std;
 const int N = 150;
