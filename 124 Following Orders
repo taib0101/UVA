@@ -1,0 +1,102 @@
+// In the name of Allah , the entirely mercifull , the spacially mercifull
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 150;
+vector < char > make(string x)
+{
+    stringstream ss(x);
+    vector < char > vc;
+    char ch;
+    while(ss >> ch)
+        vc.push_back(ch);
+    return vc;
+}
+map < string ,bool > mp;
+int condition[N][N];
+void dfs(vector < int > vcc[],bool *v,char x,int j,string ss,int n)
+{
+    if(j == n)
+    {
+        for(int i = 0; i < n-1; ++i)
+        {
+            for(int ii = i+1; ii < n; ++ii)
+            {
+                if(condition[ss[i]][ss[ii]] == 0)
+                    return;
+            }
+        }
+        mp[ss] = 1;
+        //cout << ss << endl;
+        return;
+    }
+    if(v[x])
+        return;
+    v[x] = 1;
+    for(int i = 0; i < vcc[x].size(); ++i)
+    {
+        char next = vcc[x][i];
+        if(!v[next] && condition[x][next])
+        {
+            ss.push_back(next);
+            dfs(vcc,v,next,j+1,ss,n);
+            v[next] = 0;
+            ss.pop_back();
+        }
+    }
+}
+int main()
+{
+    int bb = 0;
+    string str;
+    while(getline(cin,str))
+    {
+        if(bb)
+            cout << endl;
+        bb = 1;
+        vector < char > vc = make(str);
+        getline(cin,str);
+        vector < char > vc2 = make(str);
+        
+        memset(condition,1,sizeof(condition));
+        int n = vc.size();
+        vector < int > vcc[160];
+        for(int i = 0; i < n; ++i)
+        {
+            for(int j = 0; j < n; ++j)
+            {
+                if(vc[i] != vc[j])
+                    vcc[vc[i]].push_back(vc[j]);
+            }
+        }
+        vector < pair < char, char > > vp;
+        for(int i = 0; i < vc2.size(); i += 2)
+        {
+            char x1, y1, x2 , y2;
+            x1 = vc2[i];
+            y1 = vc2[i+1];
+            condition[y1][x1] = 0;
+            for(int j = 0; j < vp.size(); ++j)
+            {
+                x2 = vp[j].first;
+                y2 = vp[j].second;
+                if(x1 == y2)
+                    condition[y1][x2] = 0;
+                else if(y1 == x2)
+                    condition[y2][x1] = 0;
+            }
+            vp.push_back({x1,y1});
+        }
+        for(int i = 0; i < vc.size(); ++i)
+        {
+            bool visit[150];
+            memset(visit,0,sizeof(visit));
+            string ss;
+            ss.push_back(vc[i]);
+            dfs(vcc,visit,vc[i],1,ss,n);
+        }
+        for(auto it = mp.begin(); it != mp.end(); ++it)
+            cout << it->first << endl;
+        mp.clear();
+    }
+    return 0;
+}
