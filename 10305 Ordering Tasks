@@ -1,0 +1,55 @@
+// In the name of Allah , the entirely merciful , the specially merciful
+//Alhamdulillah
+//All credit to Allah for giving me this type of knowladge
+/*
+4 3
+2 1
+3 1
+4 3
+*/
+#include<bits/stdc++.h>
+using namespace std;
+stack < int > st;
+void topo_sort(vector < int > vs[],bool *v,int x)
+{
+    v[x] = 1;
+    for(int i = 0; i < vs[x].size(); ++i)
+    {
+        int next = vs[x][i];
+        if(!v[next])
+        {
+            //cout << "next = " << next << endl;
+            topo_sort(vs,v,next);
+        }
+    }
+    st.push(x);
+}
+int main()
+{
+    int n, m;
+    while(cin >> n >> m && (n || m))
+    {
+        vector < int > vs[n+10];
+        for(int i = 1; i <= m; ++i)
+        {
+            int u, v;
+            cin >> u >> v;
+            vs[u].push_back(v);
+        }
+        bool visit[n+10];
+        memset(visit,0,sizeof(visit));
+        
+        for(int i = 1; i <= n; ++i)
+        {
+            if(!visit[i])
+                topo_sort(vs,visit,i);
+        }
+        while(!st.empty())
+        {
+            cout << st.top() << " ";
+            st.pop();
+        }
+        cout << endl;
+    }
+    return 0;
+}
