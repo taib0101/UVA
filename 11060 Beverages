@@ -1,0 +1,83 @@
+// In the name of Allah , the entirely mercifull , the specially mercifull
+// Alhamdulillah
+// This problem Is implemented by Kahn's Algorithm (topological_sort) by bfs
+#include<bits/stdc++.h>
+using namespace std;
+map < string , int > in_degree;
+
+struct node
+{
+    string xx;
+    int yy;
+};
+class cmp
+{
+    public :
+        bool operator() (node x, node y)
+        {
+            return x.yy > y.yy;
+        }
+};
+vector < string > kahns_algo(priority_queue < node , vector < node > , cmp > pq,map < string , int > mp,map < string , vector < string > > mv)
+{
+    vector < string > ans;
+    while(!pq.empty())
+    {
+        string x = pq.top().xx;
+        ans.push_back(x);
+        pq.pop();
+        for(int i = 0; i < mv[x].size(); ++i)
+        {
+            string next = mv[x][i];
+            in_degree[next]--;
+            if(in_degree[next] == 0)
+                 pq.push({next,mp[next]});
+        }
+    }
+    return ans;
+}
+int main()
+{
+    int t, co = 1;
+    while(cin >> t)
+    {
+        in_degree.clear();
+        string str1,str2;
+        vector < string > vs;
+        for(int i = 0; i < t; ++i)
+        {
+            cin >> str1;
+            vs.push_back(str1);
+        }
+        map < string , vector < string > > mv;
+        cin >> t;
+        for(int i = 0; i < t; ++i)
+        {
+            cin >> str1 >> str2;
+            in_degree[str2]++;
+            mv[str1].push_back(str2);
+        }
+        getline(cin,str1);
+        priority_queue < node , vector < node > , cmp > pq;
+        map < string , int > mp;
+        for(int i = 0; i < vs.size(); ++i)
+        {
+            string x = vs[i];
+            mp[x] = i;
+            if(in_degree[x] == 0)
+                pq.push({x,i});
+        }
+        vector < string > ans = kahns_algo(pq,mp,mv);
+        printf("Case #%d: Dilbert should drink beverages in this order: ",co);
+        for(int i = 0; i < ans.size(); ++i)
+        {
+            cout << ans[i];
+            if(i != ans.size()-1)
+                cout << " ";
+            else
+                cout << "." << endl << endl;
+        }
+        co++;
+    }
+    return 0;
+}
