@@ -1,0 +1,139 @@
+// In the name of Allah , the entirely merciful ,he specially merciful
+//Alhamdulillah
+#include<bits/stdc++.h>
+using namespace std;
+vector < char > make1(string str)
+{
+    stringstream ss(str);
+    char c;
+    vector < char > ans;
+    while(ss >> c)
+        ans.push_back(c);
+    return ans;
+}
+vector < string > make2(string str)
+{
+    vector < string > ans;
+    stringstream ss(str);
+    string st;
+    while(ss >> st)
+        ans.push_back(st);
+    return ans;
+}
+const int N = 200;
+map < string , bool > ans;
+bool condition[N][N];
+bool tb;
+void topo_sort(vector < char > x,string st,bool v[],int j,int jj)
+{
+    int n = x.size();
+    //cout << "n = " << n << endl;
+    if(j == n)
+    {
+        for(int n = 0; n < st.size()-1; ++n)
+        {
+            for(int m = n+1; m < st.size(); ++m)
+            {
+                char p = st[n];
+                char q = st[m];
+                if(condition[p][q] == 0)
+                    return;
+            }
+        }
+        //cout << "str = " << st << endl;
+        tb = 1;
+        ans[st] = 1;
+        return;
+    }
+    for(int i = 0; i < n; ++i)
+    {
+        char next = x[i];
+        if(!v[next] && jj == -1)
+        {
+            v[next] = 1;
+            //cout << next << endl;
+            st.push_back(next);
+            topo_sort(x,st,v,j+1,i);
+            st.pop_back();
+            v[next] = 0;
+        }
+        else if(!v[next] && jj != -1)
+        {
+            char nnext = x[jj];
+            if(condition[nnext][next])
+            {
+                v[next] = 1;
+                //cout << "next = " << next << ", nnext = " << nnext << endl;
+                st.push_back(next);
+                topo_sort(x,st,v,j+1,i);
+                st.pop_back();
+                v[next] = 0;
+            }
+        }
+    }
+}
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t;
+    string str;
+    cin >> t;
+    getline(cin,str);
+    bool bb = 1;
+    while(t--)
+    {
+        if(!bb)
+            cout << endl;
+        bb = 0;
+        getline(cin,str);
+        memset(condition,1,sizeof(condition));
+        getline(cin,str);
+        vector < char > x = make1(str);
+
+        getline(cin,str);
+        vector < string > y = make2(str);
+        vector < pair < char , char > > vpc;
+        for(int i = 0; i < y.size(); ++i)
+        {
+            char p1 = y[i][0];
+            char q1 = y[i][2];
+            condition[q1][p1] = 0;
+            //cout << "p1 = " << p1 << " , q1 = " << q1 << endl;
+            for(int j = 0;  j < vpc.size(); ++j)
+            {
+                char p2 = vpc[j].first;
+                char q2 = vpc[j].second;
+                if(q1 == p2)
+                    condition[q2][p1] = 0;
+                else if(p1 == q2)
+                    condition[q1][p2] = 0;
+            }
+            vpc.push_back({p1,q1});
+        }
+        string st;
+        ans.clear();
+        bool v[150];
+        memset(v,0,sizeof(v));
+        tb = 0;
+        topo_sort(x,st,v,0,-1);
+        if(tb)
+        {
+           for(auto it = ans.begin(); it != ans.end(); ++it)
+           {
+               for(int i = 0; i < it->first.size(); ++i)
+               {
+                   cout << it->first[i];
+                   if(i != it->first.size()-1)
+                        cout << " ";
+               }
+
+               cout << endl;
+           }
+        }
+        else
+            cout << "NO" << endl;
+
+    }
+    return 0;
+}
