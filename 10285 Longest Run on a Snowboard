@@ -1,0 +1,62 @@
+//In the name of Allah , the entirely merciful , the specially merciful
+// Alhamdulillah 
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 100;
+int grid[N+10][N+10];
+bool visit[N+10][N+10];
+int dfs_dag(int n,int m,int x,int y,bool v[])
+{
+    int maxx = 1;
+    int dx[] = {0,1,0,-1};
+    int dy[] = {-1,0,1,0};
+    bool bb = 0;
+    for(int i = 0; i < 4; ++i)
+    {
+        int xx = x + dx[i];
+        int yy = y + dy[i];
+        if(!visit[xx][yy] && x >= 0 && y >= 0 && x <= n-1 && y <= m-1)
+        {
+            if(grid[xx][yy] < grid[x][y])
+            {
+                visit[xx][yy] = 1;
+                maxx = max(maxx,dfs_dag(n,m,xx,yy,v)+1);
+                visit[xx][yy] = 0;
+            }
+            bb = 1;
+        }
+    }
+    if(bb)
+        return maxx;
+    return 0;
+}
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        string x;
+        int y, z;
+        cin >> x >> y >> z;
+        memset(grid,0,sizeof(grid));
+        memset(visit,0,sizeof(visit));
+        for(int i = 0; i < y; ++i)
+        {
+            for(int j = 0;  j < z; ++j)
+                cin >> grid[i][j];
+        }
+        int maxx = 1;
+        bool v[10000];
+        memset(v,0,sizeof(v));
+        for(int i = 0; i < y; ++i)
+        {
+            for(int j = 0;  j < z; ++j)
+                maxx = max(maxx,dfs_dag(y,z,i,j,v));
+        }
+        cout << x << ": " << maxx  << endl;
+    }
+    return 0;
+}
