@@ -1,0 +1,91 @@
+// In the name of Allah, the entirely merciful , the specially mecifull
+// ALhamdulillah
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 102;
+int cp[N][N];
+struct node
+{
+    int xx;
+    int cm;
+};
+int dfs(vector < int > g[],int s,int t,int n)
+{
+    int pr[n+2], min_flow = 0;
+    for(int i = 1; i <= n; ++i)
+        pr[i] = 0;
+    stack < node > st;
+    st.push({s,10000});
+    while(!st.empty())
+    {
+        int u = st.top().xx;
+        int minn = st.top().cm;
+        st.pop();
+        if(u == t)
+        {
+            min_flow = minn;
+            break;
+        }
+
+        for(int i = 0; i < g[u].size(); ++i)
+        {
+            int v = g[u][i];
+            if(cp[u][v] > 0 && pr[v] == 0)
+            {
+                pr[v] = u;
+                st.push({v,min(minn,cp[u][v])});
+            }
+        }
+    }
+    if(min_flow > 0)
+    {
+        int v = t;
+        while(v != s)
+        {
+            cp[pr[v]][v] = cp[pr[v]][v] - min_flow;
+            cp[v][pr[v]] = cp[v][pr[v]] + min_flow;
+            v = pr[v];
+        }
+    }
+    return min_flow;
+}
+
+int ford_fulkersion(vector < int > g[],int s,int t,int n)
+{
+    int flow = 0;
+    while(1)
+    {
+        int x = dfs(g,s,t,n);
+        if(x == 0)
+            break;
+        flow += x;
+    }
+    return flow;
+}
+
+int main()
+{
+    int tt, co = 1;
+    while(cin >> tt && tt)
+    {
+        int s, t, n;
+        cin >> s >> t >> n;
+        vector < int > g[tt+10];
+        memset(cp,0,sizeof(cp));
+
+        for(int i = 0; i < n; ++i)
+        {
+            int u, v, c;
+            cin >> u >> v >> c;
+            g[u].push_back(v);
+            g[v].push_back(u);
+            cp[u][v] += c;
+            cp[v][u] += c;
+        }
+        printf("Network %d\n",co);
+        printf("The bandwidth is %d.\n",ford_fulkersion(g,s,t,tt));
+        co++;
+        cout << endl;
+    }
+    return 0;
+}
