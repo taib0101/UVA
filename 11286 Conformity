@@ -1,0 +1,53 @@
+//In the name of ALLAH , the entirely merciful, the specially merciful
+//Alhamdulillah
+#include<bits/stdc++.h>
+using namespace std;
+bool cmp(string x,string y)
+{
+    return x < y;
+}
+string make(string x)
+{
+    stringstream ss(x);
+    vector < string > y;
+    string st;
+    while(ss >> st)
+        y.push_back(st);
+    sort(y.begin(),y.end(),cmp);
+    st.clear();
+    for(int i = 0; i < y.size(); ++i)
+    {
+        st += y[i];
+        if(i != y.size()-1)
+            st += " ";
+    }
+    return st;
+}
+int main()
+{
+    int t;
+    while(cin >> t && t)
+    {
+        string str;
+        getline(cin,str);
+        map < string,int > mp;
+        for(int i = 0; i < t; ++i)
+        {
+            getline(cin,str);
+            mp[make(str)]++;
+        }
+        int maxx = 0,sum = 0;
+        for(auto it = mp.begin(); it != mp.end(); ++it)
+            maxx = max(maxx,it->second);
+        for(auto it = mp.begin(); it != mp.end(); ++it)
+        {
+            if(maxx == it -> second)
+                sum += it -> second;
+        }
+        if(maxx == 1)
+            maxx = maxx  * t;
+        else
+            cout << sum << endl;
+    }
+    return 0;
+}
