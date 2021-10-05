@@ -1,0 +1,271 @@
+//In the name of Allah , the entirely merciful , the specially merciful
+//Alhamdulillah
+//Ford - Fulkarsion(Max_Flow) Method with Adjecancy Matrix
+/*
+A2 123456789;
+B1 02456789;
+C5 0124569;
+D2 012345789;
+*/
+//Queue
+#include<bits/stdc++.h>
+using namespace std;
+
+int res[50][50];//adjacancy matrix
+
+void make(string x,int s,int *q_flow)
+{
+    stringstream ss(x);
+    string a, b;
+    ss >> a;
+    ss >> b;
+
+    for(int i = 0; i < 10; ++i)
+        res[i][38] = 1;
+
+    *q_flow += a[1] - '0';
+    res[s][a[0] - 'A' + 10] = a[1] - '0';
+
+    for(int i = 0; i < b.size()-1; ++i)
+        res[a[0] - 'A' + 10][b[i] - '0'] = 1;
+}
+
+int bfs(int s,int t)
+{
+    int min_flow = 0;
+    queue < int > q;
+    queue < int > mf;
+    int pr[50];
+    memset(pr,0,sizeof(pr));
+
+    q.push(s);
+    mf.push(10000);
+
+    while(!q.empty())
+    {
+        int u = q.front();
+        int minf = mf.front();
+        q.pop();
+        mf.pop();
+
+        //cout << "u = " << u << endl;
+
+        if(u == t)
+        {
+            min_flow = minf;
+            //cout << "min_flow = " << minf << endl;
+            break;
+        }
+
+        for(int i = 0; i <= 38; ++i)
+        {
+            if(res[u][i] > 0 && pr[i] == 0)
+            {
+                q.push(i);
+                mf.push(min(minf,res[u][i]));
+                pr[i] = u;
+            }
+        }
+    }
+    if(min_flow > 0)
+    {
+        int v = t;
+        while(v != s)
+        {
+            res[pr[v]][v] -= min_flow;
+            //cout << "uu = " << v << endl;
+            res[v][pr[v]] += min_flow;
+            v = pr[v];
+        }
+    }
+    return min_flow;
+}
+
+int ford_fulkersion(int s,int t)
+{
+    int flow = 0;
+    while(1)
+    {
+        int c_flow = bfs(s,t);
+        //cout << "c_flow = " << c_flow << endl;
+        if(c_flow == 0)
+            break;
+        flow += c_flow;
+    }
+    return flow;
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    string str;
+    vector < string > vs;
+    while(getline(cin,str))
+    {
+        memset(res,0,sizeof(res));
+        vs.clear();
+        vs.push_back(str);
+        while(getline(cin,str) && !str.empty())
+            vs.push_back(str);
+
+        int q_flow = 0;
+
+        for(int i = 0; i < vs.size(); ++i)
+            make(vs[i],37,&q_flow);
+
+        int flow = ford_fulkersion(37,38);
+        if(q_flow != flow)
+            cout << "!" << endl;
+        else
+        {
+            char val[15];
+            fill(val,val+14,'_');
+            for(int i = 0; i < 10; ++i)
+            {
+                for(int j = 10; j < 37; ++j)
+                {
+                    if(res[i][j])
+                        val[i] = j - 10 + 'A';
+                }
+            }
+            for(int i = 0; i < 10; ++i)
+                cout << val[i];
+            cout << endl;
+        }
+    }
+    return 0;
+}
+
+
+///////////////////////////////////////////////////////
+//stack
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int res[50][50];//adjacancy matrix
+
+void make(string x,int s,int *q_flow)
+{
+    stringstream ss(x);
+    string a, b;
+    ss >> a;
+    ss >> b;
+
+    for(int i = 0; i < 10; ++i)
+        res[i][38] = 1;
+
+    *q_flow += a[1] - '0';
+    res[s][a[0] - 'A' + 10] = a[1] - '0';
+
+    for(int i = 0; i < b.size()-1; ++i)
+        res[a[0] - 'A' + 10][b[i] - '0'] = 1;
+}
+
+int bfs(int s,int t)
+{
+    int min_flow = 0;
+    stack < int > q;
+    stack < int > mf;
+    int pr[50];
+    memset(pr,0,sizeof(pr));
+
+    q.push(s);
+    mf.push(10000);
+
+    while(!q.empty())
+    {
+        int u = q.top();
+        int minf = mf.top();
+        q.pop();
+        mf.pop();
+
+        //cout << "u = " << u << endl;
+
+        if(u == t)
+        {
+            min_flow = minf;
+            //cout << "min_flow = " << minf << endl;
+            break;
+        }
+
+        for(int i = 0; i <= 38; ++i)
+        {
+            if(res[u][i] > 0 && pr[i] == 0)
+            {
+                q.push(i);
+                mf.push(min(minf,res[u][i]));
+                pr[i] = u;
+            }
+        }
+    }
+    if(min_flow > 0)
+    {
+        int v = t;
+        while(v != s)
+        {
+            res[pr[v]][v] -= min_flow;
+            //cout << "uu = " << v << endl;
+            res[v][pr[v]] += min_flow;
+            v = pr[v];
+        }
+    }
+    return min_flow;
+}
+
+int ford_fulkersion(int s,int t)
+{
+    int flow = 0;
+    while(1)
+    {
+        int c_flow = bfs(s,t);
+        //cout << "c_flow = " << c_flow << endl;
+        if(c_flow == 0)
+            break;
+        flow += c_flow;
+    }
+    return flow;
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    string str;
+    vector < string > vs;
+    while(getline(cin,str))
+    {
+        memset(res,0,sizeof(res));
+        vs.clear();
+        vs.push_back(str);
+        while(getline(cin,str) && !str.empty())
+            vs.push_back(str);
+
+        int q_flow = 0;
+
+        for(int i = 0; i < vs.size(); ++i)
+            make(vs[i],37,&q_flow);
+
+        int flow = ford_fulkersion(37,38);
+        if(q_flow != flow)
+            cout << "!" << endl;
+        else
+        {
+            char val[15];
+            fill(val,val+14,'_');
+            for(int i = 0; i < 10; ++i)
+            {
+                for(int j = 10; j < 37; ++j)
+                {
+                    if(res[i][j])
+                        val[i] = j - 10 + 'A';
+                }
+            }
+            for(int i = 0; i < 10; ++i)
+                cout << val[i];
+            cout << endl;
+        }
+    }
+    return 0;
+}
