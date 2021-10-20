@@ -1,0 +1,97 @@
+//In the name of Allah , the entirely merciful , the specially merciful
+//Allahu-Akbar
+//Bipertite Graph using Bicoloring
+#include<bits/stdc++.h>
+using namespace std;
+int bipertite(int s,vector < int > gh[],int sum,bool *vs,int n)
+{
+    int vs2[210],ans[3];
+    bool cl[210];
+    memset(vs2,0,sizeof(vs2));
+    memset(cl,0,sizeof(cl));
+    memset(ans,0,sizeof(ans));
+
+    queue < int > que;
+    que.push(s);
+    vs2[s] = 1;
+    vs[s] = 1;
+    
+    if(gh[s].size() == 0)
+        return 1;
+        
+    while(!que.empty())
+    {
+        int u = que.front();
+        int b = gh[u].size();
+        ans[cl[u]]++;
+        que.pop();
+        
+        for(int i = 0; i < b; ++i)
+        {
+            int v = gh[u][i];
+            if(!vs2[v])
+            {
+                vs2[v] = 1;
+                vs[v] = 1;
+                if(cl[u] == 0)
+                    cl[v] = 1;
+                else
+                    cl[v] = 0;
+                que.push(v);
+            }
+            else
+            {
+                if(cl[u] == cl[v])
+                    return 0;
+            }
+        }
+    }
+    
+    int maxx = max(ans[0],ans[1]);
+    return maxx;
+}
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+    
+    while(t--)
+    {
+        int n;
+        cin >> n;
+        vector < int > gh[210];
+        int ar[210];
+        
+        for(int i = 1; i <= n; ++i)
+        {
+            int m;
+            cin >> m;
+            ar[i] = m;
+            while(m--)
+            {
+                int u = i, v;
+                cin >> v;
+                if(v <= n)
+                {
+                    gh[u].push_back(v);
+                    gh[v].push_back(u);
+                }
+
+            }
+        }
+        
+        int sum = 0;
+        bool vs[210];
+        memset(vs,0,sizeof(vs));
+        
+        for(int i = 1; i <= n; ++i)
+        {
+            if(!vs[i])
+                sum += bipertite(i,gh,sum,vs,n);
+        }
+        cout << sum << endl;
+    }
+    return 0;
+}
