@@ -1,0 +1,62 @@
+//In the name of Allah,the entirely merciful , the specially merciful
+//Alhamdulillah
+//Bipertite implemented by DFS
+#include<bits/stdc++.h>
+using namespace std;
+bool fg;
+void bipertite(vector < int > gh[],bool *vs,bool *cl,int u)
+{
+    vs[u] = 1;
+    for(int i = 0; i < gh[u].size() && !fg; ++i)
+    {
+        int v = gh[u][i];
+        if(!vs[v])
+        {
+            if(cl[u] == 0)
+                cl[v] = 1;
+            else
+                cl[v] = 0;
+            bipertite(gh,vs,cl,v);
+        }
+        else
+        {
+            if(cl[u] == cl[v])
+            {
+                fg = 1;
+                return;
+            }
+        }
+    }
+    return;
+}
+int main()
+{
+    int t;
+    while(cin >> t && t)
+    {
+        vector < int > gh[310];
+        int u, v;
+        while(cin >> u >> v && u && v)
+        {
+            if(u <= t && v <= t)
+            {
+                gh[u].push_back(v);
+                gh[v].push_back(u);
+            }
+        }
+        bool vs[310],cl[310];
+        memset(vs,0,sizeof(vs));
+        memset(cl,0,sizeof(cl));
+        fg = 0;
+        for(int i = 1; i <= t && !fg; ++i)
+        {
+            if(!vs[i])
+                bipertite(gh,vs,cl,i);
+        }
+        if(!fg)
+            cout << "YES" << endl;
+        else
+            cout << "NO" << endl;
+    }
+    return 0;
+}
