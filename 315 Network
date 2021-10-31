@@ -1,0 +1,108 @@
+//copy past code 
+#include<bits/stdc++.h>
+using namespace std;
+
+vector < int > make(string x)
+{
+    stringstream ss(x);
+    int xx;
+    vector < int > y;
+    while(ss >> xx)
+        y.push_back(xx);
+
+    return y;
+
+}
+int timee, root, totall_children;
+bool arti[110];
+void bridge(bool *vs,int *pr,int *lw,int *ds,vector < int > gh[],int u)
+{
+    vs[u] = 1;
+    lw[u] = ds[u] = ++timee;
+
+    for(int i = 0; i < gh[u].size(); ++i)
+    {
+        int v = gh[u][i];
+        //cout << "v = " << v << endl;
+        if(!vs[v])
+        {
+            if(u == root)
+                totall_children++;
+            pr[v] = u;
+            bridge(vs,pr,lw,ds,gh,v);
+            lw[u] = min(lw[u],lw[v]);
+
+            if(lw[v] >= ds[u] && u != root)
+                arti[u] = 1;//cout << "articulation point = " << u << endl, ;
+        }
+        else if(v != pr[u])
+            lw[u] = min(lw[u],ds[v]);
+    }
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int n;
+    while(cin >> n && n)
+    {
+        string str;
+        getline(cin,str);
+        vector < vector < int > > vv;
+
+        while(1)
+        {
+            getline(cin,str);
+            if(str.size() == 1 && str == "0")
+                break;
+            vv.push_back(make(str));
+        }
+        vector < int > gh[110];
+        vector < int > a;
+        for(int i = 0; i < vv.size(); ++i)
+        {
+            int u = vv[i][0];
+            a.push_back(u);
+            for(int j = 1; j < vv[i].size(); ++j)
+            {
+
+                int v = vv[i][j];
+
+                gh[u].push_back(v);
+                gh[v].push_back(u);
+            }
+        }
+        timee = 0;
+        bool vs[110];
+        int pr[110],lw[110],ds[110];
+        memset(vs,0,sizeof(vs));
+        memset(pr,-1,sizeof(pr));
+        memset(lw,0,sizeof(lw));
+        memset(ds,0,sizeof(ds));
+        memset(arti,0,sizeof(arti));
+
+        int sum = 0;
+
+        for(int i = 1; i <= n; ++i)
+        {
+            if(!vs[i])
+            {
+                root = i;
+                totall_children = 0;
+                bridge(vs,pr,lw,ds,gh,i);
+                if(totall_children > 1)
+                    arti[i] = 1;
+            }
+
+        }
+
+        for(int i = 1; i <= n; ++i)
+        {
+            if(arti[i])
+                sum += arti[i];//cout << "i = " << i << endl;
+        }
+        cout << sum << endl;
+    }
+    return 0;
+}
