@@ -1,0 +1,84 @@
+//In the name of Allah, the entirely , the specially nercifull
+//Alhamdulillah
+//This problem implemented by articulation point with dfs and recursion backtracking
+#include<bits/stdc++.h>
+using namespace std;
+struct ele
+{
+    int x;
+    int y;
+};
+vector < ele > vss;
+bool ok[1010][1010];
+int timee;
+void articulation_point(vector < int > gh[],bool *vs,int u,int *pr,int *ds,int *lw)
+{
+    vs[u] = 1;
+    lw[u] = ds[u] = ++timee;
+    for(int i = 0; i < gh[u].size(); ++i)
+    {
+        int v = gh[u][i];
+        if(!vs[v])
+        {
+            pr[v] = u;
+            vss.push_back({u,v});
+            ok[u][v] = 1;
+            articulation_point(gh,vs,v,pr,ds,lw);
+
+            lw[u] = min(lw[u],lw[v]);
+            if(lw[v] > ds[u] && !ok[v][u])
+                vss.push_back({v,u}),ok[v][u] = ok[u][v] = 1;
+
+        }
+        else if(v != pr[u])
+        {
+            lw[u] = min(lw[u],ds[v]);
+            if(!ok[u][v])
+                vss.push_back({u,v}), ok[v][u] = ok[u][v] = 1;
+        }
+    }
+}
+bool cmp(struct ele a,struct ele b)
+{
+    if(a.x != b.x)
+       return a.x <= b.x;
+    return a.y <= b.y;
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int n, m, co = 1;
+    while(cin >> n >> m && n && m)
+    {
+        vector < int > gh[1010];
+        vss.clear();
+        for(int i = 1; i <= m; ++i)
+        {
+            int u, v;
+            cin >> u >> v;
+            gh[u].push_back(v);
+            gh[v].push_back(u);
+        }
+        bool vs[1010];
+        int ds[1010], lw[1010], pr[1010];
+        memset(ok,0,sizeof(ok));
+        memset(vs,0,sizeof(vs));
+        memset(ds,0,sizeof(ds));
+        memset(lw,0,sizeof(lw));
+        memset(pr,-1,sizeof(pr));
+        timee = 0;
+
+        articulation_point(gh,vs,1,pr,ds,lw);
+        cout << co << endl;
+        co++;
+        cout << endl;
+
+        sort(vss.begin(),vss.end(),cmp);
+        for(int i = 0; i < vss.size(); ++i)
+            cout << vss[i].x << " " << vss[i].y << endl;
+        cout << "#" << endl;
+    }
+    return 0;
+}
