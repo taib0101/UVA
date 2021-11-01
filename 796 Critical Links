@@ -1,0 +1,103 @@
+//In the name of Allah,the entirely merciful,the specially merciful
+//Alhamdulillah
+//articulation point implemented by dfs with recursion backtracking
+#include<bits/stdc++.h>
+using namespace std;
+
+int make(string x)
+{
+    int n = 0;
+    for(int i = 1; i < x.size()-1; ++i)
+        n = (n * 10) + (x[i] - '0');
+    return n;
+}
+struct ele
+{
+    int x;
+    int y;
+};
+vector < ele > vse;
+int timee;
+void articulation_point(int u, vector < int > gh[],bool *vs,int *ds,int *lw,int *pr)
+{
+    //cout << "Alhamdulillah" << endl;
+    vs[u] = 1;
+    ds[u] = lw[u] = ++timee;
+    for(int i = 0; i < gh[u].size(); ++i)
+    {
+        int v = gh[u][i];
+        if(!vs[v])
+        {
+            pr[v] = u;
+            articulation_point(v,gh,vs,ds,lw,pr);
+
+            lw[u] = min(lw[u],lw[v]);
+            if(lw[v] > ds[u])
+            {
+                int a = u, b = v;
+                if(a > b)
+                    swap(a,b);
+                vse.push_back({a,b});
+            }
+        }
+        else if(v != pr[u])
+            lw[u] = min(lw[u],ds[v]);
+    }
+}
+
+bool cmp(ele a,ele b)
+{
+    if(a.x != b.x)
+        return a.x < b.x;
+    return a.y < b.y;
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+
+    int t;
+    while(cin >> t)
+    {
+        string x;
+        int u, n;
+        vector < int > gh[t+10];
+        for(int i = 1; i <= t; ++i)
+        {
+            cin >> u >> x;
+            n = make(x);
+            //cout << "n = " << n << endl;
+            for(int j = 1; j <= n; ++j)
+            {
+                int v;
+                cin >> v;
+                gh[u].push_back(v);
+                gh[v].push_back(u);
+            }
+        }
+        bool vs[t+10];
+        int pr[t+10], ds[t+10], lw[t+10];
+        vse.clear();
+
+        memset(vs,0,sizeof(vs));
+        memset(pr,-1,sizeof(pr));
+        memset(ds,0,sizeof(ds));
+        memset(lw,0,sizeof(lw));
+
+        for(int i = 0; i < t; ++i)
+        {
+            timee = 0;
+            if(!vs[i])
+                articulation_point(i,gh,vs,ds,lw,pr);
+        }
+        printf("%d critical links\n",vse.size());
+
+        sort(vse.begin(),vse.end(),cmp);
+        for(int i = 0; i < vse.size(); ++i)
+            cout << vse[i].x << " - " << vse[i].y << endl;
+        cout << endl;
+
+    }
+    return 0;
+}
