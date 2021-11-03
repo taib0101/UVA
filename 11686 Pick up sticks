@@ -1,0 +1,99 @@
+// I seek refuge with Allah, from the accursed Shaytaan(Devil)
+// In the name of Allah , the entirely Merciful, the Espcially Mercuful
+/*
+6 8
+5 1
+4 3
+1 5
+3 6
+1 2
+3 4
+1 6
+4 6
+
+7 3
+7 2
+5 2
+3 6
+
+7 4
+2 7
+7 2
+5 2
+3 6
+
+8 4
+6 7
+6 8
+7 8
+8 3
+*/
+// This code is implemented by DFS and this code detect cycle also
+// We know that topo_sort works by Direct - Acyclic -Graph(DAG)
+//UVA 11686
+#include<bits/stdc++.h>
+using namespace std;
+stack < int > st;
+int fg;
+void topo_sort(int u,bool *vs,vector < int > gh[],bool *vs2)
+{
+    vs[u] = 1;
+    vs2[u] = 1;
+    for(int i = 0; i < gh[u].size() && !fg; ++i)
+    {
+        int v = gh[u][i];
+//        if(u == 1 || u == 5)
+//            cout << "v = " << v << " , vs2 = " << vs2[v] << " , vs = " << vs[v] << endl;
+        if(!vs[v] && !vs2[v])
+        {
+            topo_sort(v,vs,gh,vs2);
+            vs2[v] = 0;
+        }
+        else if(vs2[v])
+        {
+            fg = 1;
+            break;
+        }
+    }
+    st.push(u);
+}
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int n, m;
+    while(cin >> n >> m && (n || m))
+    {
+        vector < int > gh[n+10];
+        for(int i = 1; i <= m; ++i)
+        {
+            int u, v;
+            cin >> u >> v;
+            gh[u].push_back(v);
+        }
+        bool vs[n+10], vs2[n+10];
+        memset(vs,0,sizeof(vs));
+
+        while(!st.empty())
+            st.pop();
+        fg = 0;
+
+        for(int i = 1; i <= n && !fg; ++i)
+        {
+            memset(vs2,0,sizeof(vs2));
+            if(!vs[i])
+                topo_sort(i,vs,gh,vs2);
+        }
+        if(fg)
+            cout << "IMPOSSIBLE" << endl;
+        else
+        {
+            while(!st.empty())
+            {
+                cout << st.top() << endl;
+                st.pop();
+            }
+        }
+    }
+    return 0;
+}
