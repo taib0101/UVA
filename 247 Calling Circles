@@ -9,6 +9,7 @@ Dolly Benedict
 Benedict Dolly
 Alexander Aaron
 */
+// UVA Code
 #include<bits/stdc++.h>
 using namespace std;
 stack < string > st;
@@ -113,6 +114,119 @@ int main()
     
         printf("Calling circles for data set %d:\n",co);
         SCC(g,gt,x);
+        co++;
+    }
+    return 0;
+}
+///////////////////////////////////////////////////////////////////
+// MY Code
+
+
+#include<bits/stdc++.h>
+using namespace std;
+stack < string > st;
+map < string , bool > vs1;
+map < string , bool > vs2;
+vector < string > ans[210];
+int a;
+
+void dfs1_scc(map < string , vector < string > > g,string u)
+{
+    vs1[u] = 1;
+    for(int i = 0 ; i < g[u].size(); ++i)
+    {
+        string v = g[u][i];
+        if(!vs1[v])
+            dfs1_scc(g,v);
+    }
+    st.push(u);
+}
+
+void dfs2_scc(map < string, vector < string > > gt,string u)
+{
+    vs2[u] = 1;
+    for(int i = 0; i < gt[u].size(); ++i)
+    {
+        string v = gt[u][i];
+        if(!vs2[v])
+        {
+            //cout << "v = " << v << endl;
+            ans[a-1].push_back(v);
+            dfs2_scc(gt,v);
+
+        }
+    }
+}
+
+void SCC(map < string, vector < string > > g,map < string, vector < string > > gt,vector < string > x)
+{
+    vs1.clear();
+    vs2.clear();
+
+    for(auto i = 0; i < x.size(); ++i)
+    {
+        string u = x[i];
+        //cout << "uu = " << u << endl;
+        if(!vs1[u])
+            dfs1_scc(g,u);
+    }
+
+    a = 0;
+    while(!st.empty())
+    {
+        string u = st.top();
+        if(!vs2[u])
+        {
+            a++;
+            ans[a-1].push_back(u);
+            dfs2_scc(gt,u);
+        }
+        st.pop();
+    }
+
+    for(int i = 0; i < a; ++i)
+    {
+        for(int j = 0; j < ans[i].size(); ++j)
+        {
+            cout << ans[i][j];
+            if(j != ans[i].size()-1)
+                cout << ", ";
+        }
+        ans[i].clear();
+        cout << endl;
+    }
+
+}
+
+int main()
+{
+    int n, m, co = 1;
+    while(cin >> n >> m && (n || m))
+    {
+        map < string , vector < string > > g;
+        map < string , vector < string > > gt;
+        map < string , bool > vi;
+        vector < string > x;
+        for(int i = 1; i <= m; ++i)
+        {
+            string u, v;
+            cin >> u >> v;
+            if(!vi[u])
+            {
+                x.push_back(u);
+                vi[u] = 1;
+            }
+            if(!vi[v])
+            {
+                x.push_back(v);
+                vi[v] = 1;
+            }
+            g[u].push_back(v);
+            gt[v].push_back(u);
+        }
+        printf("Calling circles for data set %d:\n",co);
+        SCC(g,gt,x);
+        cout << endl;
         co++;
     }
     return 0;
