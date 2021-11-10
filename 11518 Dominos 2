@@ -1,0 +1,55 @@
+//I seek refuse with Allah, from the accursed shaytan(Devil)
+//In the name of Allah , the Entirely Merciful , the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+int countt;
+void dfs(vector < int > gh[],int u,bool *vs)
+{
+    vs[u] = 1;
+    countt++;
+    for(int i = 0; i < gh[u].size(); ++i)
+    {
+        int v = gh[u][i];
+
+        if(!vs[v])
+            dfs(gh,v,vs);
+    }
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n, m, l;
+        cin >> n >> m >> l;
+        bool vs[n+10];
+        vector < int > gh[n+10];
+        memset(vs,0,sizeof(vs));
+        for(int i = 1; i <= m; ++i)
+        {
+            int x, y;
+            cin >> x >> y;
+            gh[x].push_back(y);
+        }
+        int sum = 0;
+        ///cout << "l = " << l << endl;
+        while(l--)
+        {
+            int z;
+            cin >> z;
+            countt = 0;
+
+            if(!vs[z])
+            {
+                dfs(gh,z,vs);
+                sum += countt;
+            }
+        }
+        cout << sum << endl;
+    }
+    return 0;
+}
