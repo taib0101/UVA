@@ -1,0 +1,78 @@
+//I seek refused with Allah, from the accursed satan(devil)
+//In the name of Allah , the Entirely Merciful,the Specially
+#include<bits/stdc++.h>
+using namespace std;
+vector < int > stackk;
+int countt;
+#define MXN 100000
+bool vs1[MXN+10];
+bool vs2[MXN+10];
+void dfs1(vector < int > g[],int u)
+{
+    vs1[u] = 1;
+    for(int i = 0; i < g[u].size(); ++i)
+    {
+        int v = g[u][i];
+        if(!vs1[v])
+            dfs1(g,v);
+    }
+    stackk.push_back(u);
+}
+
+void dfs2(vector < int > gh[],int u)
+{
+    vs2[u] = 1;
+    for(int i = 0; i < gh[u].size(); ++i)
+    {
+        int v = gh[u][i];
+        if(!vs2[v])
+            dfs2(gh,v);
+    }
+}
+
+void kosaraju_scc(vector < int > g[],int n)
+{
+    memset(vs1,0,sizeof(vs1));
+    memset(vs2,0,sizeof(vs2));
+
+    for(int i = 1; i <= n; ++i)
+    {
+        if(!vs1[i])
+            dfs1(g,i);
+    }
+
+    countt = 0;
+    for(int i = stackk.size()-1; i >= 0; --i)//here was a different from my code
+    {
+        int u = stackk[i];
+        if(!vs2[u])
+        {
+            dfs2(g,u);
+            countt++;
+        }
+    }
+    cout << countt << endl;
+    stackk.clear();
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n, m;
+        cin >> n >> m;
+        vector < int > g[n+10];
+
+        for(int i = 1; i <= m; ++i)
+        {
+            int u, v;
+            cin >> u >> v;
+            g[u].push_back(v);
+            //here was a different from my code
+        }
+        kosaraju_scc(g,n);
+    }
+    return 0;
+}
