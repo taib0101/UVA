@@ -1,0 +1,103 @@
+//I seek refused with Allah, from the accursed satan(devil)
+//In the name of Allah , the Entirely Merciful, the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+map < string, bool > vs1;
+map < string, bool > vs2;
+vector < string > st;
+map < string, vector < string > > g;
+map < string, vector < string > > gh;
+int ans;
+
+void dfs1(string u)
+{
+    vs1[u] = 1;
+    for(int i = 0; i < g[u].size(); ++i)
+    {
+        string v = g[u][i];
+        if(!vs1[v])
+            dfs1(v);
+    }
+    st.push_back(u);
+}
+
+void reverse_graph()
+{
+    for(auto it = g.begin(); it != g.end(); ++it)
+    {
+        string u = it -> first;
+        for(int i = 0; i < g[u].size(); ++i)
+        {
+            string v = g[u][i];
+            gh[v].push_back(u);
+        }
+    }
+}
+
+void dfs2(string u)
+{
+    vs2[u] = 1;
+    for(int i = 0; i < gh[u].size(); ++i)
+    {
+        string v = gh[u][i];
+        if(!vs2[v])
+            dfs2(v);
+    }
+}
+
+void  kosaraju()
+{
+    ans = 0;
+    for(auto i = vs1.begin(); i != vs1.end(); ++i)
+    {
+        string u = i -> first;
+        //cout << "main = " << u << endl;
+        if(!vs1[u])
+            dfs1(u);
+    }
+    //reverse_graph();
+    //cout << endl;
+
+    for(int i = st.size()-1; i >= 0; --i)
+    {
+        string u = st[i];
+        //cout << "stack = " << u << endl;
+        if(!vs2[u])
+        {
+            dfs2(u);
+            ans++;
+        }
+    }
+    st.clear();
+    cout << ans << endl;
+}
+
+int main()
+{
+//    freopen("in.tst2t","r",stdin);
+//    freopen("out.tst2t","w",stdout);
+    int n, m;
+    while(cin >> n >> m && (n || m))
+    {
+        g.clear();
+        gh.clear();
+        string x, y;
+        vs1.clear();
+        vs2.clear();
+        getline(cin,x);
+        for(int i = 1; i <= n; ++i)
+        {
+            getline(cin,x);
+            vs1[x] = vs2[x] = 0;
+        }
+        for(int i = 1; i <= m; ++i)
+        {
+            getline(cin,x);
+            getline(cin,y);
+            g[x].push_back(y);
+            gh[y].push_back(x);
+        }
+        kosaraju();
+    }
+    return 0;
+}
