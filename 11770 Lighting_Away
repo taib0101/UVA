@@ -1,0 +1,79 @@
+//I seek refused with Allah, from the accursed satan(devil)
+//In the name of Allah, the Entirely Merciful,the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+#define MXN 10010
+vector < int > g[MXN];
+bool vs[MXN];
+stack < int > st;
+
+void dfs1(int u)
+{
+    vs[u] = 1;
+    for(int v: g[u])
+    {
+        if(!vs[v])
+            dfs1(v);
+    }
+    st.push(u);
+}
+
+void dfs2(int u)
+{
+    vs[u] = 1;
+    for(int v: g[u])
+    {
+        if(!vs[v])
+            dfs1(v);
+    }
+}
+
+void kosaraju(int n)
+{
+    memset(vs,0,sizeof(vs));
+    for(int i = 1; i <= n; ++i)
+    {
+        if(!vs[i])
+            dfs1(i);
+    }
+
+    memset(vs,0,sizeof(vs));
+    int ans = 0;
+    while(!st.empty())
+    {
+        int u = st.top();
+        st.pop();
+        if(!vs[u])
+        {
+            ans++;
+            dfs2(u);
+        }
+    }
+    cout << ans << endl;
+    for(int i = 1; i <= n; ++i)
+        g[i].clear();
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+    int co = 1;
+    while(t--)
+    {
+        int n, m;
+        cin >> n >> m;
+        for(int i = 1; i <= m; ++i)
+        {
+            int u, v;
+            cin >> u >> v;
+            g[u].push_back(v);
+        }
+        printf("Case %d: ",co);
+        co++;
+        kosaraju(n);
+    }
+    return 0;
+}
