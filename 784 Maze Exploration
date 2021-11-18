@@ -1,0 +1,69 @@
+//I seek refused with Allah, from the accursed satan (devil)
+//In the name of Allah, the Entirely Merciful, the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > vs;
+struct ele
+{
+    int x;
+    int y;
+};
+vector < ele > ves;
+bool vist[100][100];
+
+void dfs(int u, int v)
+{
+    vist[u][v] = 1;
+    vs[u][v] = '#';
+    int du[] = {-1,0,1,0};
+    int dv[] = {0,-1,0,1};
+
+    for(int i = 0; i < 4; ++i)
+    {
+        int uu = u + du[i];
+        int vv = v + dv[i];
+        if(uu >= 0 && vv >= 0 && !vist[uu][vv] && vs[uu][vv] == ' ')
+            dfs(uu,vv);
+    }
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    string str;
+    int t;
+    cin >> t;
+    getline(cin,str);
+    while(t--)
+    {
+        vs.clear();
+        ves.clear();
+        while(getline(cin,str))
+        {
+            vs.push_back(str);
+            if(str[0] == '_')
+                break;
+        }
+        for(int i = 0; i < vs.size(); ++i)
+        {
+            for(int j = 0; j < vs[i].size(); ++j)
+            {
+                if(vs[i][j] == '*')
+                    ves.push_back({i,j});
+            }
+        }
+        memset(vist,0,sizeof(vist));
+        for(int i = 0; i < ves.size(); ++i)
+        {
+            int u = ves[i].x;
+            int v = ves[i].y;
+            if(!vist[u][v])
+                dfs(u,v);
+        }
+
+        for(int i = 0; i < vs.size(); ++i)
+            cout << vs[i] << endl;
+    }
+    return 0;
+}
