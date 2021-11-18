@@ -1,0 +1,78 @@
+//I seek refused with Allah, from the accursed satan(devil)
+//In the name of Allah, the Entirely Merciful, the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > vs;
+bool vist[101][101];
+int ans;
+
+void dfs(int x, int y,int n,int m)
+{
+    vist[x][y] = 1;
+    ans++;
+
+    int dx[] = {0, 0, -1, 1, -1, 1, -1, 1};
+    int dy[] = {-1, 1, 0, 0, -1, 1, 1, -1};
+
+    for(int i = 0; i < 8; ++i)
+    {
+        int xx = x + dx[i];
+        int yy = y + dy[i];
+
+        if(xx >= 0 && yy >= 0 && xx < m && yy < n && !vist[xx][yy] && vs[xx][yy] == 'W')
+            dfs(xx,yy,n,m);
+    }
+    return;
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t;
+    bool bb = 0;
+    cin >> t;
+    string str;
+    getline(cin,str);
+    while(t--)
+    {
+        if(bb)
+            cout << endl;
+        bb = 1;
+        vs.clear();
+        while(getline(cin,str))
+        {
+            if(!str.empty())
+            {
+                if(isdigit(str[0]))
+                    break;
+                vs.push_back(str);
+                //cout << str << endl;
+            }
+        }
+        int n = vs[0].size();
+        int m = vs.size();
+        vector < pair < int, int > > vpp;
+        stringstream ss(str);
+
+        int x, y;
+        ss >> x >> y;
+        vpp.push_back({x-1,y-1});
+
+        while(getline(cin,str) && !str.empty())
+        {
+            stringstream ss(str);
+            ss >> x >> y;
+            vpp.push_back({x-1,y-1});
+        }
+
+        for(int i = 0; i < vpp.size(); ++i)
+        {
+            memset(vist,0,sizeof(vist));
+            ans = 0;
+            dfs(vpp[i].first,vpp[i].second,n,m);
+            cout << ans << endl;
+        }
+    }
+    return 0;
+}
