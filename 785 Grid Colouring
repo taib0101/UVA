@@ -1,0 +1,100 @@
+//I seek refused with Allah , from the accursed satan(devil)
+//In the name of Allah, the Entirely Merciful, the Specially Merciful
+
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > g;
+bool vs[90][90];
+struct ele
+{
+    int a;
+    int b;
+};
+vector < ele > st;
+
+void dfs(int x, int y,char c,int n)
+{
+    vs[x][y] = 1;
+    int dx[] = {0,0,-1,1};
+    int dy[] = {-1,1,0,0};
+    g[x][y] = c;
+//    cout << "x = " << x << " , y = " << y << endl;
+    for(int i = 0; i < 4; ++i)
+    {
+        int xx = x + dx[i];
+        int yy = y + dy[i];
+
+        if(xx >= 0 && yy >= 0 && xx < n)
+        {
+            int m = g[xx].size();
+            if(yy < m && !vs[xx][yy] && (g[xx][yy] == c || g[xx][yy] == ' '))
+                dfs(xx,yy,c,n);
+
+        }
+    }
+}
+//X X X
+//        +
+//XXXXX
+//_
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    string str;
+    while(getline(cin,str))
+    {
+        map < char, int > mp;
+        g.push_back(str);
+        while(getline(cin,str))
+        {
+            if(str[0] == '_')
+                break;
+            g.push_back(str);
+        }
+        int maxx = 0;
+        char cc;
+        for(int i = 0; i< g.size(); ++i)
+        {
+            for(int j = 0; j < g[i].size(); ++j)
+            {
+                char c = g[i][j];
+                mp[c]++;
+                if(mp[c] > maxx && c != ' ')
+                    maxx = mp[c];
+            }
+        }
+        //cout << "max = " << maxx << endl;
+        for(int i = 0; i< g.size(); ++i)
+        {
+            for(int j = 0; j < g[i].size(); ++j)
+            {
+                char c = g[i][j];
+                if(mp[c] < maxx && c != ' ' && c != '_')
+                {
+                    //cout << c << endl;
+                    st.push_back({i,j});
+                }
+
+            }
+        }
+        memset(vs,0,sizeof(vs));
+        int n = g.size();
+        for(int i = 0; i < st.size(); ++i)
+        {
+            int x, y;
+            x = st[i].a;
+            y = st[i].b;
+            char c = g[x][y];
+            if(!vs[x][y])
+                dfs(x,y,c,n);
+        }
+
+        for(int i = 0; i < g.size(); ++i)
+            cout << g[i] << endl;
+        cout << "_____________________________" << endl;
+        g.clear();
+        st.clear();
+    }
+    return 0;
+}
