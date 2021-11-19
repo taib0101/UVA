@@ -11,7 +11,7 @@ struct ele
 vector < ele > ves;
 bool vist[100][100];
 
-void dfs(int u, int v)
+void dfs(int u, int v,int n)
 {
     vist[u][v] = 1;
     vs[u][v] = '#';
@@ -22,8 +22,14 @@ void dfs(int u, int v)
     {
         int uu = u + du[i];
         int vv = v + dv[i];
-        if(uu >= 0 && vv >= 0 && !vist[uu][vv] && vs[uu][vv] == ' ')
-            dfs(uu,vv);
+
+        if(uu >= 0 && vv >= 0 && uu < n)
+        {
+            int m = vs[uu].size();
+            if(vv < m && !vist[uu][vv] && vs[uu][vv] == ' ')
+                dfs(uu,vv,n);
+        }
+
     }
 }
 
@@ -54,12 +60,13 @@ int main()
             }
         }
         memset(vist,0,sizeof(vist));
+        int n = vs.size();
         for(int i = 0; i < ves.size(); ++i)
         {
             int u = ves[i].x;
             int v = ves[i].y;
             if(!vist[u][v])
-                dfs(u,v);
+                dfs(u,v,n);
         }
 
         for(int i = 0; i < vs.size(); ++i)
