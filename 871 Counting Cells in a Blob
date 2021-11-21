@@ -1,0 +1,74 @@
+//I
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > g;
+bool vs[27][27];
+int sum;
+void dfs(int x, int y,vector < string > g,int n,int m)
+{
+    vs[x][y] = 1;
+    sum++;
+    int dx[] = {0,0,-1,1,-1,1,-1,1};
+    int dy[] = {-1,1,0,0,-1,1,1,-1};
+
+    for(int i = 0; i < 8; ++i)
+    {
+        int xx = x + dx[i];
+        int yy = y + dy[i];
+        //cout << "xx = " << xx << endl;
+
+        if(xx >= 0 && yy >= 0 && xx < n && yy < m )
+        {
+            char c = g[xx][yy];
+            if(!vs[xx][yy] && c == '1')
+                dfs(xx,yy,g,n,m);
+        }
+
+    }
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+    t++;
+
+    string str;
+    getline(cin,str);
+    bool bb = 0;
+    while(t--)
+    {
+
+        g.clear();
+        while(getline(cin,str) && !str.empty())
+            g.push_back(str);
+        int n, m;
+        if(!g.empty())
+        {
+            if(bb)
+            cout << endl;
+            bb = 1;
+            n = g.size();
+            m = g[0].size();
+            memset(vs,0,sizeof(vs));
+            int maxx = 0;
+            for(int i = 0; i < g.size(); ++i)
+            {
+                for(int j = 0; j < g[i].size(); ++j)
+                {
+                    char c = g[i][j];
+                    if(!vs[i][j] && c == '1')
+                    {
+                        sum = 0;
+                        dfs(i,j,g,n,m);
+                        maxx = max(sum, maxx);
+                    }
+                }
+            }
+            cout << maxx << endl;
+        }
+    }
+    return 0;
+}
