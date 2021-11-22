@@ -1,0 +1,59 @@
+//I seek refused with ALLAH,from the accursed satan(devil)
+//In the name of ALLAh, the Entirely Merciful,the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+bool vs[200][200];
+char g[200][200];
+
+void dfs(int x,int y,int r, int c,char ch)
+{
+    vs[x][y] = 1;
+    int dx[] = {0,0,-1,1,-1,1,-1,1};
+    int dy[] = {-1,1,0,0,1,-1,-1,1};
+
+    for(int i = 0; i < 8; ++i)
+    {
+        int xx = x + dx[i];
+        int yy = y + dy[i];
+
+        if(xx >= 0 && yy >= 0 && xx < r && yy < c)
+        {
+            if(!vs[xx][yy] && g[xx][yy] == ch)
+                dfs(xx,yy,r,c,ch);
+        }
+    }
+}
+
+int main()
+{
+    int r, c;
+    while(cin >> r >> c && (r || c))
+    {
+        vector < pair < int,int > > vp;
+        for(int i = 0; i < r; ++i)
+        {
+            for(int j = 0; j < c; ++j)
+            {
+                cin >> g[i][j];
+                if(g[i][j] == '@')
+                    vp.push_back({i,j});
+            }
+        }
+
+        memset(vs,0,sizeof(vs));
+        int sum1 = 0;
+        for(int i = 0; i < vp.size(); ++i)
+        {
+            int x = vp[i].first;
+            int y = vp[i].second;
+
+            if(!vs[x][y])
+            {
+                sum1++;
+                dfs(x,y,r,c,g[x][y]);
+            }
+        }
+        cout << sum1 << endl;
+    }
+    return 0;
+}
