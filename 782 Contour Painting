@@ -1,0 +1,130 @@
+//I seek refused with ALLAH, from the accursed satan(devil)
+//In the name of ALLAH,the Entirely Merciful,the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > g;
+bool vs[200][200];
+
+void dfs(int x, int y, int r)
+{
+    vs[x][y] = 1;
+    int dx[] = {0,0,-1,1};
+    int dy[] = {-1,1,0,0};
+    if(x >= 0 && y >= 0 && x < r)
+    {
+//        cout << "x = " << x << endl;
+//        cout << "y = " << y << endl;
+        int cx = g[x].size();
+        if(y < cx)
+        {
+            if(y != 0)
+            {
+//                cout << "x1 = " << x << endl;
+//                cout << "y1 = " << y << endl;
+                if(g[x][y-1] == 'X')
+                    g[x][y] = '#';
+            }
+            if(y+1 != cx)
+            {
+//                cout << "x2 = " << x << endl;
+//                cout << "y2 = " << y << endl;
+                if(g[x][y+1] == 'X')
+                    g[x][y] = '#';
+            }
+            if(x != 0)
+            {
+//                cout << "x3 = " << x << endl;
+//                cout << "y3 = " << y << endl;
+                if(g[x-1][y] == 'X')
+                    g[x][y] = '#';
+            }
+            if(x+1 != r)
+            {
+//                cout << "x4 = " << x << endl;
+//                cout << "y4 = " << y << endl;
+                if(g[x+1][y] == 'X')
+                    g[x][y] = '#';
+            }
+        }
+    }
+
+    for(int i = 0; i < 4; ++i)
+    {
+        int xx = x + dx[i];
+        int yy = y + dy[i];
+        int c = g[xx].size();
+        if(xx >= 0 && yy >= 0 && xx < r && yy < c)
+        {
+            char cc = g[xx][yy];
+            if(!vs[xx][yy] && cc == ' ')
+                dfs(xx,yy,r);
+        }
+    }
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+    string str;
+    getline(cin,str);
+
+    while(t--)
+    {
+        g.clear();
+        int maxx = 0;
+        vector < pair < int, int > > vp;
+        getline(cin,str);
+        g.push_back(str);
+
+        while(getline(cin,str))
+        {
+            g.push_back(str);
+            if(str[0] == '_')
+                break;
+            int n = str.size();
+            if(n > maxx)
+                maxx = n;
+        }
+        int n = g.size();
+
+        for(int i = 0; i < n; ++i)
+        {
+            for(int j = 0; j < g[i].size(); ++j)
+            {
+                char cc = g[i][j];
+                if(cc == '*')
+                vp.push_back({i,j});
+            }
+        }
+
+        for(int i = 0; i < n; ++i)
+        {
+            int m = g[i].size();
+            for(int j = 1; j <= abs(maxx - m)+1; ++j)
+                g[i].push_back(' ');
+        }
+
+        memset(vs,0,sizeof(vs));
+        //cout << "size = " << vp.size() << endl;
+        for(int i = 0; i < vp.size(); ++i)
+        {
+            int x = vp[i].first;
+            int y = vp[i].second;
+            int r = g.size();
+            g[x][y] = ' ';
+            dfs(x,y,r);
+        }
+
+        for(int i = 0; i < n; ++i)
+        {
+            for(int j = g[i].size()-1; j >= 0 && g[i][j] == ' '; --j)
+                g[i].pop_back();
+        }
+        for(int i = 0; i < g.size(); ++i)
+            cout << g[i] << endl;
+    }
+    return 0;
+}
