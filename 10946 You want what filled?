@@ -1,0 +1,70 @@
+//I seek refused with Allah,from the accursed satan(devil)
+//In the name of Allah, the Entirely Merciful, the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > g;
+bool vs[200][200];
+int maxx;
+struct ele
+{
+    char c;
+    int a;
+};
+void dfs(int x, int y,int n, int m,char cc)
+{
+    vs[x][y] = 1;
+    int dx[] = {0,0,-1,1};
+    int dy[] = {-1,1,0,0};
+    maxx++;
+    for(int i = 0; i < 4; ++i)
+    {
+        int xx = x + dx[i];
+        int yy = y + dy[i];
+        if(xx >= 0 && yy >= 0 && xx < n && yy < m && !vs[xx][yy] && g[xx][yy] == cc)
+            dfs(xx,yy,n,m,cc);
+    }
+}
+
+bool cmp(ele p,ele q)
+{
+    if(p.a != q.a)
+        return p.a > q.a;
+    return p.c < q.c;
+}
+
+int main()
+{
+    int n, m, co = 1;
+    while(cin >> n >> m && (n || m))
+    {
+        g.clear();
+        for(int i = 1; i <= n; ++i)
+        {
+            string str;
+            cin >> str;
+            g.push_back(str);
+        }
+
+        memset(vs,0,sizeof(vs));
+        vector < ele > ve;
+        for(int i = 0; i < g.size(); ++i)
+        {
+            for(int j = 0; j < g[i].size(); ++j)
+            {
+                char cc = g[i][j];
+                if(!vs[i][j] && isalpha(cc))
+                {
+                    maxx = 0;
+                    dfs(i,j,n,m,cc);
+                    ve.push_back({cc,maxx});
+                }
+            }
+        }
+        sort(ve.begin(),ve.end(),cmp);
+        printf("Problem %d:\n",co);
+        co++;
+        for(int i = 0; i < ve.size(); ++i)
+            cout << ve[i].c << " " << ve[i].a << endl;
+    }
+    return 0;
+}
