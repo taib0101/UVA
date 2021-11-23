@@ -1,0 +1,114 @@
+//I seek refused with Allah,from the accursed satan(devil)
+//In the name of Allah,the Entirely Merciful,the Specially Merciful
+//This problem is permutation .. and its implemented by dfs
+#include<bits/stdc++.h>
+using namespace std;
+vector < int > mv[100];
+map < int , char > a1;
+map < char , int > a2;
+map < char , bool > vs;
+map < string , bool > ans;
+
+void dfs(int u,int i,string x,string str)
+{
+    int n = str.size();
+    vs[u] = 1;
+
+    x.push_back(a1[u]);
+    //cout << x << endl;
+    if(i == n)
+    {
+        ans[x] = 1;
+        return;
+    }
+    for(int j = 0; j < mv[u].size(); ++j)
+    {
+        int v = mv[u][j];
+        if(!vs[v])
+        {
+            dfs(v,i+1,x,str);
+            vs[v] = 0;
+        }
+    }
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        string str;
+        cin >> str;
+        vs.clear();
+        a1.clear();
+        a2.clear();
+        int sz = 0;
+
+        for(int i = 0; i < str.size(); ++i)
+        {
+            char c = str[i];
+            a1[sz] = c;
+            a2[c] = sz;
+            sz++;
+        }
+        ans.clear();
+        string x;
+
+        for(auto i = a1.begin(); i != a1.end(); ++i)
+        {
+            int u = i -> first;
+            for(auto j = a1.begin(); j != a1.end(); ++j)
+            {
+                int v = j -> first;
+                if(i != j)
+                    mv[u].push_back(v);
+            }
+        }
+        for(int it = 0; it < sz; ++it)
+            dfs(it,1,x,str),vs.clear();
+        for(int i = 0; i < sz; ++i)
+            mv[i].clear();
+        for(auto it = ans.begin(); it != ans.end(); ++it)
+            cout << it -> first << endl;
+        cout << endl;
+    }
+    return 0;
+}
+
+
+/////////////////////////////////////////////////
+
+//this implemented by build in function which is "next_permutation"
+
+#include<bits/stdc++.h>
+using namespace std;
+vector < string > ans;
+
+int main()
+{
+    int t;
+    bool bb = 0;
+    cin >> t;
+    while(t--)
+    {
+        bb = 1;
+        string str;
+        cin >> str;
+        sort(str.begin(),str.end());
+        map < string , int > mpp;
+        mpp[str] = 1;
+
+        while(next_permutation(str.begin(),str.end()))
+            mpp[str] = 1;
+
+         for(auto it = mpp.begin(); it != mpp.end(); ++it)
+        {
+            string xx = it -> first;
+            cout << xx << endl;
+        }
+        cout << endl;
+    }
+    return 0;
+}
+
