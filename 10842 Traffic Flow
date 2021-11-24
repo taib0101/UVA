@@ -1,0 +1,107 @@
+//I seek refused with Allah, from the accursed satan
+//In the name of Allah, the Entirely Merciful, the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+vector < int > g[110];
+int ans[101][101];
+struct ele
+{
+    int a;
+    int b;
+    int c;
+};
+bool cmp(ele x,ele y)
+{
+//    if((x.a != y.a) || (x.b != y.b))
+//        return x.c < y.c;
+    return x.c > y.c;
+}
+int findd(int u,int *pr)
+{
+    if(pr[u] == u)
+        return u;
+    pr[u] = findd(pr[u], pr);
+    return pr[u];
+}
+bool vs[110];
+void Union_find(vector < ele > ve,int n)
+{
+
+    int m = ve.size();
+    int pr[n+10], rk[n+10];//parent and rank by disjoint
+    for(int i = 0; i < n; ++i)
+        pr[i] = i, rk[i] = vs[i] = 0,g[i].clear();
+
+    for(int i = 0; i < m; ++i)
+    {
+        int u = ve[i].a;
+        int v = ve[i].b;
+        u = findd(u, pr);
+        v = findd(v, pr);
+
+        if(u != v)
+        {
+            if(rk[u] > rk[v])
+                pr[v] = u;
+            else if(rk[u] < rk[v])
+                pr[u] = v;
+            else
+            {
+                pr[v] = u;
+                rk[u]++;
+            }
+            g[u].push_back(v);
+            g[v].push_back(u);
+            ans[u][v] = ve[i].c;
+            ans[v][u] = ve[i].c;
+        }
+    }
+}
+int minn;
+
+void dfs(int u)
+{
+    vs[u] = 1;
+    for(int v: g[u])
+    {
+        if(!vs[v])
+        {
+            //cout << ans[u][v] << endl;
+            minn = min(minn,ans[u][v]);
+            dfs(v);
+        }
+    }
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t,co = 1;
+    cin >> t;
+    while(t--)
+    {
+        int n, m;
+        vector < ele > ve;
+        cin >> n >> m;
+        for(int i = 1; i <= m; ++i)
+        {
+            int u, v, w;
+            cin >> u >> v >> w;
+            if(u <= n && v <= n)
+                ve.push_back({u,v,w});
+        }
+        sort(ve.begin(),ve.end(),cmp);
+        memset(ans,0,sizeof(ans));
+        minn = 100000000;
+
+        Union_find(ve,n);
+        for(int i = 0; i < n; ++i)
+        {
+            if(!vs[i])
+                dfs(i);
+        }
+        printf("Case #%d: %d\n",co,minn);
+        co++;
+    }
+}
