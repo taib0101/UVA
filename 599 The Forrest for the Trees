@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector < int > g[50];
+bool vs[50];
+int sum;
+
+void dfs(int u)
+{
+    vs[u] = 1;
+
+    sum++;
+    for(int i = 0; i < g[u].size(); ++i)
+    {
+        int v = g[u][i];
+        if(!vs[v])
+            dfs(v);
+    }
+}
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int t;
+    cin >> t;
+
+    while(t--)
+    {
+        string str;
+        for(int i = 0; i < 50; ++i)
+            g[i].clear();
+        while(cin >> str && str[0] != '*')
+        {
+            g[str[1] - 'A' + 1].push_back(str[3] - 'A' + 1);
+            g[str[3] - 'A' + 1].push_back(str[1] - 'A' + 1);
+            //cout << str << endl;
+        }
+        cin >> str;
+
+        memset(vs,0,sizeof(vs));
+        int t = 0, a = 0;
+        for(int i = 0; i < str.size(); i += 2)
+        {
+            sum = 0;
+            if(!vs[str[i] - 'A' + 1])
+            {
+                dfs(str[i] - 'A' + 1);
+                if(sum > 1)
+                    t++;
+                else
+                    a++;
+            }
+        }
+        printf("There are %d tree(s) and %d acorn(s).\n",t,a);
+    }
+    return 0;
+}
