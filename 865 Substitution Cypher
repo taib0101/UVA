@@ -1,0 +1,60 @@
+//I seek refused with Allah,from the accursed satan
+//In the name of Allah, the Entirely Merciful, the Specially Merciful
+#include<iostream>
+#include<vector>
+#include<map>
+#include<string>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    string str;
+    int t,co = 0;
+    cin >> t;
+    getline(cin,str);
+
+    while(t--)
+    {
+        if(co)
+            cout << endl;
+        else
+            getline(cin,str);
+        co = 1;
+        
+        string str1,str2;
+        getline(cin,str1);
+        getline(cin,str2);
+
+        vector < string > vs;
+        map < char, char > mp;
+        vs.push_back(str1);
+        vs.push_back(str2);
+
+        while(getline(cin,str) && !str.empty())
+            vs.push_back(str);
+        for(int i = 0; i < str1.size(); ++i)
+        {
+            char a, b;
+            a = str1[i];
+            b = str2[i];
+            mp[a] = b;
+
+        }
+        swap(vs[0],vs[1]);
+        for(int i = 2; i < vs.size(); ++i)
+        {
+            for(int j = 0; j < vs[i].size(); ++j)
+            {
+                if(mp.find(vs[i][j]) != mp.end())
+                    vs[i][j] = mp[vs[i][j]];
+            }
+        }
+
+        for(int i = 0; i < vs.size(); ++i)
+            cout << vs[i] << endl;
+    }
+    return 0;
+}
