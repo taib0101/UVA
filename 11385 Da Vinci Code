@@ -1,0 +1,60 @@
+//I seek refused with Allah, from the accursed satan
+//In the name of Allah,the Entirely Merciful,the Specially Merciful
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+//    freopen("in.txt","r",stdin);
+//    freopen("out.txt","w",stdout);
+    int fib[600];
+    map < int, int > rev_fib;
+    fib[1] = rev_fib[1] = 1;
+    fib[2] = rev_fib[2] = 2;
+    for(int i = 3; i <= 100; ++i)
+    {
+        fib[i] = fib[i-2] + fib[i-1];
+        rev_fib[fib[i]] = i;
+        char c = i + 'A' - 1;
+    }
+
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n;
+        cin >> n;
+        vector < int > vc;
+        for(int i = 0; i < n; ++i)
+        {
+            int x;
+            cin >> x;
+            vc.push_back(x);
+        }
+
+        string str;
+
+        getline(cin,str);
+        getline(cin,str);
+        n = str.size();
+
+        char ch[n+10];
+        int x = 0, vcn = vc.size();
+        fill(ch,ch+n+10,' ');
+        for(int i = 0, j = 0; i < n && j < vcn; ++i)
+        {
+            char c = str[i];
+            if(isalpha(c) && isupper(c))
+            {
+                int a = j++;
+                //cout << "Fib = " << vc[a] << " , here = " << rev_fib[vc[a]] << " , c = " << c << endl;
+                ch[rev_fib[vc[a]]] = c;
+                x = max(x,rev_fib[vc[a]]);
+            }
+        }
+        for(int i = 1; i <= x; ++i)
+            cout << ch[i];
+        cout << endl;
+    }
+    return 0;
+}
