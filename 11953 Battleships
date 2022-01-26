@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+bool vs[110][110];
+char ar[110][110];
+
+void dfs(int x,int y, int n)
+{
+    int dx[] = {0,0,-1,1};
+    int dy[] = {1,-1,0,0};
+    vs[x][y] = 1;
+
+    for(int i = 0; i < 4; ++i)
+    {
+        int xx = x + dx[i];
+        int yy = y + dy[i];
+        if(!vs[xx][yy] && (ar[xx][yy] == 'x' || ar[xx][yy] == '@') && xx >= 1 && yy >= 1 && yy <= n && xx <= n)
+            dfs(xx,yy,n);
+    }
+}
+int main()
+{
+    int t,q = 1;
+    cin >> t;
+    while(t--)
+    {
+        int n;
+        cin >> n;
+
+        for(int i = 1; i <= n; ++i)
+        {
+            for(int j = 1; j <= n; ++j)
+                cin >> ar[i][j];
+        }
+        memset(vs,0,sizeof(vs));
+        int co = 0;
+
+        for(int i = 1; i <= n; ++i)
+        {
+            for(int j = 1; j <= n; ++j)
+            {
+                if(!vs[i][j] && ar[i][j] == 'x')
+                {
+                    dfs(i,j,n);
+                    co++;
+                }
+            }
+        }
+        printf("Case %d: %d\n",q,co);
+        q++;
+    }
+    return 0;
+}
