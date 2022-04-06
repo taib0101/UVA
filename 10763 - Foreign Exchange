@@ -1,0 +1,63 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// int main()
+// {
+//     // freopen("in.txt","r",stdin);
+//     // freopen("out.txt","w",stdout);
+//     int t;
+//     while(cin >> t && t)
+//     {
+//         map < int, map < int , bool > > x;
+//         map < int, map < int , int > > y;
+//         vector < pair < int , int > > vp;
+//         for(int i = 1; i <= t; ++i)
+//         {
+//             int a, b;
+//             cin >> a >> b;
+//             x[a][b] = 1;
+//             y[a][b]++;    
+//             vp.push_back({a,b});
+//         }
+        
+//         bool bb = 1;
+//         for(int i = 0; i < vp.size() && bb; ++i)
+//         {
+//             int a = vp[i].first;
+//             int b = vp[i].second;
+//             //cout << "x = " << x[a][b] << endl;
+//             if(x[a][b] != x[b][a])
+//                 bb = 0;
+//             else
+//             {
+//                 if(y[a][b] != y[a][b])
+//                     bb = 0;
+//             }
+            
+//         }
+//         if(bb)
+//             cout << "YES" << endl;
+//         else
+//             cout << "NO" << endl;
+//     }
+//     //cout << endl;
+//     return 0;
+// }
+
+int main()
+{
+    int t;
+    while(cin >> t && t)
+    {
+        vector < int > x(t), y(t);
+        for(int i = 0; i < t; ++i)
+            cin >> x[i] >> y[i];
+        sort(x.begin(),x.end());
+        sort(y.begin(),y.end());
+        if(x == y)
+            cout << "YES" << endl;
+        else
+            cout << "NO" << endl;
+    }
+    return 0;
+}
