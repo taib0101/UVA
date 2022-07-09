@@ -1,0 +1,34 @@
+//I seek refused with Alah,from the accursed devil
+//In the name of Allah, the entirely Merciful,the specially merciful
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int ans(int ar[],int n)
+{
+    int anss = -1e2;
+    int maxx = ar[1];
+    for(int i = 2; i <= n; ++i)
+    {
+        if(maxx - ar[i] > anss)
+            anss = maxx - ar[i];
+        maxx = max(maxx,ar[i]);
+    }
+    return anss;
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        int n;
+        cin >> n;
+        int ar[n+10];
+        for(int i = 1; i <= n; ++i)
+            cin >> ar[i];
+        cout << ans(ar,n) << endl;
+    }
+    return 0;
+}
