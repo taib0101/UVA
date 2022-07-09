@@ -1,0 +1,97 @@
+//I seek refused with Allah , from the accursed devil
+//In the name of Allah, the entirely merciful,the spcially merciful
+//BTW this the variant of segmented tree
+#include<bits/stdc++.h>
+using namespace std;
+int inf = -1e9;
+const int totall = 1e6;
+struct node
+{
+	int dp_stuff;
+	int index;
+}seg_tree[totall*2];
+//vector < pair < int, int > > seg_tree(totall*2);
+struct node merge_max_value(struct node x,struct node y)
+{
+	if(x.dp_stuff > y.dp_stuff)
+		return x;
+	if(x.dp_stuff < y.dp_stuff)
+		return y;
+	// if(x.index < y.index)
+	// 	return y
+	return x;
+	//return x;
+}
+
+void build_segmented_tree(int cur_node,int l,int r,int dp[])
+{
+	int mid = (l + r) / 2;
+	if(l == r)
+	{
+		seg_tree[cur_node] = {dp[l],l};
+		return;
+	}
+	build_segmented_tree((cur_node*2),l,mid,dp);
+	build_segmented_tree((cur_node*2)+1,mid+1,r,dp);
+	seg_tree[cur_node] = merge_max_value(seg_tree[(cur_node*2)],seg_tree[(cur_node*2)+1]);
+}
+
+struct node query(int cur_node,int l,int r,int ql,int qr)
+{
+	int mid = (l + r) / 2;
+	if(qr < l || r < ql)
+		return {inf,0};
+	if(ql <= l && r <= qr)
+		return seg_tree[cur_node];
+	struct node m1 = query((cur_node*2),l,mid,ql,qr);
+	struct node m2 = query((cur_node*2)+1,mid+1,r,ql,qr);
+	return merge_max_value(m1,m2);
+}
+
+int main()
+{
+	int n, q;
+
+	while(scanf("%d %d",&n,&q) && n)
+	{
+		int ar[n+10];
+		int dp[totall*2];
+		dp[0] = inf;
+		for(int i = 1; i <= n; ++i)
+		{
+			scanf("%d",&ar[i]);
+			dp[i] = 1;
+		}
+		//fist we have to count the same value of indices bro
+		for(int i = 2; i <= n; ++i)
+		{
+			if(ar[i] == ar[i-1])
+			{
+				while(ar[i] == ar[i-1] && i <= n)
+				{
+					dp[i] = dp[i-1] + 1;
+					i++;
+				}
+			}
+		}
+		build_segmented_tree(1,1,n,dp);
+		while(q--)
+		{
+			int ql, qr;
+			scanf("%d %d",&ql,&qr);
+			struct node ans_query = query(1,1,n,ql,qr);
+			int anss = ans_query.dp_stuff;
+			if(ar[ans_query.index] == ar[ql-1])
+			{
+				anss = ans_query.index - ql + 1;
+				if(ans_query.index < qr)
+				{
+					ans_query = query(1,1,n,ans_query.index+1,qr);
+					anss = max(anss,ans_query.dp_stuff);
+				}
+			}
+			printf("%d\n",anss);
+		}
+	}
+	return 0;
+}
