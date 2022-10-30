@@ -1,0 +1,49 @@
+//I seek refused with Allah, from the accursed devil
+//In the name of Allah, the entirely merciful,the specially merciful
+#include<bits/stdc++.h>
+using namespace std;
+bool solve(int x)
+{
+    if(x%2 == 0) return 0;
+    for(int i = 3; (i * i) <= x; i += 2)
+    {
+        if(x%i == 0)
+            return 0;
+    }
+    return 1;
+}
+int ar[10010];
+void segmented_prime()
+{
+    int cc = 0;
+    for(int i = 0,k = 1; i <= 10000; ++i)
+    {
+        int x = (i*i) + i + 41;
+        // cout << i << " , ";
+        if(solve(x))
+            ar[k++] = ++cc;//cout << x << " , is prime , " << cc << endl;
+        else
+            ar[k++] = cc;//cout << x << " , is not prime , " << cc << endl;
+    }
+}
+
+int main()
+{
+    // ios_base::sync_with_stdio(false);
+    // cin.tie(NULL);
+    // freopen("in.txt","r",stdin);
+    // freopen("out.txt","w",stdout);
+    int a, b;
+    segmented_prime();
+    int xx = 1;
+    while(cin >> a >> b)//here was bug
+    {
+        double x =(double) (b-a+1);
+        double y =(double) (ar[b+1]-ar[a]);
+        // cout << "arb = " << ar[b+1] << " , ara = " << ar[a] << endl;
+        // cout << "x = " << x << " , y = " << y << endl;
+        y = (y/x)*100;
+        printf("%.2lf\n",y + (1/1e5));//here was bug
+    }
+    return 0;
+}
